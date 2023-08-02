@@ -24,7 +24,6 @@ async function applyFeature() {
   // const summary: any = await getSummary(payload);
 
   if (document.querySelector(".FSSSSSS_XXXX")) {
-    console.log("已存在");
     return;
   }
 

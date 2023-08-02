@@ -155,6 +155,9 @@ const add = async (
      * They should be loaded as needed, however, `add()` only runs once for each feature. So
      * how to load features after a turbo:visit? The answer is to make use of turbo events.
      */
+    document.addEventListener("turbo:visit", async () => {
+      console.log("turbo:visit");
+    });
     document.addEventListener("turbo:render", async () => {
       log.info("0. turbo:render");
       // console.log("0. turbo:render");
