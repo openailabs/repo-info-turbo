@@ -13,49 +13,6 @@ const featureId = features.getFeatureID(import.meta.url);
 const isProduction: boolean = process.env.NODE_ENV === "production";
 const ROOT_ID = "RENAME_ME_IF_YOU_WANT";
 
-// const applyFeature = async () => {
-//   try {
-//     if (document.querySelector(".FSSSSSS_XXXX")) return;
-//     const container = document.createElement("div");
-//     document.body.appendChild(container);
-//     if (container) {
-//       container.id = ROOT_ID;
-//       container.className = "FSSSSSS_XXXX";
-//       container.style.position = "inherit";
-//       container.style.zIndex = "2147483666";
-//     }
-
-//     if (isProduction) {
-//       console.log("Production mode 🚀. Adding Shadow DOM");
-//       container.attachShadow({ mode: "open" });
-//     } else {
-//       console.log("Development mode 🛠");
-//     }
-
-//     const target: ShadowRoot | HTMLElement = isProduction
-//       ? container.shadowRoot!
-//       : container;
-
-//     const root = createRoot(target!);
-//     await elementReady('div[data-testid="results-list"]');
-//     const searchResults = Array.from(
-//       document.querySelectorAll('div[data-testid="results-list"] > div'),
-//     );
-
-//     root.render(
-//       <React.StrictMode>
-//         <>
-//           {searchResults.map((element, index) =>
-//             createPortal(<App key={index} />, element),
-//           )}
-//         </>
-//       </React.StrictMode>,
-//     );
-//   } catch (error) {
-//     console.error("Error Injecting React", error);
-//   }
-// };
-
 const PortalComponent = ({ container }: { container: Element }) => {
   return ReactDOM.createPortal(<App />, container);
 };
@@ -96,8 +53,6 @@ async function applyFeature() {
         <>
           {/* <style>{styles.toString()}</style> */}
           <PortalComponent container={newDiv} />
-          {/* createPortal(
-          <App />, container) */}
         </>,
         newDiv,
       );
@@ -109,6 +64,7 @@ async function applyFeature() {
 
 function observeDOMChanges() {
   const targetNode = document.querySelector('div[data-testid="results-list"]');
+  // console.log(targetNode)
   if (!targetNode) return;
 
   const config = { childList: true, subtree: true };
@@ -127,15 +83,13 @@ function observeDOMChanges() {
   };
 
   const observer = new MutationObserver(callback);
-  if (targetNode) {
-    observer.observe(targetNode, config);
-  }
+  observer.observe(targetNode, config);
 }
 
 const init = async (): Promise<void> => {
   let isSearchResultPage: boolean = await isSearchResult();
   if (!isSearchResultPage) {
-    console.log("Not in search result page.");
+    console.log("Not search result page.");
     return;
   }
 

@@ -1,7 +1,7 @@
 {
   "name": "@acme/chrome",
-  "longName": "Github repo info",
-  "description": "Github repo info",
+  "longName": "Github repo info v1",
+  "description": "Github repo info v1",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
