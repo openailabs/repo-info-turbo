@@ -33,6 +33,10 @@ export interface AiSummaryResult {
   score: number;
 }
 
+export type Repo = {
+  owner: string;
+  name: string;
+};
 export type FeatureInit = () => Promisable<void>;
 export type FeatureRestore = Function;
 

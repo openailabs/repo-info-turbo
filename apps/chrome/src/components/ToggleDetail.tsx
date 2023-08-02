@@ -1,22 +1,23 @@
-import React from 'react'
+import React from "react";
 
 type ToggleDetailProps = {
-    clickHandler: () => void
-    isLoading?: boolean
-}
+  clickHandler: () => void;
+  isLoading?: boolean;
+};
 
-const ToggleDetail = ({ clickHandler }: ToggleDetailProps) => {
-    return (
-        <div className="absolute top-0 right-0 ">
-            <button
-                //disabled={isLoading}
-                className="h-12 w-24 rounded-sm m-2 bg-blue-600 hover:bg-blue-800 text-white z-50"
-                onClick={clickHandler}
-            >
-                Show Details
-            </button>
-        </div>
-    )
-}
+const ToggleDetail = ({ clickHandler, isLoading }: ToggleDetailProps) => {
+  console.log("is loading: ", isLoading);
+  return (
+    <div className=" right-0 top-0 ">
+      <button
+        //disabled={isLoading}
+        className="z-50 m-2 h-12 w-24 rounded-sm bg-blue-600 text-white hover:bg-blue-800"
+        onClick={clickHandler}
+      >
+        Show Details
+      </button>
+    </div>
+  );
+};
 
-export default ToggleDetail
+export default ToggleDetail;
