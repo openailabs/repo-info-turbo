@@ -29,11 +29,14 @@ export interface AiSummaryResult {
 const RepoInfo1 = () => {
   // console.log(JSON.stringify(summary.summary));
 
+  const closeClick = () => {
+    console.log("close clicked.");
+  };
   return (
     <>
-      {<style>{styles.toString()}</style>}
+      {/* {<style>{styles.toString()}</style>} */}
       <div className="">
-        <div className="inline-flex h-16 items-center justify-center rounded-full">
+        <div className="inline-flex h-10 w-[600px] items-center justify-center rounded-full pl-28">
           <div className="inline-flex items-center justify-end rounded-full bg-gradient-to-r from-fuchsia-700 to-blue-400 p-2">
             <div className="inline-flex flex-col justify-center gap-2 self-stretch px-4">
               <div className="text-normal font-normal leading-tight tracking-wider text-white">
@@ -42,7 +45,10 @@ const RepoInfo1 = () => {
               </div>
             </div>
             <div className="hover:bg-gothamBlack-50 inline-flex cursor-pointer items-start justify-start self-stretch rounded-full bg-white p-4 px-8 duration-200">
-              <div className="text-center text-base font-bold text-black">
+              <div
+                className="text-center text-base font-bold text-black"
+                onClick={closeClick}
+              >
                 Close
               </div>
             </div>

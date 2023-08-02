@@ -6,7 +6,7 @@ type ToggleDetailProps = {
 };
 
 const ToggleDetail = ({ clickHandler, isLoading }: ToggleDetailProps) => {
-  console.log("is loading: ", isLoading);
+  //   console.log("is loading: ", isLoading);
   return (
     <div className=" right-0 top-0 ">
       <button

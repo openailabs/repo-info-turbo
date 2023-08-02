@@ -5,9 +5,9 @@
   "scripts": {
     "build": "pnpm with-env next build",
     "clean": "git clean -xdf .next .turbo node_modules",
-    "dev:stripe": "stripe listen --forward-to localhost:3000/api/webhooks/stripe",
-    "dev:next": "pnpm with-env next dev",
-    "dev": "conc -c auto npm:dev:*",
+    "dev:stripe": "stripe listen --forward-to localhost:5175/api/webhooks/stripe",
+    "dev:next": "pnpm with-env next dev --port 5175",
+    "dev": "conc -c auto pnpm:dev:*",
     "lint": "dotenv -v SKIP_ENV_VALIDATION=1 next lint",
     "lint:fix": "pnpm lint --fix",
     "start": "pnpm with-env next start",
