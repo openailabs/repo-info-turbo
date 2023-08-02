@@ -1,0 +1,8 @@
+packages:
+  - apps/nextjs # next.js api provider project
+  - apps/chrome # chrome extension project
+    # all packages are shared components of next.js and chrome extension projects
+  - packages/api
+  - packages/db
+  - packages/config/*
+  - packages/ui
