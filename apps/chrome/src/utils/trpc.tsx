@@ -8,7 +8,7 @@ import superjson from "superjson";
 
 import type { ChromeAppRouter } from "@acme/api";
 
-export const api = createTRPCReact<ChromeAppRouter>();
+export const trpc = createTRPCReact<ChromeAppRouter>();
 
 function getBaseUrl() {
   // if (typeof window !== "undefined")
@@ -30,7 +30,7 @@ export const TRPCProvider: React.FC<{
 }> = ({ children }) => {
   const [queryClient] = React.useState(() => new QueryClient());
   const [trpcClient] = React.useState(() =>
-    api.createClient({
+    trpc.createClient({
       transformer: superjson,
       links: [
         httpBatchLink({
@@ -41,8 +41,8 @@ export const TRPCProvider: React.FC<{
   );
 
   return (
-    <api.Provider client={trpcClient} queryClient={queryClient}>
+    <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </api.Provider>
+    </trpc.Provider>
   );
 };

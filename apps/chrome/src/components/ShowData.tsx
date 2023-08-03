@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ProjectTypeProps } from "@/types";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { useQuery } from "@tanstack/react-query";
 
 import { getRepoDetailSchema } from "@acme/api/validators";
@@ -14,7 +14,7 @@ type ShowDataProps = {
 };
 const ShowData = ({ owner, repoName }: ShowDataProps) => {
   const [showDetail, setShowDetail] = useState(false);
-  const { data } = api.repoDetail.get.useQuery(
+  const { data } = trpc.repoDetail.get.useQuery(
     {
       owner,
       repoName,
