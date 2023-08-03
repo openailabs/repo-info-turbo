@@ -11,7 +11,7 @@ const CreateDataTest = ({ clickHandler, isLoading }: ToggleDetailProps) => {
     <div className=" right-20 top-0 ">
       <button
         //disabled={isLoading}
-        className="z-50 m-2 h-12 w-24 rounded-sm bg-blue-600 text-white hover:bg-blue-800"
+        className="w-34 z-50 m-2 h-12 rounded-sm bg-yellow-600 text-white hover:bg-yellow-800"
         onClick={clickHandler}
       >
         Create data test

@@ -17,7 +17,7 @@ import superjson from "superjson";
 const App = ({ owner, name }: Repo) => {
   return (
     <TRPCProvider>
-      <div className="h-[400px] w-full bg-red-700">
+      <div className="flex h-[400px] w-full bg-red-700">
         {/* <ToggleDetail clickHandler={clickHandler} /> */}
         {/* <Box /> */}
         {/* No QueryClient set, use QueryClientProvider to set one */}

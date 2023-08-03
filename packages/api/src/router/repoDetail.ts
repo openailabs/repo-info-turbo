@@ -21,30 +21,35 @@ export const repoDetailRouter = createTRPCRouter({
   create: publicProcedure.input(getRepoDetailSchema).mutation(async (opts) => {
     const { owner, repoName } = opts.input;
     console.log("Request with repo info: %s", owner, repoName);
-    // const repo = await opts.ctx.db.transaction().execute(async (trx) => {
-    //   const file = await trx
-    //     .insertInto("File")
-    //     .values({
-    //       name: "package.json",
-    //     })
-    //     .returning("id")
-    //     .executeTakeFirstOrThrow();
-    //   const folder = await trx
-    //     .insertInto("Folder")
-    //     .values({
-    //       name: "test folder",
-    //     })
-    //     .returning("id")
-    //     .executeTakeFirstOrThrow();
-    //   // const tlf = await trx
-    //   //   .insertInto("RepoTopLevelFile")
-    //   //   .values({
-    //   //     folders:[],
-    //   //   })
-    //   //   .returning("id")
-    //   //   .executeTakeFirstOrThrow();
-    //   console.log(file, folder);
-    // });
+    const repo = await opts.ctx.db.transaction().execute(async (trx) => {
+      const file = await trx
+        .insertInto("File")
+        .values({
+          name: "package.json",
+        })
+
+        // .returning("id") // only support postgresql like database so
+        .executeTakeFirstOrThrow();
+
+      const folder = await trx
+        .insertInto("Folder")
+        .values({
+          name: "test folder",
+        })
+
+        // .returning("id") // only support postgresql like database so
+        .executeTakeFirstOrThrow();
+
+      // const tlf = await trx
+      //   .insertInto("RepoTopLevelFile")
+      //   .values({
+      //     folders:[],
+      //   })
+      //   .returning("id")
+      //   .executeTakeFirstOrThrow();
+      console.log("Create folder, file: ", file.insertId, folder);
+    });
+    // console.log("Returnning:  ", repo);
     return { message: "success" };
   }),
 });
