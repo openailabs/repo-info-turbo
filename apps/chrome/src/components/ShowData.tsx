@@ -28,7 +28,7 @@ const ShowData = ({ owner, repoName }: ShowDataProps) => {
 
   const clickHandler = async () => {
     console.log("Show detail? ", showDetail);
-    setShowDetail(!showDetail);
+    setShowDetail(true);
   };
 
   const createDataHandler = async () => {
