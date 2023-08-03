@@ -8,7 +8,7 @@ import ToggleDetail from "@/components/ToggleDetail";
 import getRepo from "@/helpers/get-repo";
 import styles from "@/styles/index.css?inline";
 import { Repo } from "@/types";
-import { TRPCProvider } from "@/utils/api";
+import { TRPCProvider } from "@/utils/trpc";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
