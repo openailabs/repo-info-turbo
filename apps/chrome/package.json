@@ -44,8 +44,12 @@
     "webextension-polyfill-ts": "^0.26.0"
   },
   "dependencies": {
-    "@tanstack/react-query": "^4.32.0",
+    "@acme/api": "^0.1.0",
+    "@tanstack/react-query": "^4.32.1",
     "@tanstack/react-query-devtools": "^4.32.0",
+    "@trpc/client": "^10.33.1",
+    "@trpc/react-query": "^10.33.1",
+    "@trpc/server": "^10.33.1",
     "delay": "^6.0.0",
     "dom-loaded": "^3.0.0",
     "element-ready": "^6.2.2",

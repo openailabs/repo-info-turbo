@@ -54,11 +54,31 @@ export type Project = {
   tier: Generated<ProjectTier>;
   url: string | null;
 };
+export type RepoDetail = {
+  id: Generated<number>;
+  topLevelId: number;
+  owner: string;
+  repoName: string;
+};
+export type RepoFileContent = {
+  id: Generated<number>;
+  name: string;
+  content: string;
+  detailId: number;
+};
+export type RepoTopLevelFile = {
+  id: Generated<number>;
+  folders: string[];
+  files: string[];
+};
 export type DB = {
   ApiKey: ApiKey;
   Customer: Customer;
   Ingestion: Ingestion;
   Project: Project;
+  RepoDetail: RepoDetail;
+  RepoFileContent: RepoFileContent;
+  RepoTopLevelFile: RepoTopLevelFile;
 };
 
 

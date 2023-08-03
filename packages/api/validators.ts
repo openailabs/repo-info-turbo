@@ -56,3 +56,9 @@ export const transferToOrgSchema = z.object({
   orgId: z.string(),
 });
 export type TransferToOrg = z.infer<typeof transferToOrgSchema>;
+
+export const getRepoDetailSchema = z.object({
+  owner: z.string(),
+  repoName: z.string(),
+});
+export type getRepoDetailSchema = z.infer<typeof createProjectSchema>;

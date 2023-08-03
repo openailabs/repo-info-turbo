@@ -5,7 +5,7 @@ generator kysely {
 }
 
 datasource db {
-    provider     = "mysql"
+    provider     = "postgresql"
     url          = env("DATABASE_URL")
     relationMode = "prisma"
 }
@@ -80,4 +80,34 @@ model Ingestion {
     origin String  @db.VarChar(100)
 
     @@index([projectId])
+}
+
+// Parent
+model RepoDetail {
+    id         Int               @id @default(autoincrement())
+    topLevel   RepoTopLevelFile  @relation(fields: [topLevelId], references: [id])
+    topLevelId Int               @unique
+    contents   RepoFileContent[]
+    owner      String
+    repoName   String
+
+    @@unique([owner, repoName])
+}
+
+// Chilren
+model RepoTopLevelFile {
+    id      Int         @id @default(autoincrement())
+    detail  RepoDetail?
+    folders String[]
+    files   String[]
+}
+
+model RepoFileContent {
+    id       Int        @id @default(autoincrement())
+    name     String
+    content  String
+    detail   RepoDetail @relation(fields: [detailId], references: [id])
+    detailId Int
+
+    @@index([detailId])
 }
