@@ -5,7 +5,7 @@ export const repoDetailRouter = createTRPCRouter({
   get: publicProcedure.input(getRepoDetailSchema).query(async (opts) => {
     const { owner, repoName } = opts.input;
 
-    const query = await opts.ctx.db
+    const payload = await opts.ctx.db
       .selectFrom("RepoDetail")
       .selectAll()
       .where("owner", "=", owner)
@@ -15,8 +15,9 @@ export const repoDetailRouter = createTRPCRouter({
     // const repo = await query.execute();
     console.log("Request with repo info: %s", owner, repoName);
 
-    return { project: query };
+    return { payload, repo: { owner, repoName } };
   }),
+
   create: publicProcedure.input(getRepoDetailSchema).mutation(async (opts) => {
     const { owner, repoName } = opts.input;
     console.log("Request with repo info: %s", owner, repoName);
