@@ -5,7 +5,7 @@ generator kysely {
 }
 
 datasource db {
-    provider     = "postgresql"
+    provider     = "mysql"
     url          = env("DATABASE_URL")
     relationMode = "prisma"
 }
@@ -95,12 +95,6 @@ model RepoDetail {
 }
 
 // Chilren
-model RepoTopLevelFile {
-    id      Int         @id @default(autoincrement())
-    detail  RepoDetail?
-    folders String[]
-    files   String[]
-}
 
 model RepoFileContent {
     id       Int        @id @default(autoincrement())
@@ -110,4 +104,29 @@ model RepoFileContent {
     detailId Int
 
     @@index([detailId])
+}
+
+model RepoTopLevelFile {
+    id      Int         @id @default(autoincrement())
+    detail  RepoDetail?
+    folders Folder[]
+    files   File[]
+}
+
+model Folder {
+    id         Int               @id @default(autoincrement())
+    name       String
+    topLevel   RepoTopLevelFile? @relation(fields: [topLevelId], references: [id])
+    topLevelId Int?
+
+    @@index([topLevelId])
+}
+
+model File {
+    id         Int               @id @default(autoincrement())
+    name       String
+    topLevel   RepoTopLevelFile? @relation(fields: [topLevelId], references: [id])
+    topLevelId Int?
+
+    @@index([topLevelId])
 }

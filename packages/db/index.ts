@@ -35,6 +35,16 @@ export type Customer = {
   paidUntil: Timestamp | null;
   endsAt: Timestamp | null;
 };
+export type File = {
+  id: Generated<number>;
+  name: string;
+  topLevelId: number | null;
+};
+export type Folder = {
+  id: Generated<number>;
+  name: string;
+  topLevelId: number | null;
+};
 export type Ingestion = {
   id: string;
   createdAt: Generated<Timestamp>;
@@ -68,12 +78,12 @@ export type RepoFileContent = {
 };
 export type RepoTopLevelFile = {
   id: Generated<number>;
-  folders: string[];
-  files: string[];
 };
 export type DB = {
   ApiKey: ApiKey;
   Customer: Customer;
+  File: File;
+  Folder: Folder;
   Ingestion: Ingestion;
   Project: Project;
   RepoDetail: RepoDetail;

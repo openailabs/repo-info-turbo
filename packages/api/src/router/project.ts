@@ -14,6 +14,7 @@ import {
   createTRPCRouter,
   protectedAdminProcedure,
   protectedProcedure,
+  publicProcedure,
 } from "../trpc";
 
 const PROJECT_LIMITS = {
@@ -412,4 +413,13 @@ export const projectRouter = createTRPCRouter({
 
       return newKey;
     }),
+  getAll: publicProcedure.query(async (opts) => {
+    const query = await opts.ctx.db
+      .selectFrom("RepoDetail")
+      .selectAll()
+      .execute();
+    console.log(query);
+
+    return { projects: query };
+  }),
 });

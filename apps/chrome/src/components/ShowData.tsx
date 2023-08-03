@@ -16,8 +16,8 @@ const ShowData = ({ owner, repoName }: ShowDataProps) => {
   const [showDetail, setShowDetail] = useState(false);
   const { data } = api.repoDetail.get.useQuery(
     {
-      owner: "facebook",
-      repoName: "react",
+      owner,
+      repoName,
     },
     { enabled: showDetail },
   );
