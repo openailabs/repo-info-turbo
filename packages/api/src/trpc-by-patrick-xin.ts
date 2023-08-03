@@ -7,7 +7,7 @@
  * The pieces you will need to use are documented accordingly near the end
  */
 
-import type { NextRequest } from "next/server";
+import type { NextRequest, NextResponse } from "next/server";
 import type {
   SignedInAuthObject,
   SignedOutAuthObject,
@@ -29,9 +29,10 @@ import { db } from "@acme/db";
  *
  */
 interface CreateContextOptions {
-  auth: SignedInAuthObject | SignedOutAuthObject | null;
+  auth?: SignedInAuthObject | SignedOutAuthObject | null;
   apiKey?: string | null;
   req?: NextRequest;
+  res?: NextResponse;
 }
 
 /**
@@ -44,25 +45,56 @@ interface CreateContextOptions {
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
+  const { res } = opts;
+  res?.headers.set("Access-Control-Allow-Origin", "*");
+  res?.headers.set(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS",
+  );
+  res?.headers.set(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization",
+  );
+
   return {
     ...opts,
+    res,
     db,
   };
 };
+
+// export function POST(req: NextRequest) {
+//   console.log("POST hi");
+//   //   return NextResponse.json({ message: "hi" }, { status: 200 });
+//   const result = { message: "hi" };
+
+//   return new Response(JSON.stringify(result), {
+//     status: 200,
+//     headers: {
+//       "Access-Control-Allow-Origin": "*",
+//       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+//       "Access-Control-Allow-Headers": "Content-Type, Authorization",
+//     },
+//   });
+// }
 
 /**
  * This is the actual context you'll use in your router. It will be used to
  * process every request that goes through your tRPC endpoint
  * @link https://trpc.io/docs/context
  */
-export const createTRPCContext = (opts: { req: NextRequest }) => {
-  const auth = getAuth(opts.req);
-  const apiKey = opts.req.headers.get("x-acme-api-key");
+export const createTRPCContext = (opts: {
+  req: NextRequest;
+  res: NextResponse;
+}) => {
+  //const auth = getAuth(opts.req);
+  //const apiKey = opts.req.headers.get("x-acme-api-key");
 
   return createInnerTRPCContext({
-    auth,
-    apiKey,
+    // auth,
+    //apiKey,
     req: opts.req,
+    res: opts.res,
   });
 };
 
