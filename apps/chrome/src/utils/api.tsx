@@ -1,12 +1,14 @@
+"use client";
+
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import superjson from "superjson";
 
-import type { AppRouter } from "@acme/api";
+import type { ChromeAppRouter } from "@acme/api";
 
-export const api = createTRPCReact<AppRouter>();
+export const api = createTRPCReact<ChromeAppRouter>();
 
 function getBaseUrl() {
   // if (typeof window !== "undefined")
@@ -32,7 +34,7 @@ export const TRPCProvider: React.FC<{
       transformer: superjson,
       links: [
         httpBatchLink({
-          url: `${getBaseUrl()}/api/trpc`,
+          url: `${getBaseUrl()}/api/trpc/chrome/`,
         }),
       ],
     }),

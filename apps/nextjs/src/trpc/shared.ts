@@ -7,7 +7,7 @@ const getBaseUrl = () => {
   if (typeof window !== "undefined") return "";
   const vc = process.env.VERCEL_URL;
   if (vc) return `https://${vc}`;
-  return `http://localhost:3000`;
+  return `http://localhost:8002`;
 };
 
 const lambdas = ["stripe", "ingestion"];
@@ -26,6 +26,10 @@ export const endingLink = (opts?: { headers?: HTTPHeaders }) =>
       ...sharedOpts,
       url: `${getBaseUrl()}/api/trpc/lambda`,
     })(runtime);
+    // const chromeLink = httpBatchLink({
+    //   ...sharedOpts,
+    //   url: `${getBaseUrl()}/api/trpc/chrome`,
+    // })(runtime);
 
     return (ctx) => {
       const path = ctx.op.path.split(".") as [string, ...string[]];
