@@ -86,6 +86,13 @@ export type RepoFileContent = {
 export type RepoTopLevelFile = {
   id: Generated<number>;
 };
+export type Result = {
+  id: Generated<number>;
+  owner: string;
+  name: string;
+  summary: unknown | null;
+  detail: unknown | null;
+};
 export type DB = {
   ApiKey: ApiKey;
   Customer: Customer;
@@ -96,6 +103,7 @@ export type DB = {
   RepoDetail: RepoDetail;
   RepoFileContent: RepoFileContent;
   RepoTopLevelFile: RepoTopLevelFile;
+  Result: Result;
 };
 
 

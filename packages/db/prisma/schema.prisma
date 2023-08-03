@@ -130,3 +130,14 @@ model File {
 
     @@index([topLevelId])
 }
+
+model Result {
+    id      Int    @id @default(autoincrement())
+    owner   String
+    name    String
+    summary Json?
+    detail  Json?
+
+    @@unique([owner, name])
+    @@index([owner, name])
+}
