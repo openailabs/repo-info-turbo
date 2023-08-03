@@ -53,11 +53,12 @@ const ShowData = ({ owner, repoName }: ShowDataProps) => {
   };
 
   const createDataHandler = async () => {
+    const repo = `${owner}/${repoName}`;
     creator.mutate({
       owner: owner,
       name: repoName,
       summary: {
-        repo: "angular/angular",
+        repo: repo,
         dmf: ["package.json"],
         stack: ["zustand"],
         infra: ["upstash", "supabase"],
@@ -112,8 +113,8 @@ const ShowData = ({ owner, repoName }: ShowDataProps) => {
       <ToggleDetail clickHandler={clickHandler} />
       <CreateDataTest clickHandler={createDataHandler} />
       <ReadDataTest clickHandler={readHandler} />
-      {JSON.stringify(data)}
-      {JSON.stringify(readResult.data)}
+      Show detail result: {JSON.stringify(data)} <br />
+      Read result: {JSON.stringify(readResult.data)}
     </div>
   );
 };

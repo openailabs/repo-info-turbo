@@ -21,6 +21,7 @@
     "node-cache": "^5.1.2",
     "stripe": "^12.11.0",
     "superjson": "1.12.4",
+    "universal-user-agent": "^7.0.1",
     "zod": "^3.21.4",
     "zod-form-data": "^2.0.1"
   },
