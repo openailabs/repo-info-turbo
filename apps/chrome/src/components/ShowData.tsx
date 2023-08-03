@@ -22,9 +22,14 @@ const ShowData = ({ owner, repoName }: ShowDataProps) => {
     { enabled: showDetail },
   );
 
+  const clickHandler = async () => {
+    console.log("Show detail? ", showDetail);
+    setShowDetail(!showDetail);
+  };
+
   return (
     <div>
-      <ToggleDetail clickHandler={() => setShowDetail(!showDetail)} />
+      <ToggleDetail clickHandler={clickHandler} />
       {JSON.stringify(data)}
     </div>
   );
