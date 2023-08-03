@@ -23,7 +23,10 @@ const ShowData = ({ owner, repoName }: ShowDataProps) => {
       owner,
       repoName,
     },
-    { enabled: showDetail, refetchOnWindowFocus: false },
+    {
+      enabled: showDetail,
+      refetchOnWindowFocus: false,
+    },
   );
 
   const clickHandler = async () => {
