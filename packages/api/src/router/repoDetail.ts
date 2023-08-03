@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { getRepoDetailSchema } from "../../validators";
+import { getRepoInfo } from "../lib/githubApi";
 // import { getRepoInfo } from "../lib/githubApi";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
@@ -49,15 +50,15 @@ export const repoDetailRouter = createTRPCRouter({
       });
     }
 
-    // const repoInfo = await getRepoInfo({ owner, name });
+    const repoInfo = await getRepoInfo({ owner, name });
     const resultId = await opts.ctx.db
       .insertInto("Result")
       .values({
         owner,
         name,
         summary: JSON.stringify(summary),
-        // detail: JSON.stringify(repoInfo),
-        detail: JSON.stringify(detail),
+        detail: JSON.stringify(repoInfo),
+        // detail: JSON.stringify(detail),
       })
       .executeTakeFirstOrThrow();
     return resultId.insertId;
