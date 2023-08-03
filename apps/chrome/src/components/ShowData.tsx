@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getRepoDetailSchema } from "@acme/api/validators";
 
+import CreateDataTest from "./CreateDataTest";
 import RepoInfo from "./RepoInfo";
 import ToggleDetail from "./ToggleDetail";
 
@@ -14,6 +15,9 @@ type ShowDataProps = {
 };
 const ShowData = ({ owner, repoName }: ShowDataProps) => {
   const [showDetail, setShowDetail] = useState(false);
+
+  const creator = trpc.repoDetail.create.useMutation();
+
   const { data } = trpc.repoDetail.get.useQuery(
     {
       owner,
@@ -27,9 +31,14 @@ const ShowData = ({ owner, repoName }: ShowDataProps) => {
     setShowDetail(!showDetail);
   };
 
+  const createDataHandler = async () => {
+    creator.mutate({ owner: "Frodo", repoName: "aabbb" });
+  };
+
   return (
     <div>
       <ToggleDetail clickHandler={clickHandler} />
+      <CreateDataTest clickHandler={createDataHandler} />
       {JSON.stringify(data)}
     </div>
   );
