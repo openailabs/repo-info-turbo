@@ -34,7 +34,7 @@ export const TRPCProvider: React.FC<{
       transformer: superjson,
       links: [
         httpBatchLink({
-          url: `${getBaseUrl()}/api/trpc/chrome/`,
+          url: `${getBaseUrl()}/api/trpc/chrome`,
         }),
       ],
     }),
