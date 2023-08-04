@@ -1,6 +1,8 @@
 import React from "react";
 import { useGetRepoDetail, useGetSummary } from "@/hooks/repo";
 
+import Summary from "./Summary";
+
 type Props = {
   owner: string;
   repoName: string;
@@ -35,6 +37,7 @@ const RepoDetail = ({ owner, repoName }: Props) => {
 
       {showDetail && repoDetail && (
         <>
+          {/* <Summary owner={owner} repoName={name} /> */}
           <div className="p-2">
             {JSON.stringify(repoDetail)}
             {/* <div className="flex justify-between">

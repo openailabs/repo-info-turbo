@@ -107,16 +107,6 @@ export const repoDetailRouter = createTRPCRouter({
   getSummary: publicProcedure.input(repoSchema).query(async (opts) => {
     const { owner, name } = opts.input;
 
-    // const payload = await opts.ctx.db
-    //   .selectFrom("Result")
-    //   // .selectAll()
-    //   .select(["summary", "detail"])
-
-    //   .where("owner", "=", owner)
-    //   .where("name", "=", name)
-    //   .execute();
-
-    // const repo = await query.execute();
     console.log("Request with repo info: %s", owner, name);
     // Check if a result with the same owner and name already exists
     const existingResult = await opts.ctx.db
@@ -129,7 +119,7 @@ export const repoDetailRouter = createTRPCRouter({
     if (!existingResult) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "A result with the same id already exists",
+        message: "Record not exists",
       });
     }
 
