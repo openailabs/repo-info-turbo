@@ -8,10 +8,10 @@ type ToggleDetailProps = {
 const ToggleDetail = ({ clickHandler, isLoading }: ToggleDetailProps) => {
   //   console.log("is loading: ", isLoading);
   return (
-    <div className=" right-0 top-0 ">
+    <div className="">
       <button
         //disabled={isLoading}
-        className="z-50 m-2 h-12 w-24 rounded-sm bg-blue-600 text-white hover:bg-blue-800"
+        className="z-50 m-0 inline-block h-10 w-full rounded-sm bg-blue-600 text-sm text-white transition-colors ease-linear hover:bg-blue-800"
         onClick={clickHandler}
       >
         Show Details

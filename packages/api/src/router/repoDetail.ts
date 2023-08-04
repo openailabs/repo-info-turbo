@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { getRepoDetailSchema } from "../../validators";
-import { getRepoInfo } from "../lib/githubApi";
+import { getRepoInfoFromGithub } from "../lib/githubApi";
 // import { getRepoInfo } from "../lib/githubApi";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
@@ -25,8 +25,9 @@ export const resultIdSchema = z.object({ id: z.number() });
 export const repoSchema = z.object({ owner: z.string(), name: z.string() });
 
 export const repoDetailRouter = createTRPCRouter({
-  create: publicProcedure.input(resultSchema).mutation(async (opts) => {
-    const { owner, name, summary, detail } = opts.input;
+  //POST
+  saveRepo: publicProcedure.input(resultSchema).mutation(async (opts) => {
+    const { owner, name, summary } = opts.input;
 
     // Check if a result with the same owner and name already exists
     const existingResult = await opts.ctx.db
@@ -36,21 +37,14 @@ export const repoDetailRouter = createTRPCRouter({
       .where("name", "=", name)
       .executeTakeFirst();
 
-    // if (existingResult) {
-    //   throw new TRPCError({
-    //     code: "BAD_REQUEST",
-    //     message: "A result with the same owner and name already exists",
-    //   });
-    // }
-
     if (existingResult) {
       throw new TRPCError({
         code: "BAD_REQUEST",
         message: "A result with the same id already exists",
       });
     }
-
-    const repoInfo = await getRepoInfo({ owner, name });
+    // Save repoInfo to DB
+    const repoInfo = await getRepoInfoFromGithub({ owner, name });
     const resultId = await opts.ctx.db
       .insertInto("Result")
       .values({
@@ -58,28 +52,54 @@ export const repoDetailRouter = createTRPCRouter({
         name,
         summary: JSON.stringify(summary),
         detail: JSON.stringify(repoInfo),
-        // detail: JSON.stringify(detail),
       })
       .executeTakeFirstOrThrow();
     return resultId.insertId;
   }),
-
-  read: publicProcedure.input(repoSchema).query(async (opts) => {
+  //  GET
+  getRepo: publicProcedure.input(repoSchema).query(async (opts) => {
     const { owner, name } = opts.input;
 
-    const payload = await opts.ctx.db
-      .selectFrom("Result")
-      // .selectAll()
-      .select(["summary", "detail"])
+    // const payload = await opts.ctx.db
+    //   .selectFrom("Result")
+    //   // .selectAll()
+    //   .select(["summary", "detail"])
 
-      .where("owner", "=", owner)
-      .where("name", "=", name)
-      .execute();
+    //   .where("owner", "=", owner)
+    //   .where("name", "=", name)
+    //   .execute();
 
     // const repo = await query.execute();
     console.log("Request with repo info: %s", owner, name);
+    // Check if a result with the same owner and name already exists
+    const existingResult = await opts.ctx.db
+      .selectFrom("Result")
+      .selectAll()
+      .where("owner", "=", owner)
+      .where("name", "=", name)
+      .executeTakeFirst();
 
-    return { payload, repo: { owner, name } };
+    if (existingResult) {
+      console.log("Found existing result");
+
+      return existingResult;
+      // throw new TRPCError({
+      //   code: "BAD_REQUEST",
+      //   message: "A result with the same id already exists",
+      // });
+    }
+    // Save repoInfo to DB
+    const repoInfo = await getRepoInfoFromGithub({ owner, name });
+    await opts.ctx.db
+      .insertInto("Result")
+      .values({
+        owner,
+        name,
+        //summary: JSON.stringify(summary),
+        detail: JSON.stringify(repoInfo),
+      })
+      .executeTakeFirstOrThrow();
+    return { payload: repoInfo, repo: { owner, name } };
   }),
   read2: publicProcedure.input(resultIdSchema).query(async (opts) => {
     const result = await opts.ctx.db

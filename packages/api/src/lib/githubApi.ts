@@ -150,7 +150,7 @@ function removeCommentLines(content: string): string {
   return newContent;
 }
 
-export const getRepoInfo = async ({
+export const getRepoInfoFromGithub = async ({
   owner,
   name,
 }: {

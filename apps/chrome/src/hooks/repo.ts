@@ -1,60 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { ProjectTypeProps } from "@/types";
+import { useState } from "react";
 import { trpc } from "@/utils/trpc";
-import { useQuery } from "@tanstack/react-query";
 
-import { getRepoDetailSchema } from "@acme/api/validators";
+export const useSaveRepo = () => {
+  const saveRepoDetail = trpc.repoDetail.saveRepo.useMutation();
 
-import CreateDataTest from "./CreateDataTest";
-import ReadDataTest from "./ReadDataTest";
-import RepoInfo from "./RepoInfo";
-import ToggleDetail from "./ToggleDetail";
-
-type ShowDataProps = {
-  owner: string;
-  repoName: string;
-};
-const ShowData = ({ owner, repoName }: ShowDataProps) => {
-  const [showDetail, setShowDetail] = useState(false);
-  const [canRead, setCanRead] = useState(false);
-
-  const creator = trpc.repoDetail.create.useMutation();
-
-  const { data } = trpc.repoDetail.get.useQuery(
-    {
-      owner,
-      repoName,
-    },
-    {
-      enabled: showDetail,
-      refetchOnWindowFocus: false,
-    },
-  );
-
-  const readResult = trpc.repoDetail.read.useQuery(
-    {
-      owner: owner,
-      name: repoName,
-    },
-    {
-      enabled: canRead,
-      refetchOnWindowFocus: false,
-    },
-  );
-
-  const clickHandler = async () => {
-    console.log("Show detail? ", showDetail);
-    setShowDetail(true);
-  };
-
-  const readHandler = async () => {
-    console.log("Read one ", canRead);
-    setCanRead(true);
-  };
-
-  const createDataHandler = async () => {
+  const createDataHandler = async ({ owner, repoName }) => {
     const repo = `${owner}/${repoName}`;
-    creator.mutate({
+    saveRepoDetail.mutate({
       owner: owner,
       name: repoName,
       summary: {
@@ -108,43 +60,33 @@ const ShowData = ({ owner, repoName }: ShowDataProps) => {
     });
   };
 
-  return (
-    <div>
-      <ToggleDetail clickHandler={clickHandler} />
-      <CreateDataTest clickHandler={createDataHandler} />
-      <ReadDataTest clickHandler={readHandler} />
-      Show detail result: {JSON.stringify(data)} <br />
-      Read result: {JSON.stringify(readResult.data)}
-    </div>
-  );
+  return { createDataHandler };
 };
+// const {createDataHandler}= useSaveRepo();
 
-export default ShowData;
+// read repoDetail from database
+export const useGetRepoDetail = ({ owner, repoName }) => {
+  const [showDetail, toggleShowDetail] = useState(false);
+  const [canRead, setCanRead] = useState(false);
 
-{
-  /* <div className="relative h-[200px] w-full ">
-  <ToggleDetail clickHandler={clickHandler} />
-  <div className="flex justify-between">
-    <div className="h-[200px] max-h-[200px] w-1/3 overflow-auto">
-      <div className="p-4">
-        <ul className="space-y-2">
-          {data?.tlf?.folders.map((folder, index) => (
-            <li key={index}>📁 {folder}</li>
-          ))}
-          {data?.tlf?.files.map((file, index) => (
-            <li key={index}>📄 {file}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
-    <div className="w-2/3">
-      {data?.contents.map((content, index) => (
-        <div key={index}>
-          <div>{content.name}</div>
-          <div>{content.content}</div>
-        </div>
-      ))}
-    </div>
-  </div>
-</div>; */
-}
+  const { data: repoDetail, isFetching } = trpc.repoDetail.getRepo.useQuery(
+    {
+      owner: owner,
+      name: repoName,
+    },
+    {
+      enabled: canRead,
+      refetchOnWindowFocus: false,
+      onSuccess: () => toggleShowDetail(true),
+    },
+  );
+
+  const handleClick = () => {
+    setCanRead(true);
+    toggleShowDetail(!showDetail);
+  };
+
+  const loading = (isFetching && !showDetail && !canRead) || isFetching;
+
+  return { repoDetail, showDetail, handleClick, loading };
+};
