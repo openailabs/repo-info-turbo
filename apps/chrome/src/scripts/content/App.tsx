@@ -9,7 +9,7 @@ const App = ({ owner, name }: Repo) => {
     <TRPCProvider>
       <div className="flex h-auto w-full items-end justify-end bg-red-700">
         <RepoDetail owner={owner} repoName={name} />
-        <Summary owner={owner} repoName={name} />
+        {/* <Summary owner={owner} repoName={name} /> */}
       </div>
     </TRPCProvider>
   );

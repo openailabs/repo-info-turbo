@@ -12,11 +12,6 @@ const RepoDetail = ({ owner, repoName }: Props) => {
     repoName,
   });
 
-  const { summary, handleSummaryClick, loadingSummary } = useGetSummary({
-    owner,
-    repoName,
-  });
-
   const ButtonText = () => {
     let text = "Show Details";
     if (!showDetail) {
@@ -29,16 +24,36 @@ const RepoDetail = ({ owner, repoName }: Props) => {
     return <span>{text}</span>;
   };
   return (
-    <div className="w-full bg-purple-400">
+    <div className=" w-full ">
       <button
         disabled={loading}
-        className="z-50 m-0 inline-block h-10 w-40 rounded-sm bg-blue-600 text-sm text-white transition-colors ease-linear hover:bg-blue-800 disabled:cursor-not-allowed"
+        className="z-50 m-0 inline-block h-10 w-full rounded-sm bg-blue-600 text-sm text-white transition-colors ease-linear hover:bg-blue-800 disabled:cursor-not-allowed"
         onClick={handleClick}
       >
         <ButtonText />
       </button>
 
-      {showDetail && <div>{JSON.stringify(repoDetail)}</div>}
+      {showDetail && repoDetail && (
+        <>
+          <div className="p-2">
+            {JSON.stringify(repoDetail)}
+            {/* <div className="flex justify-between">
+            <div className="h-[200px] max-h-[200px] w-1/3 overflow-auto">
+              <div className="p-4">
+                <ul className="space-y-2">
+                  {repoDetail?.detail?.tlf?.folders.map((folder, index) => (
+                    <li key={index}>📁 {folder}</li>
+                  ))}
+                  {repoDetail?.tlf?.files.map((file, index) => (
+                    <li key={index}>📄 {file}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div> */}
+          </div>
+        </>
+      )}
     </div>
   );
 };
