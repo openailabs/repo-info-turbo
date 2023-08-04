@@ -90,3 +90,30 @@ export const useGetRepoDetail = ({ owner, repoName }) => {
 
   return { repoDetail, showDetail, handleClick, loading };
 };
+
+export const useGetSummary = ({ owner, repoName }) => {
+  // const [showDetail, toggleShowDetail] = useState(false);
+  const [canRead, setCanRead] = useState(false);
+
+  const { data: summary, isFetching } = trpc.repoDetail.getSummary.useQuery(
+    {
+      owner: owner,
+      name: repoName,
+    },
+    {
+      enabled: canRead,
+      refetchOnWindowFocus: false,
+      // onSuccess: () => toggleShowDetail(true),
+    },
+  );
+
+  const handleSummaryClick = () => {
+    setCanRead(true);
+    // toggleShowDetail(!showDetail);
+  };
+
+  // const loadingSummary = (isFetching && !showDetail && !canRead) || isFetching;
+  // const loadingSummary = (isFetching && !canRead) || isFetching;
+
+  return { summary, handleSummaryClick };
+};

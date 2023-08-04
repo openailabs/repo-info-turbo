@@ -1,5 +1,5 @@
 import React from "react";
-import { useGetRepoDetail } from "@/hooks/repo";
+import { useGetRepoDetail, useGetSummary } from "@/hooks/repo";
 
 type Props = {
   owner: string;
@@ -11,6 +11,12 @@ const RepoDetail = ({ owner, repoName }: Props) => {
     owner,
     repoName,
   });
+
+  const { summary, handleSummaryClick, loadingSummary } = useGetSummary({
+    owner,
+    repoName,
+  });
+
   const ButtonText = () => {
     let text = "Show Details";
     if (!showDetail) {
@@ -26,7 +32,7 @@ const RepoDetail = ({ owner, repoName }: Props) => {
     <div className="w-full bg-purple-400">
       <button
         disabled={loading}
-        className="z-50 m-0 inline-block h-10 w-full rounded-sm bg-blue-600 text-sm text-white transition-colors ease-linear hover:bg-blue-800 disabled:cursor-not-allowed"
+        className="z-50 m-0 inline-block h-10 w-40 rounded-sm bg-blue-600 text-sm text-white transition-colors ease-linear hover:bg-blue-800 disabled:cursor-not-allowed"
         onClick={handleClick}
       >
         <ButtonText />
