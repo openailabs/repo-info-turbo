@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { getRepoDetailSchema } from "../../validators";
-import { useGetSummary } from "../hooks/useGpt";
+import { getSummary, useGetSummary } from "../hooks/useGpt";
 import { getRepoInfoFromGithub } from "../lib/githubApi";
 // import { getRepoInfo } from "../lib/githubApi";
 import { createTRPCRouter, publicProcedure } from "../trpc";
@@ -83,7 +83,7 @@ export const repoDetailRouter = createTRPCRouter({
     if (existingResult) {
       console.log("Found existing result");
 
-      return existingResult;
+      return { payload: { existingResult, repoInfo: undefined } };
       // throw new TRPCError({
       //   code: "BAD_REQUEST",
       //   message: "A result with the same id already exists",
@@ -100,7 +100,7 @@ export const repoDetailRouter = createTRPCRouter({
         detail: JSON.stringify(repoInfo),
       })
       .executeTakeFirstOrThrow();
-    return { payload: repoInfo, repo: { owner, name } };
+    return { payload: { repoInfo, existingResult: undefined } };
   }),
 
   //  GET summary from GPT if not exists
@@ -170,7 +170,7 @@ score: ""
     const existsSummary = JSON.stringify(existingResult.summary);
     if (!existsSummary || existsSummary === null || existsSummary === "null") {
       console.log("Not  existsSummary ");
-      summary = await useGetSummary({
+      summary = await getSummary({
         prompt,
         repoInfo,
       });
@@ -195,7 +195,7 @@ score: ""
       summary = existingResult.summary;
     }
 
-    return { payload: summary, repo: { owner, name } };
+    return { payload: summary };
   }),
   read2: publicProcedure.input(resultIdSchema).query(async (opts) => {
     const result = await opts.ctx.db

@@ -9,7 +9,8 @@ const configuration: any = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const model = process.env.SUMMARIZE_MODEL || "gpt-3.5-turbo";
-export const useGetSummary = async ({
+
+export const getSummary = async ({
   prompt,
   repoInfo,
 }: {

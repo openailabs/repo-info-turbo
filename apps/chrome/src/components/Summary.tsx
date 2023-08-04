@@ -1,27 +1,23 @@
 import React from "react";
-import { useGetRepoDetail, useGetSummary } from "@/hooks/repo";
+import { useGetSummary } from "@/hooks/repo";
 
-type Props = {
-  owner: string;
-  repoName: string;
-};
-
-const Summary = ({ owner, repoName }: Props) => {
-  const { summary, handleSummaryClick } = useGetSummary({
+const Summary = ({ owner, repoName }) => {
+  const { handleSummaryClick, summary, loaded, loading } = useGetSummary({
     owner,
     repoName,
   });
-
   return (
-    <div className="w-full bg-purple-400">
-      <button
-        // disabled={loadingSummary}
-        className="z-50 m-0 inline-block h-10 w-full rounded-sm bg-yellow-600 text-sm text-white transition-colors ease-linear hover:bg-yellow-800 disabled:cursor-not-allowed"
-        onClick={handleSummaryClick}
-      >
-        Summary
-      </button>
-      {summary && <>{summary}</>}
+    <div className="w-full">
+      <div className="w-full">
+        <button
+          disabled={loading || loaded}
+          onClick={handleSummaryClick}
+          className="z-50 m-0 inline-block h-10 w-full rounded-sm bg-pink-600 text-sm text-white transition-colors ease-linear hover:bg-pink-800 disabled:cursor-not-allowed"
+        >
+          Get Summary
+        </button>
+      </div>
+      <div>{loaded && JSON.stringify(summary)}</div>
     </div>
   );
 };

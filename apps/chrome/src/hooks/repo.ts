@@ -85,17 +85,28 @@ export const useGetRepoDetail = ({ owner, repoName }) => {
     setCanRead(true);
     toggleShowDetail(!showDetail);
   };
-
+  const hasSummaryInDb =
+    repoDetail && repoDetail.summary && repoDetail.summary !== null;
   const loading = (isFetching && !showDetail && !canRead) || isFetching;
 
-  return { repoDetail, showDetail, handleClick, loading };
+  return { repoDetail, showDetail, handleClick, loading, hasSummaryInDb };
 };
 
-export const useGetSummary = ({ owner, repoName }) => {
-  // const [showDetail, toggleShowDetail] = useState(false);
+export const useGetSummary = ({
+  owner,
+  repoName,
+}: {
+  owner: string;
+  repoName: string;
+}) => {
   const [canRead, setCanRead] = useState(false);
 
-  const { data: summary, isFetching } = trpc.repoDetail.getSummary.useQuery(
+  const {
+    data: summary,
+    isFetching,
+    status,
+    isLoading,
+  } = trpc.repoDetail.getSummary.useQuery(
     {
       owner: owner,
       name: repoName,
@@ -103,17 +114,13 @@ export const useGetSummary = ({ owner, repoName }) => {
     {
       enabled: canRead,
       refetchOnWindowFocus: false,
-      // onSuccess: () => toggleShowDetail(true),
     },
   );
-
+  const loaded = status === "success" && !isFetching;
+  const loading = (isFetching && !canRead) || isFetching;
   const handleSummaryClick = () => {
     setCanRead(true);
-    // toggleShowDetail(!showDetail);
   };
 
-  // const loadingSummary = (isFetching && !showDetail && !canRead) || isFetching;
-  // const loadingSummary = (isFetching && !canRead) || isFetching;
-
-  return { summary, handleSummaryClick };
+  return { summary, handleSummaryClick, canRead, loaded, loading };
 };
