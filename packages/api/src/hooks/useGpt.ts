@@ -6,9 +6,9 @@ const configuration: any = new Configuration({
   basePath: process.env.OPENAI_API_HOST || "https://api.openai.com",
 });
 
-console.log(configuration);
 const openai = new OpenAIApi(configuration);
 
+const model = process.env.SUMMARIZE_MODEL || "gpt-3.5-turbo";
 export const useGetSummary = async ({
   prompt,
   repoInfo,
@@ -27,7 +27,7 @@ export const useGetSummary = async ({
   // console.log(messages);
 
   const response = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
+    model: model,
     stream: false,
     messages: messages.map((message: any) => ({
       content: message.content,
@@ -41,7 +41,7 @@ export const useGetSummary = async ({
   // const summary: string = result.choices[0].message.content;
 
   const summary: object = JSON.parse(result.choices[0].message.content);
-  console.log(summary);
+  // console.log(summary);
 
   return { summary };
 };
