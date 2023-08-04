@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { getRepoDetailSchema } from "../../validators";
-import { getSummary, useGetSummary } from "../hooks/useGpt";
+import { getSummary } from "../hooks/useGpt";
 import { getRepoInfoFromGithub } from "../lib/githubApi";
 // import { getRepoInfo } from "../lib/githubApi";
 import { createTRPCRouter, publicProcedure } from "../trpc";
@@ -83,7 +83,7 @@ export const repoDetailRouter = createTRPCRouter({
     if (existingResult) {
       console.log("Found existing result");
 
-      return { payload: { existingResult, repoInfo: undefined } };
+      return existingResult;
       // throw new TRPCError({
       //   code: "BAD_REQUEST",
       //   message: "A result with the same id already exists",
@@ -100,7 +100,7 @@ export const repoDetailRouter = createTRPCRouter({
         detail: JSON.stringify(repoInfo),
       })
       .executeTakeFirstOrThrow();
-    return { payload: { repoInfo, existingResult: undefined } };
+    return { payload: repoInfo, repo: { owner, name } };
   }),
 
   //  GET summary from GPT if not exists

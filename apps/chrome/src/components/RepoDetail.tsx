@@ -9,13 +9,12 @@ type Props = {
 };
 
 const RepoDetail = ({ owner, repoName }: Props) => {
-  const { showDetail, loading, handleClick, repoDetail, hasSummaryInDb } =
-    useGetRepoDetail({
-      owner,
-      repoName,
-    });
-  const showSummary = !loading && showDetail && !hasSummaryInDb;
-
+  const { showDetail, loading, handleClick, repoDetail } = useGetRepoDetail({
+    owner,
+    repoName,
+  });
+  //const showSummary = !loading && showDetail && !hasSummaryInDb;
+  const showSummary = !loading && showDetail;
   const ButtonText = () => {
     let text = "Show Details";
     if (!showDetail) {
@@ -42,7 +41,7 @@ const RepoDetail = ({ owner, repoName }: Props) => {
         <>
           <div>
             {JSON.stringify(repoDetail, null, 2)}
-            {JSON.stringify(repoDetail?.summary, null, 2)}
+            {/* {JSON.stringify(repoDetail, null, 2)} */}
             {/* <div className="flex justify-between">
               <div className="h-[200px] max-h-[200px] w-1/3 overflow-auto">
                 <div className="p-4">

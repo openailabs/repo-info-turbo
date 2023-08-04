@@ -85,11 +85,11 @@ export const useGetRepoDetail = ({ owner, repoName }) => {
     setCanRead(true);
     toggleShowDetail(!showDetail);
   };
-  const hasSummaryInDb =
-    repoDetail && repoDetail.summary && repoDetail.summary !== null;
+  // const hasSummaryInDb =
+  //   repoDetail && repoDetail.summary && repoDetail.summary !== null;
   const loading = (isFetching && !showDetail && !canRead) || isFetching;
 
-  return { repoDetail, showDetail, handleClick, loading, hasSummaryInDb };
+  return { repoDetail, showDetail, handleClick, loading };
 };
 
 export const useGetSummary = ({
