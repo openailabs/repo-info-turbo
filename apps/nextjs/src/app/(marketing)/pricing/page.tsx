@@ -27,9 +27,9 @@ export default async function PricingPage() {
         </Balancer>
 
         <div className="my-8 grid grid-cols-1 gap-8 md:grid-cols-2">
-          {/* {plans.map((plan) => (
+          {plans.map((plan) => (
             <PricingCard key={plan.id} plan={plan} />
-          ))} */}
+          ))}
         </div>
       </div>
     </main>

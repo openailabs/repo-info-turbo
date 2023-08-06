@@ -16,11 +16,6 @@ export function SubscribeNow(props: { planId: string }) {
   const router = useRouter();
   const session = useSession();
 
-  setIsLoading(false);
-  toast({
-    title: "Email Sent",
-    description: "Check your inbox for a verification email.",
-  });
   return (
     <Button
       disabled={isLoading}
@@ -32,8 +27,8 @@ export function SubscribeNow(props: { planId: string }) {
         });
         setIsLoading(true);
         toast({
-          title: "Email Sent",
-          description: `Check your inbox for a verification email. {billingPortal.url}`,
+          title: "Awaiting...",
+          description: `Subscribe now still in development. (We need to change payment system from stripe to others)`,
         });
         setIsLoading(false);
 

@@ -54,7 +54,7 @@ export function NewApiKeyDialog(props: { projectId: string }) {
       setDialogOpen(false);
       toaster.toast({
         title: "API Key Created",
-        description: `Project ${data.name} created successfully.`,
+        description: `API key ${data.name} created successfully.`,
       });
     } catch (error) {
       toaster.toast({

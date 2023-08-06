@@ -4,7 +4,7 @@ import { Component, CreditCard, Globe } from "lucide-react";
 import * as Icons from "@acme/ui/icons";
 
 export const siteConfig = {
-  name: "Acme Corp",
+  name: "Repo Detail",
   description:
     "Next.js starter kit that includes everything you need to build a modern web application. Mobile application preconfigured, ready to go.",
   github: "https://github.com/juliusmarminge/acme-corp",
@@ -12,22 +12,22 @@ export const siteConfig = {
 };
 
 export const navItems = [
-  {
-    href: "/dashboard",
-    title: "Overview",
-  },
+  // {
+  //   href: "/dashboard",
+  //   title: "Overview",
+  // },
   {
     href: "/pricing",
     title: "Pricing",
   },
-  {
-    href: "/dashboard",
-    title: "Products",
-  },
-  {
-    href: "/dashboard",
-    title: "Settings",
-  },
+  // {
+  //   href: "/dashboard",
+  //   title: "Products",
+  // },
+  // {
+  //   href: "/dashboard",
+  //   title: "Settings",
+  // },
 ] satisfies { href: Route; title: string }[];
 
 export const marketingFeatures = [
@@ -152,15 +152,15 @@ export const marketingFeatures = [
     body: (
       <>
         Accept payments with{" "}
-        <a
+        {/* <a
           href="https://stripe.com"
           target="_blank"
           rel="noreferrer"
           className="font-medium underline underline-offset-4"
         >
           Stripe
-        </a>
-        .
+        </a> */}
+        Stripe.
       </>
     ),
   },
