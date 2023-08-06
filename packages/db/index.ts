@@ -84,8 +84,7 @@ export type Note = {
   owner: string;
   name: string;
   userId: string;
-  note: string | null;
-  intro: string | null;
+  note: unknown | null;
 };
 export type Project = {
   id: string;

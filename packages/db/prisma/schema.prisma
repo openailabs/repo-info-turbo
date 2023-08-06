@@ -147,12 +147,12 @@ model Result {
 }
 
 model Note {
-    id     Int     @id @default(autoincrement())
+    id     Int    @id @default(autoincrement())
     owner  String
     name   String
     userId String
-    note   String? @db.LongText
-    intro  String? @db.LongText
+
+    note Json?
 
     @@unique([owner, name, userId])
     @@index([owner, name, userId])
