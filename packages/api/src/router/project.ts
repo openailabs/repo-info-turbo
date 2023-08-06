@@ -18,8 +18,8 @@ import {
 } from "../trpc";
 
 const PROJECT_LIMITS = {
-  FREE: 1,
-  PRO: 3,
+  FREE: 1000,
+  PRO: 3000,
 } as const;
 
 export const projectRouter = createTRPCRouter({
@@ -28,6 +28,7 @@ export const projectRouter = createTRPCRouter({
     .mutation(async (opts) => {
       const { userId, orgId } = opts.ctx.auth;
       const { name } = opts.input;
+      // console.log({ userId, orgId, name });
 
       // Check if limit is reached
       let query = opts.ctx.db
@@ -215,6 +216,7 @@ export const projectRouter = createTRPCRouter({
       projects,
       limit: PROJECT_LIMITS.PRO,
       limitReached: projects.length >= PROJECT_LIMITS.PRO,
+      // limitReached: false,
     };
   }),
 
@@ -418,7 +420,7 @@ export const projectRouter = createTRPCRouter({
       .selectFrom("RepoDetail")
       .selectAll()
       .execute();
-    console.log(query);
+    // console.log(query);
 
     return { projects: query };
   }),

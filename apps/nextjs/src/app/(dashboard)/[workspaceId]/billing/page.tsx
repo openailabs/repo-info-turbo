@@ -25,7 +25,8 @@ export default function BillingPage() {
 }
 
 async function SubscriptionCard() {
-  const subscription = await api.auth.mySubscription.query();
+  // const subscription = await api.auth.mySubscription.query();
+  const subscription = { plan: "PRO", endsAt: new Date() };
 
   return (
     <Card>

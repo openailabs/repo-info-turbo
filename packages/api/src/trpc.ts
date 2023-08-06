@@ -56,12 +56,12 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
  * @link https://trpc.io/docs/context
  */
 export const createTRPCContext = (opts: { req: NextRequest }) => {
-  // const auth = getAuth(opts.req);
-  // const apiKey = opts.req.headers.get("x-acme-api-key");
+  const auth = getAuth(opts.req);
+  const apiKey = opts.req.headers.get("x-acme-api-key");
 
   return createInnerTRPCContext({
-    // auth,
-    // apiKey,
+    auth,
+    apiKey,
     req: opts.req,
   });
 };

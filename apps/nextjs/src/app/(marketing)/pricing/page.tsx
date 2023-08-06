@@ -16,7 +16,7 @@ import { SubscribeNow } from "./subscribe-now";
 export const runtime = "edge";
 
 export default async function PricingPage() {
-  const plans = await api.stripe.plans.query();
+  // const plans = await api.stripe.plans.query();
 
   return (
     <main className="flex w-full flex-col items-center justify-center pt-16">
@@ -27,9 +27,9 @@ export default async function PricingPage() {
         </Balancer>
 
         <div className="my-8 grid grid-cols-1 gap-8 md:grid-cols-2">
-          {plans.map((plan) => (
+          {/* {plans.map((plan) => (
             <PricingCard key={plan.id} plan={plan} />
-          ))}
+          ))} */}
         </div>
       </div>
     </main>

@@ -60,7 +60,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
               {props.children}
               <TailwindIndicator />
             </ThemeProvider>
-            <Analytics />
+            {/* <Analytics /> */}
             <Toaster />
           </body>
         </html>

@@ -6,7 +6,7 @@ export default async function ProjectSettingsPage(props: {
   params: { workspaceId: string; projectId: string };
 }) {
   const { projectId } = props.params;
-  const project = await api.project.byId.query({ id: projectId });
+  // const project = await api.project.byId.query({ id: projectId });
 
   return (
     <DashboardShell
@@ -14,7 +14,7 @@ export default async function ProjectSettingsPage(props: {
       description="Manage your project"
       className="space-y-4"
     >
-      <RenameProject currentName={project.name} projectId={projectId} />
+      {/* <RenameProject currentName={project.name} projectId={projectId} /> */}
     </DashboardShell>
   );
 }

@@ -17,7 +17,6 @@
     "@t3-oss/env-nextjs": "^0.6.0",
     "@trpc/client": "^10.33.1",
     "@trpc/server": "^10.33.1",
-    "nextjs-cors": "^2.1.2",
     "node-cache": "^5.1.2",
     "stripe": "^12.11.0",
     "superjson": "1.12.4",
