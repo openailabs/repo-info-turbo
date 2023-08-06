@@ -10,6 +10,9 @@
     "clean": "rm -rf .turbo node_modules",
     "db:generate": "pnpm with-env prisma generate && tsx prisma/postgenerate.ts",
     "db:push": "pnpm with-env prisma db push --skip-generate",
+    "db:seed": "pnpm with-env prisma db seed",
+    "db:dump": "pnpm with-env ts-node dump.ts",
+    "db:restore": "pnpm with-env ts-node dump.ts --restore",
     "dev": "echo 'pnpm with-env prisma studio --port 5556'",
     "with-env": "dotenv -e ../../.env.local --"
   },
