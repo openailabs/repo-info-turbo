@@ -19,7 +19,7 @@ export default function BillingPage() {
     >
       <SubscriptionCard />
 
-      <UsageCard />
+      {/* <UsageCard /> */}
     </DashboardShell>
   );
 }
@@ -37,8 +37,8 @@ async function SubscriptionCard() {
         {subscription ? (
           <p>
             You are currently on the <strong>{subscription.plan}</strong> plan.
-            Your subscription will renew on{" "}
-            <strong>{subscription.endsAt?.toLocaleDateString()}</strong>.
+            {/* Your subscription will renew on{" "}
+            <strong>{subscription.endsAt?.toLocaleDateString()}</strong>. */}
           </p>
         ) : (
           <p>You are not subscribed to any plan.</p>

@@ -79,6 +79,14 @@ export type Ingestion = {
   parent: string | null;
   origin: string;
 };
+export type Note = {
+  id: Generated<number>;
+  owner: string;
+  name: string;
+  userId: string;
+  note: string | null;
+  intro: string | null;
+};
 export type Project = {
   id: string;
   createdAt: Generated<Timestamp>;
@@ -116,6 +124,7 @@ export type DB = {
   File: File;
   Folder: Folder;
   Ingestion: Ingestion;
+  Note: Note;
   Project: Project;
   RepoDetail: RepoDetail;
   RepoFileContent: RepoFileContent;
