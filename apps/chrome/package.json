@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "format": "prettier --write \"./src/**/*.ts\" \"./src/**/*.tsx\"",
-    "dev": "concurrently \"pnpm run development\" \"pnpm run build\"",
+    "dev": "concurrently  \"pnpm run build\"",
+    "dev2": "concurrently \"pnpm run development\" \"pnpm run build\"",
     "tailwind": "tailwindcss -i src/styles/index.css -o dist/assets/index.css",
     "development": "vite",
     "build": "tsc && vite build && npm run build:js",
