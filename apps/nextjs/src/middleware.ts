@@ -31,7 +31,7 @@ export default authMiddleware({
       );
       response?.headers.set(
         "Access-Control-Allow-Headers",
-        "Content-Type, Authorization",
+        "Content-Type, Authorization, X-Acme-Api-Key",
       );
       return response;
     }

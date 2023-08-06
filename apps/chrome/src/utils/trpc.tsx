@@ -35,6 +35,12 @@ export const TRPCProvider: React.FC<{
       links: [
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc/chrome`,
+          // You can pass any HTTP headers you wish here
+          async headers() {
+            return {
+              "x-acme-api-key": "sk_live_xkbiparcywf75m95",
+            };
+          },
         }),
       ],
     }),

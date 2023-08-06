@@ -5,7 +5,11 @@ import { getRepoDetailSchema } from "../../validators";
 import { getSummary } from "../hooks/useGpt";
 import { getRepoInfoFromGithub } from "../lib/githubApi";
 // import { getRepoInfo } from "../lib/githubApi";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import {
+  createTRPCRouter,
+  protectedApiProcedure,
+  publicProcedure,
+} from "../trpc";
 
 export const resultSchema = z.object({
   owner: z.string(),
@@ -58,7 +62,7 @@ export const repoDetailRouter = createTRPCRouter({
     return resultId.insertId;
   }),
   //  GET
-  getRepo: publicProcedure.input(repoSchema).query(async (opts) => {
+  getRepo: protectedApiProcedure.input(repoSchema).query(async (opts) => {
     const { owner, name } = opts.input;
 
     // const payload = await opts.ctx.db
@@ -104,7 +108,7 @@ export const repoDetailRouter = createTRPCRouter({
   }),
 
   //  GET summary from GPT if not exists
-  getSummary: publicProcedure.input(repoSchema).query(async (opts) => {
+  getSummary: protectedApiProcedure.input(repoSchema).query(async (opts) => {
     const { owner, name } = opts.input;
 
     console.log("Request with repo info: %s", owner, name);
