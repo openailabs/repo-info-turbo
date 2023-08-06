@@ -16,7 +16,7 @@ import { SubscribeNow } from "./subscribe-now";
 export const runtime = "edge";
 
 export default async function PricingPage() {
-  // const plans = await api.stripe.plans.query();
+  const plans = await api.stripe.plans.query();
 
   return (
     <main className="flex w-full flex-col items-center justify-center pt-16">
