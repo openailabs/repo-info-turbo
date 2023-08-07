@@ -38,7 +38,7 @@ export const TRPCProvider: React.FC<{
           // You can pass any HTTP headers you wish here
           async headers() {
             return {
-              "x-acme-api-key": "sk_live_xkbiparcywf75m95",
+              "X-Api-Key": "sk_live_xkbiparcywf75m95",
             };
           },
         }),

@@ -88,7 +88,7 @@ export const createTRPCContext = (opts: {
   res: NextResponse;
 }) => {
   //const auth = getAuth(opts.req);
-  //const apiKey = opts.req.headers.get("x-acme-api-key");
+  //const apiKey = opts.req.headers.get("X-Api-Key");
 
   return createInnerTRPCContext({
     // auth,
