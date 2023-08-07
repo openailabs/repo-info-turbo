@@ -1,16 +1,16 @@
-import type { NextRequest } from "next/server";
-import { TRPCError } from "@trpc/server";
-import { getHTTPStatusCodeFromError } from "@trpc/server/http";
+import type { NextRequest } from 'next/server';
+import { TRPCError } from '@trpc/server';
+import { getHTTPStatusCodeFromError } from '@trpc/server/http';
 
-import { createTRPCContext } from "@acme/api";
-import { lambdaRouter, stripe } from "@acme/api/src/lambda";
+import { createTRPCContext } from '@acme/api';
+import { lambdaRouter, stripe } from '@acme/api/src/lambda';
 
-import { env } from "~/env.mjs";
+import { env } from '~/env.mjs';
 
 export async function POST(req: NextRequest) {
   const payload = await req.text();
-  const signature = req.headers.get("Stripe-Signature");
-  if (!signature) return new Response("No signature", { status: 400 });
+  const signature = req.headers.get('Stripe-Signature');
+  if (!signature) return new Response('No signature', { status: 400 });
 
   // try {
   //   const event = stripe.webhooks.constructEvent(

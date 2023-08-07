@@ -1,5 +1,5 @@
-import React from "react";
-import { useGetSummary } from "@/hooks/repo";
+import React from 'react';
+import { useGetSummary } from '@/hooks/repo';
 
 const Summary = ({ owner, repoName }) => {
   const { handleSummaryClick, summary, loaded, loading } = useGetSummary({

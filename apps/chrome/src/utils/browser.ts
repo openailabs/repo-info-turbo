@@ -1,4 +1,4 @@
-import { browser } from "webextension-polyfill-ts";
+import { browser } from 'webextension-polyfill-ts';
 
 export const sendMessageToBackground = async (message: any): Promise<any> => {
   try {
@@ -18,7 +18,7 @@ export const sendMessageToContentScript = async (
       currentWindow: true,
     });
     if (!tabs[0]?.id) {
-      console.error("No active tab found.");
+      console.error('No active tab found.');
       return null;
     }
     return await browser.tabs.sendMessage(tabs[0].id, message);

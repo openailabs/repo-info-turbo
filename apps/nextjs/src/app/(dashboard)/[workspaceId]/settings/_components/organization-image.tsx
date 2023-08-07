@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import { useOrganization } from "@clerk/nextjs";
-import type { Crop, PixelCrop } from "react-image-crop";
-import ReactCrop from "react-image-crop";
+import * as React from 'react';
+import { useRouter } from 'next/navigation';
+import { useOrganization } from '@clerk/nextjs';
+import type { Crop, PixelCrop } from 'react-image-crop';
+import ReactCrop from 'react-image-crop';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@acme/ui/avatar";
-import { Button } from "@acme/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from '@acme/ui/avatar';
+import { Button } from '@acme/ui/button';
 import {
   Card,
   CardContent,
@@ -15,7 +15,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@acme/ui/card";
+} from '@acme/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -23,16 +23,16 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@acme/ui/dialog";
-import { Input } from "@acme/ui/input";
-import { useToast } from "@acme/ui/use-toast";
+} from '@acme/ui/dialog';
+import { Input } from '@acme/ui/input';
+import { useToast } from '@acme/ui/use-toast';
 
 export function OrganizationImage(props: {
   name: string;
   image: string;
   orgId: string;
 }) {
-  const [imgSrc, setImgSrc] = React.useState("");
+  const [imgSrc, setImgSrc] = React.useState('');
   const [cropModalOpen, setCropModalOpen] = React.useState(false);
 
   return (
@@ -57,15 +57,15 @@ export function OrganizationImage(props: {
             type="file"
             name="image"
             accept="image/*"
-            onChange={(e) => {
+            onChange={e => {
               const file = e.target.files?.[0];
               if (!file) return;
 
               setCropModalOpen(true);
 
               const reader = new FileReader();
-              reader.addEventListener("load", () => {
-                setImgSrc(reader.result?.toString() ?? "");
+              reader.addEventListener('load', () => {
+                setImgSrc(reader.result?.toString() ?? '');
               });
               reader.readAsDataURL(file);
             }}
@@ -96,15 +96,15 @@ function CropImageDialog(props: { imgSrc: string; close: () => void }) {
     const canvas = cropImage(imageRef.current, storedCrop);
 
     const blob = await new Promise<Blob>((res, rej) => {
-      canvas.toBlob((blob) => {
-        blob ? res(blob) : rej("No blob");
+      canvas.toBlob(blob => {
+        blob ? res(blob) : rej('No blob');
       });
     });
 
     await organization?.setLogo({ file: blob });
     toast({
-      title: "Image updated",
-      description: "Your organization image has been updated.",
+      title: 'Image updated',
+      description: 'Your organization image has been updated.',
     });
 
     setIsUploading(false);
@@ -125,7 +125,7 @@ function CropImageDialog(props: { imgSrc: string; close: () => void }) {
         aspect={1}
         crop={crop}
         onChange={(_, percent) => setCrop(percent)}
-        onComplete={(c) => setStoredCrop(c)}
+        onComplete={c => setStoredCrop(c)}
       >
         {props.imgSrc && (
           // eslint-disable-next-line @next/next/no-img-element
@@ -148,9 +148,9 @@ function CropImageDialog(props: { imgSrc: string; close: () => void }) {
 }
 
 function cropImage(image: HTMLImageElement, crop: PixelCrop) {
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("No 2d context");
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('No 2d context');
 
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
@@ -160,7 +160,7 @@ function cropImage(image: HTMLImageElement, crop: PixelCrop) {
   canvas.height = Math.floor(crop.height * scaleY * pixelRatio);
 
   ctx.scale(pixelRatio, pixelRatio);
-  ctx.imageSmoothingQuality = "high";
+  ctx.imageSmoothingQuality = 'high';
 
   const cropX = crop.x * scaleX;
   const cropY = crop.y * scaleY;

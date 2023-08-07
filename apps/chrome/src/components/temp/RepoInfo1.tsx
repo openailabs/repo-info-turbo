@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 // import '../pages/ContentScripts/main.css'
-import styles from "@/styles/index.css?inline";
+import styles from '@/styles/index.css?inline';
 
 export interface TlfProps {
   folders: string[];
@@ -30,7 +30,7 @@ const RepoInfo1 = () => {
   // console.log(JSON.stringify(summary.summary));
 
   const closeClick = () => {
-    console.log("close clicked.");
+    console.log('close clicked.');
   };
   return (
     <>

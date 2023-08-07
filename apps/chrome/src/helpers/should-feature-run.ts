@@ -16,14 +16,14 @@ export default async function shouldFeatureRun(
     exclude = [() => false],
   } = props;
   return (
-    (await Promise.all(asLongAs.map((c) => c())).then((flags) =>
-      flags.every((flag) => flag === true),
+    (await Promise.all(asLongAs.map(c => c())).then(flags =>
+      flags.every(flag => flag === true),
     )) &&
-    (await Promise.all(include.map((c) => c())).then((flags) =>
-      flags.some((flag) => flag === true),
+    (await Promise.all(include.map(c => c())).then(flags =>
+      flags.some(flag => flag === true),
     )) &&
-    (await Promise.all(exclude.map((c) => c())).then((flags) =>
-      flags.every((flag) => flag === false),
+    (await Promise.all(exclude.map(c => c())).then(flags =>
+      flags.every(flag => flag === false),
     ))
   );
 }

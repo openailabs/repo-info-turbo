@@ -1,22 +1,22 @@
-import * as path from "path";
-import { fileURLToPath } from "url";
-import react from "@vitejs/plugin-react";
-import AutoImport from "unplugin-auto-import/vite";
-import { defineConfig } from "vite";
-import { viteStaticCopy } from "vite-plugin-static-copy";
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+import react from '@vitejs/plugin-react';
+import AutoImport from 'unplugin-auto-import/vite';
+import { defineConfig } from 'vite';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
-import postBuildCommands from "./scripts/postbuild";
-import preBuildCommands from "./scripts/prebuild";
+import postBuildCommands from './scripts/postbuild';
+import preBuildCommands from './scripts/prebuild';
 
 // Define rollup input
 const rollupInput = getRollupInput([
-  "./src/scripts/options/index.tsx",
-  "./src/scripts/options/options.html",
-  "./src/scripts/popup/index.tsx",
-  "./src/scripts/popup/popup.html",
-  "./src/scripts/onInstalled/index.tsx",
-  "./src/scripts/onInstalled/onInstalled.html",
-  "./src/scripts/service-worker/service-worker.ts",
+  './src/scripts/options/index.tsx',
+  './src/scripts/options/options.html',
+  './src/scripts/popup/index.tsx',
+  './src/scripts/popup/popup.html',
+  './src/scripts/onInstalled/index.tsx',
+  './src/scripts/onInstalled/onInstalled.html',
+  './src/scripts/service-worker/service-worker.ts',
 ]);
 
 function getRollupInput(files) {
@@ -29,19 +29,19 @@ function getRollupInput(files) {
 }
 
 const outputOptions = {
-  entryFileNames: (info) => "js/[name].js",
-  assetFileNames: (info) => "assets/[ext]/[name].[ext]",
+  entryFileNames: info => 'js/[name].js',
+  assetFileNames: info => 'assets/[ext]/[name].[ext]',
 };
 
-console.log(" ---> Starting Vite Build 🤞 <---");
+console.log(' ---> Starting Vite Build 🤞 <---');
 
 // Vite config
 export default defineConfig({
   resolve: {
-    alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
+    alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
   },
   server: {
-    open: "./src/index.html",
+    open: './src/index.html',
   },
   build: {
     modulePreload: {
@@ -54,15 +54,15 @@ export default defineConfig({
   },
   plugins: [
     AutoImport({
-      imports: ["react"],
+      imports: ['react'],
     }),
     react(),
     postbuildManifestPlugin(),
     viteStaticCopy({
       targets: [
         {
-          src: "./src/assets/*",
-          dest: "./assets",
+          src: './src/assets/*',
+          dest: './assets',
         },
       ],
     }),
@@ -71,7 +71,7 @@ export default defineConfig({
 
 function postbuildManifestPlugin() {
   return {
-    name: "postbuild-manifest",
+    name: 'postbuild-manifest',
     buildStart: async () => {
       preBuildCommands();
     },

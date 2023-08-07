@@ -5,8 +5,8 @@ export const formatNum = (num: number, index: number) => {
     num = -num;
   }
   let si = [
-    { value: 1, symbol: "" },
-    { value: 1e3, symbol: "k" },
+    { value: 1, symbol: '' },
+    { value: 1e3, symbol: 'k' },
   ];
   let rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
   let i;
@@ -15,13 +15,13 @@ export const formatNum = (num: number, index: number) => {
       break;
     }
   }
-  let result = (num / si[i].value).toFixed(2).replace(rx, "$1") + si[i].symbol;
+  let result = (num / si[i].value).toFixed(2).replace(rx, '$1') + si[i].symbol;
   if (isNegative) {
-    result = "-" + result;
+    result = '-' + result;
   }
   return result;
 };
 
 export const numberWithCommas = (x: number) => {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };

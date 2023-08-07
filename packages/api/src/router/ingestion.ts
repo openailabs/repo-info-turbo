@@ -1,14 +1,14 @@
-import { File } from "undici";
-import { z } from "zod";
-import { zfd } from "zod-form-data";
+import { File } from 'undici';
+import { z } from 'zod';
+import { zfd } from 'zod-form-data';
 
-import { genId } from "@acme/db";
+import { genId } from '@acme/db';
 
 import {
   createTRPCRouter,
   protectedApiFormDataProcedure,
   protectedProcedure,
-} from "../trpc";
+} from '../trpc';
 
 // @ts-expect-error - zfd needs a File on the global scope
 globalThis.File = File;
@@ -30,11 +30,11 @@ globalThis.File = File;
 export const ingestionRouter = createTRPCRouter({
   byId: protectedProcedure
     .input(z.object({ id: z.string() }))
-    .query(async (opts) => {
+    .query(async opts => {
       const ingestion = await opts.ctx.db
-        .selectFrom("Ingestion")
-        .select(["id", "createdAt", "hash", "schema", "origin", "parent"])
-        .where("id", "=", opts.input.id)
+        .selectFrom('Ingestion')
+        .select(['id', 'createdAt', 'hash', 'schema', 'origin', 'parent'])
+        .where('id', '=', opts.input.id)
         .executeTakeFirstOrThrow();
 
       return ingestion;
@@ -47,18 +47,18 @@ export const ingestionRouter = createTRPCRouter({
         limit: z.number().optional(),
       }),
     )
-    .query(async (opts) => {
+    .query(async opts => {
       let query = opts.ctx.db
-        .selectFrom("Ingestion")
-        .select(["id", "createdAt", "hash"])
-        .where("projectId", "=", opts.input.projectId);
+        .selectFrom('Ingestion')
+        .select(['id', 'createdAt', 'hash'])
+        .where('projectId', '=', opts.input.projectId);
 
       if (opts.input.limit) {
-        query = query.limit(opts.input.limit).orderBy("createdAt", "desc");
+        query = query.limit(opts.input.limit).orderBy('createdAt', 'desc');
       }
       const ingestions = await query.execute();
 
-      return ingestions.map((ingestion) => ({
+      return ingestions.map(ingestion => ({
         ...ingestion,
         adds: Math.floor(Math.random() * 10),
         subs: Math.floor(Math.random() * 10),
@@ -73,13 +73,13 @@ export const ingestionRouter = createTRPCRouter({
         // schema: myFileValidator,
       }),
     )
-    .mutation(async (opts) => {
+    .mutation(async opts => {
       //   const fileContent = await opts.input.schema.text();
-      const fileContent = "";
+      const fileContent = '';
 
-      const id = "ingest_" + genId();
+      const id = 'ingest_' + genId();
       await opts.ctx.db
-        .insertInto("Ingestion")
+        .insertInto('Ingestion')
         .values({
           id,
           projectId: opts.ctx.apiKey.projectId,
@@ -91,6 +91,6 @@ export const ingestionRouter = createTRPCRouter({
         })
         .executeTakeFirst();
 
-      return { status: "ok" };
+      return { status: 'ok' };
     }),
 });

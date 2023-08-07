@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useParams, useRouter } from "next/navigation";
-import { Check, ChevronsUpDown, LayoutGrid } from "lucide-react";
+import * as React from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { Check, ChevronsUpDown, LayoutGrid } from 'lucide-react';
 
-import type { RouterOutputs } from "@acme/api";
-import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/button";
+import type { RouterOutputs } from '@acme/api';
+import { cn } from '@acme/ui';
+import { Button } from '@acme/ui/button';
 import {
   Command,
   CommandGroup,
@@ -14,13 +14,13 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@acme/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@acme/ui/popover";
+} from '@acme/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@acme/ui/popover';
 
-import { getRandomPatternStyle } from "~/lib/generate-pattern";
+import { getRandomPatternStyle } from '~/lib/generate-pattern';
 
 export function ProjectSwitcher(props: {
-  projectsPromise: Promise<RouterOutputs["project"]["listByActiveWorkspace"]>;
+  projectsPromise: Promise<RouterOutputs['project']['listByActiveWorkspace']>;
 }) {
   const router = useRouter();
 
@@ -29,7 +29,7 @@ export function ProjectSwitcher(props: {
   const [switcherOpen, setSwitcherOpen] = React.useState(false);
 
   const { workspaceId, projectId } = useParams();
-  const activeProject = projects.find((p) => p.id === projectId);
+  const activeProject = projects.find(p => p.id === projectId);
 
   if (!projectId) return null;
   if (!activeProject) {
@@ -75,7 +75,7 @@ export function ProjectSwitcher(props: {
             <CommandList>
               <CommandInput placeholder="Search project..." />
 
-              {projects.map((project) => (
+              {projects.map(project => (
                 <CommandItem
                   key={project.id}
                   onSelect={() => {
@@ -91,10 +91,10 @@ export function ProjectSwitcher(props: {
                   {project.name}
                   <Check
                     className={cn(
-                      "ml-auto h-4 w-4",
+                      'ml-auto h-4 w-4',
                       project.id === activeProject?.id
-                        ? "opacity-100"
-                        : "opacity-0",
+                        ? 'opacity-100'
+                        : 'opacity-0',
                     )}
                   />
                 </CommandItem>

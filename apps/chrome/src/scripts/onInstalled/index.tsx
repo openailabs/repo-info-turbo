@@ -1,7 +1,7 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
+import React from 'react';
+import { createRoot } from 'react-dom/client';
 
-import "@/styles/index.css";
+import '@/styles/index.css';
 
 const OnInstalled = () => {
   return (
@@ -11,7 +11,7 @@ const OnInstalled = () => {
   );
 };
 
-const container = document.getElementById("onInstalled");
+const container = document.getElementById('onInstalled');
 const root = createRoot(container!);
 
 root.render(

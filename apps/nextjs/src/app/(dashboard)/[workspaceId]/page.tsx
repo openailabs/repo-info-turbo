@@ -1,9 +1,9 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { ProjectTier } from "@acme/db/enums";
-import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/button";
-import { Card, CardDescription, CardHeader, CardTitle } from "@acme/ui/card";
+import { ProjectTier } from '@acme/db/enums';
+import { cn } from '@acme/ui';
+import { Button } from '@acme/ui/button';
+import { Card, CardDescription, CardHeader, CardTitle } from '@acme/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -11,24 +11,24 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@acme/ui/dialog";
-import * as Icons from "@acme/ui/icons";
+} from '@acme/ui/dialog';
+import * as Icons from '@acme/ui/icons';
 
-import { getRandomPatternStyle } from "~/lib/generate-pattern";
-import type { RouterOutputs } from "~/trpc/server";
-import { api } from "~/trpc/server";
-import { DashboardShell } from "../_components/dashboard-shell";
-import { CreateProjectForm } from "./_components/create-project-form";
+import { getRandomPatternStyle } from '~/lib/generate-pattern';
+import type { RouterOutputs } from '~/trpc/server';
+import { api } from '~/trpc/server';
+import { DashboardShell } from '../_components/dashboard-shell';
+import { CreateProjectForm } from './_components/create-project-form';
 
-export const runtime = "edge";
+export const runtime = 'edge';
 
 function ProjectTierIndicator(props: { tier: ProjectTier }) {
   return (
     <span
       className={cn(
-        "ml-2 rounded-md px-2 py-1 text-xs no-underline group-hover:no-underline",
-        props.tier === ProjectTier.FREE && "bg-teal-100 dark:bg-teal-600",
-        props.tier === ProjectTier.PRO && "bg-red-100 dark:bg-red-800",
+        'ml-2 rounded-md px-2 py-1 text-xs no-underline group-hover:no-underline',
+        props.tier === ProjectTier.FREE && 'bg-teal-100 dark:bg-teal-600',
+        props.tier === ProjectTier.PRO && 'bg-red-100 dark:bg-red-800',
       )}
     >
       {props.tier}
@@ -69,7 +69,7 @@ export default async function Page(props: { params: { workspaceId: string } }) {
       }
     >
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {projects.map((project) => (
+        {projects.map(project => (
           <li key={project.id}>
             <ProjectCard
               project={project}
@@ -93,7 +93,7 @@ export default async function Page(props: { params: { workspaceId: string } }) {
 
 function ProjectCard(props: {
   workspaceId: string;
-  project: RouterOutputs["project"]["listByActiveWorkspace"]["projects"][number];
+  project: RouterOutputs['project']['listByActiveWorkspace']['projects'][number];
 }) {
   const { project } = props;
   return (

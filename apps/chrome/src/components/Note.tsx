@@ -1,5 +1,5 @@
-import React from "react";
-import { useSaveOrUpdateNote } from "@/hooks/note";
+import React from 'react';
+import { useSaveOrUpdateNote } from '@/hooks/note';
 
 const Note = ({ owner, repoName }) => {
   // useSaveOrUpdateNote({

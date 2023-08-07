@@ -1,14 +1,14 @@
-import type { ConfigurationParameters } from "openai-edge";
-import { Configuration, OpenAIApi } from "openai-edge";
+import type { ConfigurationParameters } from 'openai-edge';
+import { Configuration, OpenAIApi } from 'openai-edge';
 
 const configuration: any = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
-  basePath: process.env.OPENAI_API_HOST || "https://api.openai.com",
+  basePath: process.env.OPENAI_API_HOST || 'https://api.openai.com',
 });
 
 const openai = new OpenAIApi(configuration);
 
-const model = process.env.SUMMARIZE_MODEL || "gpt-3.5-turbo";
+const model = process.env.SUMMARIZE_MODEL || 'gpt-3.5-turbo';
 
 export const getSummary = async ({
   prompt,
@@ -18,9 +18,9 @@ export const getSummary = async ({
   repoInfo: string;
 }) => {
   const messages = [
-    { role: "system", content: prompt },
+    { role: 'system', content: prompt },
     {
-      role: "user",
+      role: 'user',
       content: repoInfo,
     },
   ];

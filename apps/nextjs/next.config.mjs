@@ -1,20 +1,20 @@
-import "./src/env.mjs";
-import "@acme/api/src/env.mjs";
+import './src/env.mjs';
+import '@acme/api/src/env.mjs';
 
-import withMDX from "@next/mdx";
+import withMDX from '@next/mdx';
 
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [
-    "@acme/api",
-    "@acme/db",
-    "@acme/ui",
-    "@acme/eslint-config",
-    "@acme/tailwind-config",
+    '@acme/api',
+    '@acme/db',
+    '@acme/ui',
+    '@acme/eslint-config',
+    '@acme/tailwind-config',
   ],
-  pageExtensions: ["ts", "tsx", "mdx"],
+  pageExtensions: ['ts', 'tsx', 'mdx'],
   experimental: {
     mdxRs: true,
     serverActions: true,

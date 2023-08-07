@@ -1,28 +1,28 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   useReactTable,
-} from "@tanstack/react-table";
-import { format, formatRelative } from "date-fns";
-import { Eye, EyeOff } from "lucide-react";
+} from '@tanstack/react-table';
+import { format, formatRelative } from 'date-fns';
+import { Eye, EyeOff } from 'lucide-react';
 
-import type { RouterOutputs } from "@acme/api";
-import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/button";
-import { Checkbox } from "@acme/ui/checkbox";
+import type { RouterOutputs } from '@acme/api';
+import { cn } from '@acme/ui';
+import { Button } from '@acme/ui/button';
+import { Checkbox } from '@acme/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@acme/ui/dropdown-menu";
-import * as Icons from "@acme/ui/icons";
-import { Label } from "@acme/ui/label";
+} from '@acme/ui/dropdown-menu';
+import * as Icons from '@acme/ui/icons';
+import { Label } from '@acme/ui/label';
 import {
   Table,
   TableBody,
@@ -30,28 +30,26 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@acme/ui/table";
-import { useToast } from "@acme/ui/use-toast";
+} from '@acme/ui/table';
+import { useToast } from '@acme/ui/use-toast';
 
-import { api } from "~/trpc/client";
+import { api } from '~/trpc/client';
 
-export type ApiKeyColumn = RouterOutputs["project"]["listApiKeys"][number];
+export type ApiKeyColumn = RouterOutputs['project']['listApiKeys'][number];
 
 const columnHelper = createColumnHelper<ApiKeyColumn>();
 
 const columns = [
   columnHelper.display({
-    id: "select",
+    id: 'select',
     header: ({ table }) => (
       <Checkbox
         checked={table.getIsAllRowsSelected()}
         disabled={
           table.getRowModel().rows.length === 0 ||
-          table
-            .getRowModel()
-            .rows.every((row) => row.original.revokedAt !== null)
+          table.getRowModel().rows.every(row => row.original.revokedAt !== null)
         }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
     ),
@@ -59,25 +57,25 @@ const columns = [
       <Checkbox
         checked={row.getIsSelected()}
         disabled={row.original.revokedAt !== null}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        onCheckedChange={value => row.toggleSelected(!!value)}
         aria-label="Select"
       />
     ),
   }),
-  columnHelper.accessor("key", {
+  columnHelper.accessor('key', {
     cell: function Key(t) {
       const [show, setShow] = useState(false);
       const [copied, setCopied] = useState(false);
 
       const key = t.getValue();
 
-      const displayText = show ? key : "sk_live_****************";
+      const displayText = show ? key : 'sk_live_****************';
       return (
         <div className="flex items-center justify-between">
           <span
             className={cn(
-              "font-mono",
-              t.row.original.revokedAt !== null && "line-through",
+              'font-mono',
+              t.row.original.revokedAt !== null && 'line-through',
             )}
           >
             {displayText}
@@ -104,7 +102,7 @@ const columns = [
                 setCopied(true);
                 await Promise.all([
                   navigator.clipboard.writeText(key),
-                  new Promise((resolve) => setTimeout(resolve, 1500)),
+                  new Promise(resolve => setTimeout(resolve, 1500)),
                 ]);
                 setCopied(false);
               }}
@@ -116,58 +114,58 @@ const columns = [
         </div>
       );
     },
-    header: "Key",
+    header: 'Key',
   }),
-  columnHelper.accessor("createdAt", {
-    cell: (t) => format(t.getValue(), "yyyy-MM-dd"),
-    header: "Created At",
+  columnHelper.accessor('createdAt', {
+    cell: t => format(t.getValue(), 'yyyy-MM-dd'),
+    header: 'Created At',
   }),
-  columnHelper.accessor("expiresAt", {
-    cell: (t) => {
+  columnHelper.accessor('expiresAt', {
+    cell: t => {
       if (t.row.original.revokedAt !== null) {
         return (
           <div className="flex flex-col text-destructive">
             <span>Revoked</span>
-            <span>{format(t.row.original.revokedAt, "yyyy-MM-dd")}</span>
+            <span>{format(t.row.original.revokedAt, 'yyyy-MM-dd')}</span>
           </div>
         );
       }
 
       const value = t.getValue();
       if (value === null) {
-        return "Never expires";
+        return 'Never expires';
       }
 
       if (value < new Date()) {
         return (
           <div className="flex flex-col text-destructive">
             <span>Expired</span>
-            <span>{format(value, "yyyy-MM-dd")}</span>
+            <span>{format(value, 'yyyy-MM-dd')}</span>
           </div>
         );
       }
-      return format(value, "yyyy-MM-dd");
+      return format(value, 'yyyy-MM-dd');
     },
-    header: "Expires At",
+    header: 'Expires At',
   }),
-  columnHelper.accessor("lastUsed", {
-    cell: (t) => {
+  columnHelper.accessor('lastUsed', {
+    cell: t => {
       const value = t.getValue();
       if (value === null) {
-        return "Never used";
+        return 'Never used';
       }
       return formatRelative(value, new Date());
     },
-    header: "Last Used At",
+    header: 'Last Used At',
   }),
   columnHelper.display({
-    id: "actions",
+    id: 'actions',
     header: function ActionsHeader(t) {
       const router = useRouter();
       const toaster = useToast();
 
       const { rows } = t.table.getSelectedRowModel();
-      const ids = rows.map((row) => row.original.id);
+      const ids = rows.map(row => row.original.id);
 
       return (
         <DropdownMenu>
@@ -189,14 +187,14 @@ const columns = [
                   t.table.toggleAllRowsSelected(false);
                 } catch {
                   toaster.toast({
-                    title: "Failed to revoke API Keys",
-                    variant: "destructive",
+                    title: 'Failed to revoke API Keys',
+                    variant: 'destructive',
                   });
                 }
               }}
               className="text-destructive"
             >
-              Revoke {ids.length} API key{ids.length > 1 ? "s" : ""}
+              Revoke {ids.length} API key{ids.length > 1 ? 's' : ''}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -222,11 +220,11 @@ const columns = [
                   await api.project.revokeApiKeys.mutate({ ids: [apiKey.id] });
                   t.row.toggleSelected(false);
                   router.refresh();
-                  toaster.toast({ title: "API Key revoked" });
+                  toaster.toast({ title: 'API Key revoked' });
                 } catch {
                   toaster.toast({
-                    title: "Failed to revoke API Key",
-                    variant: "destructive",
+                    title: 'Failed to revoke API Key',
+                    variant: 'destructive',
                   });
                 }
               }}
@@ -240,11 +238,11 @@ const columns = [
                 try {
                   await api.project.rollApiKey.mutate({ id: apiKey.id });
                   router.refresh();
-                  toaster.toast({ title: "API Key rolled" });
+                  toaster.toast({ title: 'API Key rolled' });
                 } catch {
                   toaster.toast({
-                    title: "Failed to roll API Key",
-                    variant: "destructive",
+                    title: 'Failed to roll API Key',
+                    variant: 'destructive',
                   });
                 }
               }}
@@ -268,7 +266,7 @@ export function DataTable(props: { data: ApiKeyColumn[] }) {
     columns,
     getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: setRowSelection,
-    enableRowSelection: (row) => {
+    enableRowSelection: row => {
       return row.original.revokedAt === null;
     },
     state: {
@@ -278,9 +276,7 @@ export function DataTable(props: { data: ApiKeyColumn[] }) {
 
   const filteredRows = showRevoked
     ? table.getRowModel().rows
-    : table
-        .getRowModel()
-        ?.rows.filter((row) => row.original.revokedAt === null);
+    : table.getRowModel()?.rows.filter(row => row.original.revokedAt === null);
 
   return (
     <div>
@@ -288,16 +284,16 @@ export function DataTable(props: { data: ApiKeyColumn[] }) {
         <Label>Show revoked</Label>
         <Checkbox
           checked={showRevoked}
-          onCheckedChange={(c) => setShowRevoked(!!c)}
+          onCheckedChange={c => setShowRevoked(!!c)}
           className="max-w-sm"
         />
       </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+                {headerGroup.headers.map(header => {
                   return (
                     <TableHead key={header.id}>
                       {header.isPlaceholder
@@ -314,10 +310,10 @@ export function DataTable(props: { data: ApiKeyColumn[] }) {
           </TableHeader>
           <TableBody>
             {filteredRows.length ? (
-              filteredRows.map((row) => (
+              filteredRows.map(row => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                   disabled={(() => {
                     if (row.original.revokedAt !== null) {
                       return true;
@@ -327,9 +323,9 @@ export function DataTable(props: { data: ApiKeyColumn[] }) {
                     }
                     return false;
                   })()}
-                  className={cn("group")}
+                  className={cn('group')}
                 >
-                  {row.getVisibleCells().map((cell) => (
+                  {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,

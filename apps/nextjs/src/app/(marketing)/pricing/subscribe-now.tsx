@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "@clerk/nextjs";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSession } from '@clerk/nextjs';
 
-import { Button } from "@acme/ui/button";
-import { useToast } from "@acme/ui/use-toast";
+import { Button } from '@acme/ui/button';
+import { useToast } from '@acme/ui/use-toast';
 
-import { api } from "~/trpc/client";
+import { api } from '~/trpc/client';
 
 export function SubscribeNow(props: { planId: string }) {
   const { toast } = useToast();
@@ -20,14 +20,14 @@ export function SubscribeNow(props: { planId: string }) {
     <Button
       disabled={isLoading}
       onClick={async () => {
-        if (!session.isSignedIn) router.push("/signin");
+        if (!session.isSignedIn) router.push('/signin');
 
         const billingPortal = await api.stripe.createSession.mutate({
           planId: props.planId,
         });
         setIsLoading(true);
         toast({
-          title: "Awaiting...",
+          title: 'Awaiting...',
           description: `Subscribe now still in development. (We need to change payment system from stripe to others)`,
         });
         setIsLoading(false);

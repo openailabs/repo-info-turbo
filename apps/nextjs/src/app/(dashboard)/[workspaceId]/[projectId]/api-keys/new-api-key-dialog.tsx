@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import { add, format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import * as React from 'react';
+import { useRouter } from 'next/navigation';
+import { add, format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
 
-import type { CreateApiKey } from "@acme/api/validators";
-import { createApiKeySchema } from "@acme/api/validators";
-import { Button } from "@acme/ui/button";
-import { Calendar } from "@acme/ui/calendar";
+import type { CreateApiKey } from '@acme/api/validators';
+import { createApiKeySchema } from '@acme/api/validators';
+import { Button } from '@acme/ui/button';
+import { Calendar } from '@acme/ui/calendar';
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@acme/ui/dialog";
+} from '@acme/ui/dialog';
 import {
   Form,
   FormControl,
@@ -25,13 +25,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@acme/ui/form";
-import { Input } from "@acme/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@acme/ui/popover";
-import { useToast } from "@acme/ui/use-toast";
+} from '@acme/ui/form';
+import { Input } from '@acme/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@acme/ui/popover';
+import { useToast } from '@acme/ui/use-toast';
 
-import { useZodForm } from "~/lib/zod-form";
-import { api } from "~/trpc/client";
+import { useZodForm } from '~/lib/zod-form';
+import { api } from '~/trpc/client';
 
 export function NewApiKeyDialog(props: { projectId: string }) {
   const toaster = useToast();
@@ -53,15 +53,15 @@ export function NewApiKeyDialog(props: { projectId: string }) {
       router.refresh();
       setDialogOpen(false);
       toaster.toast({
-        title: "API Key Created",
+        title: 'API Key Created',
         description: `API key ${data.name} created successfully.`,
       });
     } catch (error) {
       toaster.toast({
-        title: "Error creating API Key",
-        variant: "destructive",
+        title: 'Error creating API Key',
+        variant: 'destructive',
         description:
-          "An issue occurred while creating your key. Please try again.",
+          'An issue occurred while creating your key. Please try again.',
       });
     }
   }
@@ -111,11 +111,11 @@ export function NewApiKeyDialog(props: { projectId: string }) {
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
-                          variant={"outline"}
+                          variant={'outline'}
                           className="pl-3 text-left font-normal"
                         >
                           {field.value ? (
-                            format(field.value, "PPP")
+                            format(field.value, 'PPP')
                           ) : (
                             <span className="text-muted-foreground">
                               Pick a date
@@ -129,11 +129,11 @@ export function NewApiKeyDialog(props: { projectId: string }) {
                       <Calendar
                         mode="single"
                         selected={field.value}
-                        onSelect={(date) => {
+                        onSelect={date => {
                           field.onChange(date);
                           setDatePickerOpen(false);
                         }}
-                        disabled={(date) =>
+                        disabled={date =>
                           // future dates up to 1 year only
                           date < new Date() ||
                           date > add(new Date(), { years: 1 })

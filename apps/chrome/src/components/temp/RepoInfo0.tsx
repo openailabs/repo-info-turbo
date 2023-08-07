@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 // import '../pages/ContentScripts/main.css'
-import styles from "@/styles/index.css?inline";
-import { ProjectInfoProps } from "@/types";
+import styles from '@/styles/index.css?inline';
+import { ProjectInfoProps } from '@/types';
 
 //body > div.logged-in.env-production.page-responsive > div.application-main > main > react-app > div > div > div > div > div > main > div > div > div > div > div > div > div > div > div > div.search-title > div > a > span
 //repo name: div.search-title > div > a > span

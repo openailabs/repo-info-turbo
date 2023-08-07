@@ -1,7 +1,7 @@
-import { writeManifest } from "../src/manifest";
+import { writeManifest } from '../src/manifest';
 
 const postBuildCommands = async () => {
-  console.log("Generating Manifest..");
+  console.log('Generating Manifest..');
   await writeManifest();
 };
 

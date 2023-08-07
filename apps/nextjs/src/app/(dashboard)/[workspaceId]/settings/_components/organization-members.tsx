@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { use } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
-import { formatRelative } from "date-fns";
+import { use } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@clerk/nextjs';
+import { formatRelative } from 'date-fns';
 
-import type { RouterOutputs } from "@acme/api";
-import { MEMBERSHIP } from "@acme/api/validators";
-import { Avatar, AvatarFallback, AvatarImage } from "@acme/ui/avatar";
-import { Button } from "@acme/ui/button";
+import type { RouterOutputs } from '@acme/api';
+import { MEMBERSHIP } from '@acme/api/validators';
+import { Avatar, AvatarFallback, AvatarImage } from '@acme/ui/avatar';
+import { Button } from '@acme/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@acme/ui/dropdown-menu";
-import * as Icons from "@acme/ui/icons";
+} from '@acme/ui/dropdown-menu';
+import * as Icons from '@acme/ui/icons';
 import {
   Table,
   TableBody,
@@ -23,10 +23,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@acme/ui/table";
-import { useToast } from "@acme/ui/use-toast";
+} from '@acme/ui/table';
+import { useToast } from '@acme/ui/use-toast';
 
-import { api } from "~/trpc/client";
+import { api } from '~/trpc/client';
 
 function formatMemberRole(role: string) {
   for (const [key, value] of Object.entries(MEMBERSHIP)) {
@@ -38,7 +38,7 @@ function formatMemberRole(role: string) {
 }
 
 export function OrganizationMembers(props: {
-  membersPromise: Promise<RouterOutputs["organization"]["listMembers"]>;
+  membersPromise: Promise<RouterOutputs['organization']['listMembers']>;
 }) {
   const members = use(props.membersPromise);
   const toaster = useToast();
@@ -58,7 +58,7 @@ export function OrganizationMembers(props: {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {members.map((member) => (
+        {members.map(member => (
           <TableRow key={member.id}>
             <TableCell className="flex items-center gap-2">
               <Avatar>
@@ -84,7 +84,7 @@ export function OrganizationMembers(props: {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem
-                    disabled={orgRole !== "admin"}
+                    disabled={orgRole !== 'admin'}
                     onClick={async () => {
                       try {
                         const res = await api.organization.deleteMember.mutate({
@@ -96,8 +96,8 @@ export function OrganizationMembers(props: {
                         });
                       } catch {
                         toaster.toast({
-                          title: "Failed to delete member",
-                          variant: "destructive",
+                          title: 'Failed to delete member',
+                          variant: 'destructive',
                         });
                       }
                     }}

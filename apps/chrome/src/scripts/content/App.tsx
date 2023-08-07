@@ -1,7 +1,7 @@
-import React from "react";
-import RepoDetail from "@/components/RepoDetail";
-import { Repo } from "@/types";
-import { TRPCProvider } from "@/utils/trpc";
+import React from 'react';
+import RepoDetail from '@/components/RepoDetail';
+import { Repo } from '@/types';
+import { TRPCProvider } from '@/utils/trpc';
 
 const App = ({ owner, name }: Repo) => {
   return (

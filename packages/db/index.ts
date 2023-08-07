@@ -2,7 +2,7 @@
 
 // pnpm i crypto net pg postgres tls pg @types/pg
 
-import { Kysely } from "kysely";
+import { Kysely } from 'kysely';
 // import { Kysely,PostgresDialect } from "kysely";
 // import { PostgresJSDialect } from "kysely-postgres-js";
 // import postgres from "postgres";
@@ -25,11 +25,11 @@ import { Kysely } from "kysely";
 // if (process.env.NODE_ENV !== "production")
 //   globalForPrisma.prisma = prismaClient;
 
-import type { ColumnType } from "kysely";
-import { PlanetScaleDialect } from "kysely-planetscale";
-import { customAlphabet } from "nanoid";
+import type { ColumnType } from 'kysely';
+import { PlanetScaleDialect } from 'kysely-planetscale';
+import { customAlphabet } from 'nanoid';
 
-import type { ProjectTier, SubscriptionPlan } from "./enums";
+import type { ProjectTier, SubscriptionPlan } from './enums';
 
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
@@ -156,4 +156,4 @@ export const db = new Kysely<DB>({
 
 // Use custom alphabet without special chars for less chaotic, copy-able URLs
 // Will not collide for a long long time: https://zelark.github.io/nano-id-cc/
-export const genId = customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", 16);
+export const genId = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 16);

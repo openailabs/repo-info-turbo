@@ -1,5 +1,5 @@
-import messages_en from "../locales/en/messages.json";
-import messages_zh_CN from "../locales/zh_CN/messages.json";
+import messages_en from '../locales/en/messages.json';
+import messages_zh_CN from '../locales/zh_CN/messages.json';
 
 const messages_locale = {
   en: messages_en,
@@ -8,5 +8,5 @@ const messages_locale = {
 
 export default function getMessageByLocale(key: string, locale: string) {
   // @ts-ignore
-  return messages_locale[locale][key]["message"];
+  return messages_locale[locale][key]['message'];
 }

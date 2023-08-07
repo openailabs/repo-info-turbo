@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { SignOutButton } from "@clerk/nextjs";
+import { useRouter } from 'next/navigation';
+import { SignOutButton } from '@clerk/nextjs';
 
-import { Button } from "@acme/ui/button";
+import { Button } from '@acme/ui/button';
 
-export const runtime = "edge";
+export const runtime = 'edge';
 
 export default function AuthenticationPage() {
   const router = useRouter();
@@ -17,7 +17,7 @@ export default function AuthenticationPage() {
         <p className="text-sm text-muted-foreground">
           Are you sure you want to sign out?
         </p>
-        <SignOutButton signOutCallback={() => router.push("/?redirect=false")}>
+        <SignOutButton signOutCallback={() => router.push('/?redirect=false')}>
           <Button>Confirm</Button>
         </SignOutButton>
       </div>

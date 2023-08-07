@@ -1,13 +1,13 @@
-import { importedFeatures } from "../README.md";
+import { importedFeatures } from '../README.md';
 
 export type RepoInfoOptions = typeof defaults;
 
 export const defaults = Object.assign(
   {
-    locale: "en",
+    locale: 'en',
   },
   Object.fromEntries(
-    importedFeatures.map((name) => [`repoinfo-${name}` as FeatureId, true]),
+    importedFeatures.map(name => [`repoinfo-${name}` as FeatureId, true]),
   ),
 );
 

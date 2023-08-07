@@ -6,7 +6,7 @@ export default function debounce<A = unknown, R = void>(
   let timer: NodeJS.Timeout;
 
   const debouncedFunc = (args: A): Promise<R> =>
-    new Promise((resolve) => {
+    new Promise(resolve => {
       if (timer) {
         clearTimeout(timer);
       }

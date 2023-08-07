@@ -1,8 +1,8 @@
-import { Promisable } from "type-fest";
+import { Promisable } from 'type-fest';
 
 import shouldFeatureRun, {
   ShouldRunConditions,
-} from "../helpers/should-feature-run";
+} from '../helpers/should-feature-run';
 
 export type ProjectTypeProps = {
   owner: string;

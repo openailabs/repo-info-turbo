@@ -1,10 +1,10 @@
 export function isNull(object: any) {
   if (
     object === null ||
-    typeof object === "undefined" ||
-    object === "" ||
-    JSON.stringify(object) === "[]" ||
-    JSON.stringify(object) === "{}"
+    typeof object === 'undefined' ||
+    object === '' ||
+    JSON.stringify(object) === '[]' ||
+    JSON.stringify(object) === '{}'
   ) {
     return true;
   }
@@ -12,5 +12,5 @@ export function isNull(object: any) {
 }
 
 export function isAllNull(obj: Object) {
-  return Object.values(obj).every((value) => value === null);
+  return Object.values(obj).every(value => value === null);
 }

@@ -1,5 +1,5 @@
-import React from "react";
-import { useGetSummary } from "@/hooks/repo";
+import React from 'react';
+import { useGetSummary } from '@/hooks/repo';
 
 type Props = {
   owner: string;

@@ -3,6 +3,6 @@
 
 type FeatureName = string;
 type FeatureId = `repoinfo-${FeatureName}`;
-declare module "*.md" {
+declare module '*.md' {
   export const importedFeatures: FeatureName[];
 }

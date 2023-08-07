@@ -1,20 +1,20 @@
-import { clerkClient } from "@clerk/nextjs";
+import { clerkClient } from '@clerk/nextjs';
 
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure } from '../trpc';
 
 export const authRouter = createTRPCRouter({
-  mySubscription: protectedProcedure.query(async (opts) => {
+  mySubscription: protectedProcedure.query(async opts => {
     const customer = await opts.ctx.db
-      .selectFrom("Customer")
-      .select(["plan", "endsAt"])
-      .where("clerkUserId", "=", opts.ctx.auth.userId)
+      .selectFrom('Customer')
+      .select(['plan', 'endsAt'])
+      .where('clerkUserId', '=', opts.ctx.auth.userId)
       .executeTakeFirst();
 
     if (!customer) return null;
 
     return { plan: customer.plan ?? null, endsAt: customer.endsAt ?? null };
   }),
-  listOrganizations: protectedProcedure.query(async (opts) => {
+  listOrganizations: protectedProcedure.query(async opts => {
     const memberships = await clerkClient.users.getOrganizationMembershipList({
       userId: opts.ctx.auth.userId,
     });

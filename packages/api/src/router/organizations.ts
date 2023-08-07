@@ -1,16 +1,16 @@
-import { clerkClient } from "@clerk/nextjs";
-import { TRPCError } from "@trpc/server";
-import * as z from "zod";
+import { clerkClient } from '@clerk/nextjs';
+import { TRPCError } from '@trpc/server';
+import * as z from 'zod';
 
-import { inviteOrgMemberSchema } from "../../validators";
+import { inviteOrgMemberSchema } from '../../validators';
 import {
   createTRPCRouter,
   protectedAdminProcedure,
   protectedOrgProcedure,
-} from "../trpc";
+} from '../trpc';
 
 export const organizationsRouter = createTRPCRouter({
-  listMembers: protectedOrgProcedure.query(async (opts) => {
+  listMembers: protectedOrgProcedure.query(async opts => {
     const { orgId } = opts.ctx.auth;
 
     const members =
@@ -18,22 +18,22 @@ export const organizationsRouter = createTRPCRouter({
         organizationId: orgId,
       });
 
-    return members.map((member) => ({
+    return members.map(member => ({
       id: member.id,
-      email: member.publicUserData?.identifier ?? "",
+      email: member.publicUserData?.identifier ?? '',
       role: member.role,
       joinedAt: member.createdAt,
       avatarUrl: member.publicUserData?.imageUrl,
       name: [
         member.publicUserData?.firstName,
         member.publicUserData?.lastName,
-      ].join(" "),
+      ].join(' '),
     }));
   }),
 
   deleteMember: protectedAdminProcedure
     .input(z.object({ userId: z.string() }))
-    .mutation(async (opts) => {
+    .mutation(async opts => {
       const { orgId } = opts.ctx.auth;
 
       const member =
@@ -47,7 +47,7 @@ export const organizationsRouter = createTRPCRouter({
 
   inviteMember: protectedAdminProcedure
     .input(inviteOrgMemberSchema)
-    .mutation(async (opts) => {
+    .mutation(async opts => {
       const { orgId } = opts.ctx.auth;
 
       const { email } = opts.input;
@@ -58,15 +58,15 @@ export const organizationsRouter = createTRPCRouter({
 
       if (users.length === 0 || !user) {
         throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "User not found",
+          code: 'NOT_FOUND',
+          message: 'User not found',
         });
       }
 
       if (users.length > 1) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Multiple users found with that email address",
+          code: 'BAD_REQUEST',
+          message: 'Multiple users found with that email address',
         });
       }
 
@@ -78,10 +78,10 @@ export const organizationsRouter = createTRPCRouter({
         });
 
       const { firstName, lastName } = member.publicUserData ?? {};
-      return { name: [firstName, lastName].join(" ") };
+      return { name: [firstName, lastName].join(' ') };
     }),
 
-  deleteOrganization: protectedAdminProcedure.mutation(async (opts) => {
+  deleteOrganization: protectedAdminProcedure.mutation(async opts => {
     const { orgId } = opts.ctx.auth;
 
     await clerkClient.organizations.deleteOrganization(orgId);

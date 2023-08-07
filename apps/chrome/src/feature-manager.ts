@@ -1,24 +1,24 @@
-import domLoaded from "dom-loaded";
-import * as pageDetect from "github-url-detection";
-import stripIndent from "strip-indent";
+import domLoaded from 'dom-loaded';
+import * as pageDetect from 'github-url-detection';
+import stripIndent from 'strip-indent';
 
-import exists from "./helpers/exists";
-import isRestorationVisit from "./helpers/is-restoration-visit";
+import exists from './helpers/exists';
+import isRestorationVisit from './helpers/is-restoration-visit';
 import shouldFeatureRun, {
   ShouldRunConditions,
-} from "./helpers/should-feature-run";
-import sleep from "./helpers/sleep";
-import waitFor from "./helpers/wait-for";
+} from './helpers/should-feature-run';
+import sleep from './helpers/sleep';
+import waitFor from './helpers/wait-for';
 // import optionsStorage from "./options-storage";
-import { FeatureLoader, InternalRunConfig } from "./types";
+import { FeatureLoader, InternalRunConfig } from './types';
 
 const { version } = chrome.runtime.getManifest();
 
 const logError = (id: string, error: unknown): void => {
   const message = error instanceof Error ? error.message : String(error);
 
-  if (message.includes("token")) {
-    console.log("ℹ️", id, "→", message);
+  if (message.includes('token')) {
+    console.log('ℹ️', id, '→', message);
     return;
   }
 
@@ -72,7 +72,7 @@ const setupPageLoad = async (
   const runFeature = async (): Promise<void> => {
     try {
       await init();
-      log.info("✅", id);
+      log.info('✅', id);
     } catch (error) {
       log.error(id, error);
     }
@@ -85,10 +85,10 @@ const setupPageLoad = async (
 // This function extracts "feature-name" in url and prefixes it with "repoinfo-".
 const getFeatureID = (url: string): FeatureId => {
   // console.log(`URL: ${url}`)
-  const prefix = "repoinfo-";
-  const pathComponents = url.split("/");
-  let name = pathComponents.pop()!.split(".")[0];
-  if (name === "index") {
+  const prefix = 'repoinfo-';
+  const pathComponents = url.split('/');
+  let name = pathComponents.pop()!.split('.')[0];
+  if (name === 'index') {
     name = pathComponents.pop()!;
   }
   console.log(`${prefix}${name}`);
@@ -155,11 +155,11 @@ const add = async (
      * They should be loaded as needed, however, `add()` only runs once for each feature. So
      * how to load features after a turbo:visit? The answer is to make use of turbo events.
      */
-    document.addEventListener("turbo:visit", async () => {
-      console.log("0. turbo:visit");
+    document.addEventListener('turbo:visit', async () => {
+      console.log('0. turbo:visit');
     });
-    document.addEventListener("turbo:render", async () => {
-      log.info("0. turbo:render");
+    document.addEventListener('turbo:render', async () => {
+      log.info('0. turbo:render');
       // console.log("0. turbo:render");
       if (isRestorationVisit()) {
         /** After experiments I believe turbo:render is fired after the render starts but not

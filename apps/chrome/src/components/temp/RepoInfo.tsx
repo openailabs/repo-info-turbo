@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import RepoInfo0 from "./RepoInfo0";
+import RepoInfo0 from './RepoInfo0';
 
 const RepoInfo = ({ data }: { data: any }) => {
   return (

@@ -1,8 +1,8 @@
-import React from "react";
-import { useGetRepoDetail } from "@/hooks/repo";
+import React from 'react';
+import { useGetRepoDetail } from '@/hooks/repo';
 
-import Note from "./Note";
-import Summary from "./Summary";
+import Note from './Note';
+import Summary from './Summary';
 
 type Props = {
   owner: string;
@@ -17,13 +17,13 @@ const RepoDetail = ({ owner, repoName }: Props) => {
   //const showSummary = !loading && showDetail && !hasSummaryInDb;
   const showSummary = !loading && showDetail;
   const ButtonText = () => {
-    let text = "Show Details";
+    let text = 'Show Details';
     if (!showDetail) {
-      text = "Show Details";
+      text = 'Show Details';
     } else if (loading) {
-      text = "Loading...";
+      text = 'Loading...';
     } else {
-      text = "Hide Details";
+      text = 'Hide Details';
     }
     return <span>{text}</span>;
   };

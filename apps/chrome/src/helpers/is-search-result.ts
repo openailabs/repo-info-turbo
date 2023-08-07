@@ -1,13 +1,13 @@
 // import * as pageDetect from 'github-url-detection';
-import elementReady from "element-ready";
-import $ from "jquery";
+import elementReady from 'element-ready';
+import $ from 'jquery';
 
 const isSearchResult = async () => {
   // another selector that also works
   // const repoLabel = $('strong[itemprop="name"]').siblings('span.Label.Label--secondary').text();
   await elementReady('div[data-testid="results-list"]');
   const resultLength = $('div[data-testid="results-list"] > div').length;
-  console.log("Result length: ", resultLength);
+  console.log('Result length: ', resultLength);
   return (
     // pageDetect.isRepo() &&
     // (repoLabel === 'Public' || repoLabel === 'Public template')

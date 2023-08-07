@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import { ProjectTypeProps } from "@/types";
-import { useQuery } from "@tanstack/react-query";
+import React, { useState } from 'react';
+import { ProjectTypeProps } from '@/types';
+import { useQuery } from '@tanstack/react-query';
 
-import RepoInfo from "./RepoInfo";
-import ToggleDetail from "./ToggleDetail";
+import RepoInfo from './RepoInfo';
+import ToggleDetail from './ToggleDetail';
 
 //body > div.logged-in.env-production.page-responsive > div.application-main > main > react-app > div > div > div > div > div > main > div > div > div > div > div > div > div > div > div > div.search-title > div > a > span
 //repo name: div.search-title > div > a > span
 
 const fetchContent = async (owner: string, repo: string) => {
-  console.log("Owner: %s/%s", owner, repo);
+  console.log('Owner: %s/%s', owner, repo);
   // const content = await fetch('https://jsonplaceholder.typicode.com/posts', {
   // const content = await fetch('https://chatwp.vercel.app/api/github/getProjectDetail', {
   const content = await fetch(
-    "http://localhost:4012/api/github/getProjectDetail",
+    'http://localhost:4012/api/github/getProjectDetail',
     {
-      method: "POST",
+      method: 'POST',
       // headers:{
       //     "Content-Type":"application/json",
       //     "Accept":"application/json"

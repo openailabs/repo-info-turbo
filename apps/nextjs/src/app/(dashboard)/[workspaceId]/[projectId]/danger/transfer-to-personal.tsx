@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useParams, useRouter } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
+import { useParams, useRouter } from 'next/navigation';
+import { useAuth } from '@clerk/nextjs';
 
-import { Button } from "@acme/ui/button";
+import { Button } from '@acme/ui/button';
 import {
   Card,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@acme/ui/card";
+} from '@acme/ui/card';
 import {
   Dialog,
   DialogClose,
@@ -20,10 +20,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@acme/ui/dialog";
-import { useToast } from "@acme/ui/use-toast";
+} from '@acme/ui/dialog';
+import { useToast } from '@acme/ui/use-toast';
 
-import { api } from "~/trpc/client";
+import { api } from '~/trpc/client';
 
 export function TransferProjectToPersonal() {
   const { projectId } = useParams();
@@ -31,8 +31,8 @@ export function TransferProjectToPersonal() {
   const toaster = useToast();
   const router = useRouter();
 
-  const title = "Transfer to Personal";
-  const description = "Transfer this project to your personal workspace";
+  const title = 'Transfer to Personal';
+  const description = 'Transfer this project to your personal workspace';
 
   return (
     <Card>
@@ -61,17 +61,17 @@ export function TransferProjectToPersonal() {
                 variant="destructive"
                 onClick={async () => {
                   try {
-                    if (!projectId) throw new Error("No project ID");
+                    if (!projectId) throw new Error('No project ID');
 
                     await api.project.transferToPersonal.mutate({
                       id: projectId,
                     });
-                    toaster.toast({ title: "Project transferred" });
+                    toaster.toast({ title: 'Project transferred' });
                     router.push(`/${userId}/${projectId}`);
                   } catch {
                     toaster.toast({
-                      title: "Project could not be transferred",
-                      variant: "destructive",
+                      title: 'Project could not be transferred',
+                      variant: 'destructive',
                     });
                   }
                 }}

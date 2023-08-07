@@ -1,20 +1,20 @@
-import { log } from "console";
-import React, { useEffect } from "react";
-import features from "@/feature-manager";
-import getRepo from "@/helpers/get-repo";
-import isSearchResult from "@/helpers/is-search-result";
-import styles from "@/styles/index.css?inline";
-import { Repo } from "@/types";
-import elementReady from "element-ready";
-import ReactDOM, { createPortal } from "react-dom";
-import { createRoot } from "react-dom/client";
+import { log } from 'console';
+import React, { useEffect } from 'react';
+import features from '@/feature-manager';
+import getRepo from '@/helpers/get-repo';
+import isSearchResult from '@/helpers/is-search-result';
+import styles from '@/styles/index.css?inline';
+import { Repo } from '@/types';
+import elementReady from 'element-ready';
+import ReactDOM, { createPortal } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
-import App from "./App";
+import App from './App';
 
 const featureId = features.getFeatureID(import.meta.url);
 
-const isProduction: boolean = process.env.NODE_ENV === "production";
-const ROOT_ID = "RENAME_ME_IF_YOU_WANT";
+const isProduction: boolean = process.env.NODE_ENV === 'production';
+const ROOT_ID = 'RENAME_ME_IF_YOU_WANT';
 
 // const applyFeature = async () => {
 //   try {
@@ -77,13 +77,13 @@ const PortalComponent = ({
 };
 
 async function applyFeature() {
-  console.log("2. applyFeature.");
+  console.log('2. applyFeature.');
 
   // const payload = { args: { owner: "LTopx", repo: "L-GPT" } };
   // const projectDetails: any = await getProjectDetails(payload);
   // const summary: any = await getSummary(payload);
 
-  if (document.querySelector(".FSSSSSS_XXXX")) {
+  if (document.querySelector('.FSSSSSS_XXXX')) {
     return;
   }
 
@@ -94,12 +94,12 @@ async function applyFeature() {
   if (searchResults) {
     searchResults.forEach((result: any) => {
       let lastChild = result.lastElementChild;
-      lastChild.style.borderBottomLeftRadius = "0px";
-      lastChild.style.borderBottomRightRadius = "0px";
-      const newDiv = document.createElement("div");
-      newDiv.className = "FSSSSSS_XXXX";
-      newDiv.style.borderBottomLeftRadius = "6px";
-      newDiv.style.borderBottomRightRadius = "6px";
+      lastChild.style.borderBottomLeftRadius = '0px';
+      lastChild.style.borderBottomRightRadius = '0px';
+      const newDiv = document.createElement('div');
+      newDiv.className = 'FSSSSSS_XXXX';
+      newDiv.style.borderBottomLeftRadius = '6px';
+      newDiv.style.borderBottomRightRadius = '6px';
       result.appendChild(newDiv);
       const repo: Repo = getRepo(result);
       // console.log("Owner: %s, Repo: %s", repo.owner, repo.name);
@@ -126,7 +126,7 @@ function observeDOMChanges() {
 
   const callback = async (mutationsList: any) => {
     for (const mutation of mutationsList) {
-      if (mutation.type === "childList") {
+      if (mutation.type === 'childList') {
         // applyFeature();
         await applyFeature();
         // setTimeout(async () => {
@@ -146,7 +146,7 @@ function observeDOMChanges() {
 const init = async (): Promise<void> => {
   let isSearchResultPage: boolean = await isSearchResult();
   if (!isSearchResultPage) {
-    console.log("Not in search result page.");
+    console.log('Not in search result page.');
     return;
   }
 
@@ -159,13 +159,13 @@ features.add(featureId, {
   awaitDomReady: true,
   init,
   restore: () => {
-    console.log("Restored.");
+    console.log('Restored.');
   },
 });
 
-chrome.runtime.onMessage.addListener((message) => {
-  if (message.action === "urlChanged") {
-    console.log("1. URL changed.");
+chrome.runtime.onMessage.addListener(message => {
+  if (message.action === 'urlChanged') {
+    console.log('1. URL changed.');
     init();
   }
 });

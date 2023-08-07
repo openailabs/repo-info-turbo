@@ -4,11 +4,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@acme/ui/card";
+} from '@acme/ui/card';
 
-import { api } from "~/trpc/server";
-import { DashboardShell } from "../../_components/dashboard-shell";
-import { SubscriptionForm } from "./subscription-form";
+import { api } from '~/trpc/server';
+import { DashboardShell } from '../../_components/dashboard-shell';
+import { SubscriptionForm } from './subscription-form';
 
 export default function BillingPage() {
   return (
@@ -26,7 +26,7 @@ export default function BillingPage() {
 
 async function SubscriptionCard() {
   // const subscription = await api.auth.mySubscription.query();
-  const subscription = { plan: "PRO", endsAt: new Date() };
+  const subscription = { plan: 'PRO', endsAt: new Date() };
 
   return (
     <Card>

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useParams } from "next/navigation";
-import { useOrganizationList } from "@clerk/nextjs";
+import * as React from 'react';
+import { useParams } from 'next/navigation';
+import { useOrganizationList } from '@clerk/nextjs';
 
 /**
  * I couldn't find a way to do this on the server :thinking: Clerk is adding support for this soon.
@@ -17,7 +17,7 @@ export function SyncActiveOrgFromUrl() {
   React.useEffect(() => {
     if (!isLoaded) return;
 
-    if (!workspaceId?.startsWith("org_")) {
+    if (!workspaceId?.startsWith('org_')) {
       void setActive({ organization: null });
       return;
     }

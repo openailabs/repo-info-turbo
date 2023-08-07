@@ -1,22 +1,22 @@
-import { currentUser } from "@clerk/nextjs";
-import * as z from "zod";
+import { currentUser } from '@clerk/nextjs';
+import * as z from 'zod';
 
-import { purchaseOrgSchema } from "../../../validators";
-import { env } from "../../env.mjs";
+import { purchaseOrgSchema } from '../../../validators';
+import { env } from '../../env.mjs';
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
-} from "../../trpc";
-import { stripe } from "./shared";
-import { webhookRouter } from "./webhooks";
+} from '../../trpc';
+import { stripe } from './shared';
+import { webhookRouter } from './webhooks';
 
 export const stripeRouter = createTRPCRouter({
   webhooks: webhookRouter,
 
   createSession: protectedProcedure
     .input(z.object({ planId: z.string() }))
-    .mutation(async (opts) => {
+    .mutation(async opts => {
       const { userId } = opts.ctx.auth;
 
       // const customer = await opts.ctx.db
@@ -95,28 +95,28 @@ export const stripeRouter = createTRPCRouter({
     // ];
     return [
       {
-        id: "price_1N9x2LILJ2OYOT29RknTPQ7z",
-        name: "Standard",
-        description: "For individuals",
+        id: 'price_1N9x2LILJ2OYOT29RknTPQ7z',
+        name: 'Standard',
+        description: 'For individuals',
         amount: 499,
-        currency: "usd",
-        features: ["Invite up to 1 team member", "Lorem ipsum dolor sit amet"],
+        currency: 'usd',
+        features: ['Invite up to 1 team member', 'Lorem ipsum dolor sit amet'],
       },
       {
-        id: "price_1N9y3sILJ2OYOT29t7Cvi5Zt",
-        name: "Pro",
-        description: "For teams",
+        id: 'price_1N9y3sILJ2OYOT29t7Cvi5Zt',
+        name: 'Pro',
+        description: 'For teams',
         amount: 1999,
-        currency: "usd",
-        preFeatures: "Everything in standard, plus",
-        features: ["Invite up to 5 team members", "Unlimited projects"],
+        currency: 'usd',
+        preFeatures: 'Everything in standard, plus',
+        features: ['Invite up to 5 team members', 'Unlimited projects'],
       },
     ];
   }),
 
   purchaseOrg: protectedProcedure
     .input(purchaseOrgSchema)
-    .mutation(async (opts) => {
+    .mutation(async opts => {
       // const { userId } = opts.ctx.auth;
       // const { orgName, planId } = opts.input;
 

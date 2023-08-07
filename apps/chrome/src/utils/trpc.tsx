@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { httpBatchLink } from "@trpc/client";
-import { createTRPCReact } from "@trpc/react-query";
-import superjson from "superjson";
+import React from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { httpBatchLink } from '@trpc/client';
+import { createTRPCReact } from '@trpc/react-query';
+import superjson from 'superjson';
 
-import type { ChromeAppRouter } from "@acme/api";
+import type { ChromeAppRouter } from '@acme/api';
 
 export const trpc = createTRPCReact<ChromeAppRouter>();
 
@@ -38,7 +38,7 @@ export const TRPCProvider: React.FC<{
           // You can pass any HTTP headers you wish here
           async headers() {
             return {
-              "X-Api-Key": "sk_live_xkbiparcywf75m95",
+              'X-Api-Key': 'sk_live_xkbiparcywf75m95',
             };
           },
         }),

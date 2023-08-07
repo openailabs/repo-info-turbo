@@ -1,5 +1,5 @@
-import * as Lucide from "lucide-react";
-import type { Icon as LucideIcon } from "lucide-react";
+import * as Lucide from 'lucide-react';
+import type { Icon as LucideIcon } from 'lucide-react';
 
 export type Icon = LucideIcon;
 
@@ -29,7 +29,7 @@ export const Sun = Lucide.SunMedium;
 export const Moon = Lucide.Moon;
 export const Key = Lucide.Key;
 
-export const System: Icon = (props) => (
+export const System: Icon = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <path
       d="m11.998 2c5.517 0 9.997 4.48 9.997 9.998 0 5.517-4.48 9.997-9.997 9.997-5.518 0-9.998-4.48-9.998-9.997 0-5.518 4.48-9.998 9.998-9.998zm0 1.5c-4.69 0-8.498 3.808-8.498 8.498s3.808 8.497 8.498 8.497z"
@@ -39,7 +39,7 @@ export const System: Icon = (props) => (
   </svg>
 );
 
-export const Mdx: Icon = (props) => (
+export const Mdx: Icon = props => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="57.97"
@@ -58,7 +58,7 @@ export const Mdx: Icon = (props) => (
   </svg>
 );
 
-export const ClerkWide: Icon = (props) => (
+export const ClerkWide: Icon = props => (
   <svg
     width="77"
     height="24"
@@ -102,7 +102,7 @@ export const ClerkWide: Icon = (props) => (
   </svg>
 );
 
-export const TRPC: Icon = (props) => (
+export const TRPC: Icon = props => (
   <svg
     width="512"
     height="512"
@@ -121,7 +121,7 @@ export const TRPC: Icon = (props) => (
   </svg>
 );
 
-export const GitHub: Icon = (props) => (
+export const GitHub: Icon = props => (
   <svg viewBox="0 0 438.549 438.549" {...props}>
     <path
       fill="currentColor"
@@ -130,7 +130,7 @@ export const GitHub: Icon = (props) => (
   </svg>
 );
 
-export const React: Icon = (props) => (
+export const React: Icon = props => (
   <svg viewBox="0 0 24 24" {...props}>
     <path
       fill="currentColor"
@@ -139,7 +139,7 @@ export const React: Icon = (props) => (
   </svg>
 );
 
-export const Nextjs: Icon = (props) => (
+export const Nextjs: Icon = props => (
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path
       fill="currentColor"
@@ -148,7 +148,7 @@ export const Nextjs: Icon = (props) => (
   </svg>
 );
 
-export const Prisma: Icon = (props) => (
+export const Prisma: Icon = props => (
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path
       fill="currentColor"
@@ -157,7 +157,7 @@ export const Prisma: Icon = (props) => (
   </svg>
 );
 
-export const Kysely: Icon = (props) => (
+export const Kysely: Icon = props => (
   <svg
     width="132"
     height="132"
@@ -190,13 +190,13 @@ export const Kysely: Icon = (props) => (
   </svg>
 );
 
-export const Tailwind: Icon = (props) => (
+export const Tailwind: Icon = props => (
   <svg viewBox="0 0 24 24" {...props}>
     <path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z" />
   </svg>
 );
 
-export const Google: Icon = (props) => (
+export const Google: Icon = props => (
   <svg role="img" viewBox="0 0 24 24" {...props}>
     <path
       fill="currentColor"

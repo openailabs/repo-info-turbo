@@ -1,10 +1,10 @@
 // import { Octokit } from "@octokit/rest";
-import NodeCache from "node-cache";
-import fetch from "node-fetch";
+import NodeCache from 'node-cache';
+import fetch from 'node-fetch';
 
 // Define configuration parameters
 const includedFileMatchPattern: any =
-  process.env.INCLUDED_FILE_MATCH_PATTERN || ".env.*";
+  process.env.INCLUDED_FILE_MATCH_PATTERN || '.env.*';
 const dmfTtl: any = process.env.DMF_TTL || 24 * 60 * 60; // cache for 24 Hours
 const fileDownloadLimitSize: any =
   new Number(process.env.FILE_DOWNLOAD_LIMIT_SIZE) || 40000;
@@ -13,7 +13,7 @@ const dmfCache = new NodeCache({ stdTTL: dmfTtl });
 const dmfUrl: string =
   process.env.DMF_URL ||
   // 'https://raw.githubusercontents.com/dmfos/dmf/main/dmfs.json';
-  "https://raw.gitmirror.com/dmfos/dmf/main/dmfs.json";
+  'https://raw.gitmirror.com/dmfos/dmf/main/dmfs.json';
 // Define interface for Framework
 interface Framework {
   name: string;
@@ -55,7 +55,7 @@ export const fetchDMFs = async (): Promise<DMF[]> => {
 };
 // Function to fetch DMFs with caching
 export const fetchDMFsCached = async (): Promise<DMF[]> => {
-  const cacheKey = "dmfs";
+  const cacheKey = 'dmfs';
   let dmfs = dmfCache.get<DMF[]>(cacheKey);
   if (!dmfs) {
     dmfs = await fetchDMFs();
@@ -107,7 +107,7 @@ export const fetchTLF = async ({
       },
     );
     if (!response.ok) {
-      throw new Error("GitHub API response not ok");
+      throw new Error('GitHub API response not ok');
     }
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return await response.json();
@@ -144,9 +144,9 @@ function matchFiles(filename: string): boolean {
 }
 // Function to remove comment lines from content
 function removeCommentLines(content: string): string {
-  const lines = content.split("\n");
-  const noCommentLines = lines.filter((line) => !line.startsWith("#"));
-  const newContent = noCommentLines.join("\n");
+  const lines = content.split('\n');
+  const noCommentLines = lines.filter(line => !line.startsWith('#'));
+  const newContent = noCommentLines.join('\n');
   return newContent;
 }
 
@@ -166,7 +166,7 @@ export const getRepoInfoFromGithub = async ({
   const dmfs = await fetchDMFsCached();
 
   //   const tlfData = await fetchTLF(octokit, owner, name);
-  const token = process.env.GITHUB_TOKEN || "";
+  const token = process.env.GITHUB_TOKEN || '';
   const tlfData = await fetchTLF({ owner, name, token });
 
   const tlf: string[] = [];
@@ -175,23 +175,23 @@ export const getRepoInfoFromGithub = async ({
   const contentPromises: Promise<ContentItem>[] = [];
   tlfData.forEach((file: TLF) => {
     // Check file type and categorize accordingly
-    if (file.type === "file") {
+    if (file.type === 'file') {
       files.push(file.name);
     }
-    if (file.type === "dir") {
+    if (file.type === 'dir') {
       folders.push(file.name);
     }
     // Check if file is DMF or matches file pattern and fetch the content
     if (
-      (file.type === "file" &&
+      (file.type === 'file' &&
         file.size < fileDownloadLimitSize &&
         isDMF(file, dmfs)) ||
       matchFiles(file.name)
     ) {
       let url = file.download_url;
-      url = url.replace("githubusercontent.com", "gitmirror.com");
+      url = url.replace('githubusercontent.com', 'gitmirror.com');
       contentPromises.push(
-        fetchFileContent(url).then((content) => ({
+        fetchFileContent(url).then(content => ({
           name: file.name,
           content,
         })),
