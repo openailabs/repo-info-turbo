@@ -4,5 +4,5 @@
 type FeatureName = string;
 type FeatureId = `repoinfo-${FeatureName}`;
 declare module '*.md' {
-  export const importedFeatures: FeatureName[];
+    export const importedFeatures: FeatureName[];
 }

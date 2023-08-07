@@ -1,134 +1,133 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
-
 import { getRepoDetailSchema } from '../../validators';
 import { getSummary } from '../hooks/useGpt';
 import { getRepoInfoFromGithub } from '../lib/githubApi';
 // import { getRepoInfo } from "../lib/githubApi";
 import {
-  createTRPCRouter,
-  protectedApiProcedure,
-  publicProcedure,
+    createTRPCRouter,
+    protectedApiProcedure,
+    publicProcedure,
 } from '../trpc';
 
 export const resultSchema = z.object({
-  owner: z.string(),
-  name: z.string(),
-  summary: z.unknown(),
-  detail: z.unknown(),
+    owner: z.string(),
+    name: z.string(),
+    summary: z.unknown(),
+    detail: z.unknown(),
 });
 
 export const resultUpdateSchema = z.object({
-  id: z.number(),
-  owner: z.string(),
-  name: z.string(),
-  summary: z.unknown(),
-  detail: z.unknown(),
+    id: z.number(),
+    owner: z.string(),
+    name: z.string(),
+    summary: z.unknown(),
+    detail: z.unknown(),
 });
 
 export const resultIdSchema = z.object({ id: z.number() });
 export const repoSchema = z.object({ owner: z.string(), name: z.string() });
 
 export const repoDetailRouter = createTRPCRouter({
-  //POST
-  saveRepo: publicProcedure.input(resultSchema).mutation(async opts => {
-    const { owner, name, summary } = opts.input;
+    //POST
+    saveRepo: publicProcedure.input(resultSchema).mutation(async (opts) => {
+        const { owner, name, summary } = opts.input;
 
-    // Check if a result with the same owner and name already exists
-    const existingResult = await opts.ctx.db
-      .selectFrom('Result')
-      .select('id')
-      .where('owner', '=', owner)
-      .where('name', '=', name)
-      .executeTakeFirst();
+        // Check if a result with the same owner and name already exists
+        const existingResult = await opts.ctx.db
+            .selectFrom('Result')
+            .select('id')
+            .where('owner', '=', owner)
+            .where('name', '=', name)
+            .executeTakeFirst();
 
-    if (existingResult) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: 'A result with the same id already exists',
-      });
-    }
-    // Save repoInfo to DB
-    const repoInfo = await getRepoInfoFromGithub({ owner, name });
-    const resultId = await opts.ctx.db
-      .insertInto('Result')
-      .values({
-        owner,
-        name,
-        summary: JSON.stringify(summary),
-        detail: JSON.stringify(repoInfo),
-      })
-      .executeTakeFirstOrThrow();
-    return resultId.insertId;
-  }),
-  //  GET
-  getRepo: protectedApiProcedure.input(repoSchema).query(async opts => {
-    const { owner, name } = opts.input;
+        if (existingResult) {
+            throw new TRPCError({
+                code: 'BAD_REQUEST',
+                message: 'A result with the same id already exists',
+            });
+        }
+        // Save repoInfo to DB
+        const repoInfo = await getRepoInfoFromGithub({ owner, name });
+        const resultId = await opts.ctx.db
+            .insertInto('Result')
+            .values({
+                owner,
+                name,
+                summary: JSON.stringify(summary),
+                detail: JSON.stringify(repoInfo),
+            })
+            .executeTakeFirstOrThrow();
+        return resultId.insertId;
+    }),
+    //  GET
+    getRepo: protectedApiProcedure.input(repoSchema).query(async (opts) => {
+        const { owner, name } = opts.input;
 
-    // const payload = await opts.ctx.db
-    //   .selectFrom("Result")
-    //   // .selectAll()
-    //   .select(["summary", "detail"])
+        // const payload = await opts.ctx.db
+        //   .selectFrom("Result")
+        //   // .selectAll()
+        //   .select(["summary", "detail"])
 
-    //   .where("owner", "=", owner)
-    //   .where("name", "=", name)
-    //   .execute();
+        //   .where("owner", "=", owner)
+        //   .where("name", "=", name)
+        //   .execute();
 
-    // const repo = await query.execute();
-    console.log('Request with repo info: %s', owner, name);
-    // Check if a result with the same owner and name already exists
-    const existingResult = await opts.ctx.db
-      .selectFrom('Result')
-      .selectAll()
-      .where('owner', '=', owner)
-      .where('name', '=', name)
-      .executeTakeFirst();
+        // const repo = await query.execute();
+        console.log('Request with repo info: %s', owner, name);
+        // Check if a result with the same owner and name already exists
+        const existingResult = await opts.ctx.db
+            .selectFrom('Result')
+            .selectAll()
+            .where('owner', '=', owner)
+            .where('name', '=', name)
+            .executeTakeFirst();
 
-    if (existingResult) {
-      console.log('Found existing result');
+        if (existingResult) {
+            console.log('Found existing result');
 
-      return existingResult;
-      // throw new TRPCError({
-      //   code: "BAD_REQUEST",
-      //   message: "A result with the same id already exists",
-      // });
-    }
-    // Save repoInfo to DB
-    const repoInfo = await getRepoInfoFromGithub({ owner, name });
-    await opts.ctx.db
-      .insertInto('Result')
-      .values({
-        owner,
-        name,
-        //summary: JSON.stringify(summary),
-        detail: JSON.stringify(repoInfo),
-      })
-      .executeTakeFirstOrThrow();
-    return { payload: repoInfo, repo: { owner, name } };
-  }),
+            return existingResult;
+            // throw new TRPCError({
+            //   code: "BAD_REQUEST",
+            //   message: "A result with the same id already exists",
+            // });
+        }
+        // Save repoInfo to DB
+        const repoInfo = await getRepoInfoFromGithub({ owner, name });
+        await opts.ctx.db
+            .insertInto('Result')
+            .values({
+                owner,
+                name,
+                //summary: JSON.stringify(summary),
+                detail: JSON.stringify(repoInfo),
+            })
+            .executeTakeFirstOrThrow();
+        return { payload: repoInfo, repo: { owner, name } };
+    }),
 
-  //  GET summary from GPT if not exists
-  getSummary: protectedApiProcedure.input(repoSchema).query(async opts => {
-    const { owner, name } = opts.input;
+    //  GET summary from GPT if not exists
+    getSummary: protectedApiProcedure.input(repoSchema).query(async (opts) => {
+        const { owner, name } = opts.input;
 
-    console.log('Request with repo info: %s', owner, name);
-    // Check if a result with the same owner and name already exists
-    const existingResult = await opts.ctx.db
-      .selectFrom('Result')
-      .selectAll()
-      .where('owner', '=', owner)
-      .where('name', '=', name)
-      .executeTakeFirst();
+        console.log('Request with repo info: %s', owner, name);
+        // Check if a result with the same owner and name already exists
+        const existingResult = await opts.ctx.db
+            .selectFrom('Result')
+            .selectAll()
+            .where('owner', '=', owner)
+            .where('name', '=', name)
+            .executeTakeFirst();
 
-    if (!existingResult) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: 'Record not exists',
-      });
-    }
+        if (!existingResult) {
+            throw new TRPCError({
+                code: 'BAD_REQUEST',
+                message: 'Record not exists',
+            });
+        }
 
-    // GET
-    const prompt = `你是一个资深开发工程师，我们正一起开发一个 github 分析类 google chrome extension，只需要列出结果，无需解释。如果没有相应的分析结果则写出: "N/A"
+        // GET
+        const prompt = `你是一个资深开发工程师，我们正一起开发一个 github 分析类 google chrome extension，只需要列出结果，无需解释。如果没有相应的分析结果则写出: "N/A"
 名词定义:
 
     TLF: project top level files
@@ -167,136 +166,144 @@ score: ""
 \`\`\`
 `;
 
-    const repoInfo = JSON.stringify(existingResult.detail);
+        const repoInfo = JSON.stringify(existingResult.detail);
 
-    let summary;
-    console.log(existingResult.summary);
-    const existsSummary = JSON.stringify(existingResult.summary);
-    if (!existsSummary || existsSummary === null || existsSummary === 'null') {
-      console.log('Not  existsSummary ');
-      summary = await getSummary({
-        prompt,
-        repoInfo,
-      });
+        let summary;
+        console.log(existingResult.summary);
+        const existsSummary = JSON.stringify(existingResult.summary);
+        if (
+            !existsSummary ||
+            existsSummary === null ||
+            existsSummary === 'null'
+        ) {
+            console.log('Not  existsSummary ');
+            summary = await getSummary({
+                prompt,
+                repoInfo,
+            });
 
-      // try {
-      //   summary = JSON.parse(summary1.toString());
-      // } catch (e) {
-      //   console.log("Not a valid json response from gpt.");
-      // }
-      // console.log(summary);
+            // try {
+            //   summary = JSON.parse(summary1.toString());
+            // } catch (e) {
+            //   console.log("Not a valid json response from gpt.");
+            // }
+            // console.log(summary);
 
-      //TODO:  Update summary to DB
-      await opts.ctx.db
-        .updateTable('Result')
-        .set({
-          summary: JSON.stringify(summary),
-        })
-        .where('id', '=', existingResult.id)
-        .execute();
-    } else {
-      console.log('existsSummary ', existsSummary);
-      summary = existingResult.summary;
-    }
+            //TODO:  Update summary to DB
+            await opts.ctx.db
+                .updateTable('Result')
+                .set({
+                    summary: JSON.stringify(summary),
+                })
+                .where('id', '=', existingResult.id)
+                .execute();
+        } else {
+            console.log('existsSummary ', existsSummary);
+            summary = existingResult.summary;
+        }
 
-    return { payload: summary };
-  }),
-  read2: publicProcedure.input(resultIdSchema).query(async opts => {
-    const result = await opts.ctx.db
-      .selectFrom('Result')
-      .select(['id', 'owner', 'name', 'summary', 'detail'])
-      .where('id', '=', opts.input.id)
-      .executeTakeFirst();
+        return { payload: summary };
+    }),
+    read2: publicProcedure.input(resultIdSchema).query(async (opts) => {
+        const result = await opts.ctx.db
+            .selectFrom('Result')
+            .select(['id', 'owner', 'name', 'summary', 'detail'])
+            .where('id', '=', opts.input.id)
+            .executeTakeFirst();
 
-    if (!result) {
-      throw new TRPCError({
-        code: 'NOT_FOUND',
-        message: 'Result not found',
-      });
-    }
+        if (!result) {
+            throw new TRPCError({
+                code: 'NOT_FOUND',
+                message: 'Result not found',
+            });
+        }
 
-    return result;
-  }),
+        return result;
+    }),
 
-  update: publicProcedure.input(resultUpdateSchema).mutation(async opts => {
-    const { id, owner, name, summary, detail } = opts.input;
+    update: publicProcedure.input(resultUpdateSchema).mutation(async (opts) => {
+        const { id, owner, name, summary, detail } = opts.input;
 
-    await opts.ctx.db
-      .updateTable('Result')
-      .set({
-        owner,
-        name,
-        summary,
-        detail,
-      })
-      .where('id', '=', id)
-      .execute();
-  }),
+        await opts.ctx.db
+            .updateTable('Result')
+            .set({
+                owner,
+                name,
+                summary,
+                detail,
+            })
+            .where('id', '=', id)
+            .execute();
+    }),
 
-  delete: publicProcedure.input(resultIdSchema).mutation(async opts => {
-    await opts.ctx.db
-      .deleteFrom('Result')
-      .where('id', '=', opts.input.id)
-      .execute();
-  }),
+    delete: publicProcedure.input(resultIdSchema).mutation(async (opts) => {
+        await opts.ctx.db
+            .deleteFrom('Result')
+            .where('id', '=', opts.input.id)
+            .execute();
+    }),
 
-  list: publicProcedure.query(async opts => {
-    const results = await opts.ctx.db
-      .selectFrom('Result')
-      .select(['id', 'owner', 'name', 'summary', 'detail'])
-      .execute();
+    list: publicProcedure.query(async (opts) => {
+        const results = await opts.ctx.db
+            .selectFrom('Result')
+            .select(['id', 'owner', 'name', 'summary', 'detail'])
+            .execute();
 
-    return results;
-  }),
+        return results;
+    }),
 
-  get: publicProcedure.input(getRepoDetailSchema).query(async opts => {
-    const { owner, repoName } = opts.input;
+    get: publicProcedure.input(getRepoDetailSchema).query(async (opts) => {
+        const { owner, repoName } = opts.input;
 
-    const payload = await opts.ctx.db
-      .selectFrom('RepoDetail')
-      .selectAll()
-      .where('owner', '=', owner)
-      .where('repoName', '=', repoName)
-      .execute();
+        const payload = await opts.ctx.db
+            .selectFrom('RepoDetail')
+            .selectAll()
+            .where('owner', '=', owner)
+            .where('repoName', '=', repoName)
+            .execute();
 
-    // const repo = await query.execute();
-    console.log('Request with repo info: %s', owner, repoName);
+        // const repo = await query.execute();
+        console.log('Request with repo info: %s', owner, repoName);
 
-    return { payload, repo: { owner, repoName } };
-  }),
+        return { payload, repo: { owner, repoName } };
+    }),
 
-  create2: publicProcedure.input(getRepoDetailSchema).mutation(async opts => {
-    const { owner, repoName } = opts.input;
-    console.log('Request with repo info: %s', owner, repoName);
-    const repo = await opts.ctx.db.transaction().execute(async trx => {
-      const file = await trx
-        .insertInto('File')
-        .values({
-          name: 'package.json',
-        })
+    create2: publicProcedure
+        .input(getRepoDetailSchema)
+        .mutation(async (opts) => {
+            const { owner, repoName } = opts.input;
+            console.log('Request with repo info: %s', owner, repoName);
+            const repo = await opts.ctx.db
+                .transaction()
+                .execute(async (trx) => {
+                    const file = await trx
+                        .insertInto('File')
+                        .values({
+                            name: 'package.json',
+                        })
 
-        // .returning("id") // only support postgresql like database so
-        .executeTakeFirstOrThrow();
+                        // .returning("id") // only support postgresql like database so
+                        .executeTakeFirstOrThrow();
 
-      const folder = await trx
-        .insertInto('Folder')
-        .values({
-          name: 'test folder',
-        })
+                    const folder = await trx
+                        .insertInto('Folder')
+                        .values({
+                            name: 'test folder',
+                        })
 
-        // .returning("id") // only support postgresql like database so
-        .executeTakeFirstOrThrow();
+                        // .returning("id") // only support postgresql like database so
+                        .executeTakeFirstOrThrow();
 
-      // const tlf = await trx
-      //   .insertInto("RepoTopLevelFile")
-      //   .values({
-      //     folders:[],
-      //   })
-      //   .returning("id")
-      //   .executeTakeFirstOrThrow();
-      console.log('Create folder, file: ', file.insertId, folder);
-    });
-    // console.log("Returnning:  ", repo);
-    return { message: 'success' };
-  }),
+                    // const tlf = await trx
+                    //   .insertInto("RepoTopLevelFile")
+                    //   .values({
+                    //     folders:[],
+                    //   })
+                    //   .returning("id")
+                    //   .executeTakeFirstOrThrow();
+                    console.log('Create folder, file: ', file.insertId, folder);
+                });
+            // console.log("Returnning:  ", repo);
+            return { message: 'success' };
+        }),
 });

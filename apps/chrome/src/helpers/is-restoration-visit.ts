@@ -7,10 +7,10 @@ let visitType: 'advance' | 'restore';
 
 // the variable will be modified after each turbo:visit
 document.addEventListener('turbo:visit', ((event: CustomEvent) => {
-  visitType = event.detail.action;
+    visitType = event.detail.action;
 }) as EventListener);
 
 // so this function can return the right visitType whenever called
 export default function isRestorationVisit() {
-  return visitType === 'restore' ? true : false;
+    return visitType === 'restore' ? true : false;
 }
