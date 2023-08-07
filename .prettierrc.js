@@ -8,7 +8,7 @@ const config = {
     printWidth: 80,
     singleQuote: true,
     jsxSingleQuote: false,
-    semi: false,
+    semi: true,
     trailingComma: 'none',
     tabWidth: 4,
     plugins: [
