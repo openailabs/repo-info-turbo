@@ -1,5 +1,5 @@
-import { resolve } from 'path'
+import { resolve } from "path";
 
-export const port = parseInt(process.env.PORT || '') || 3303
-export const r = (...args: string[]) => resolve(__dirname, '..', ...args)
-export const isDev = process.env.NODE_ENV !== 'production'
+export const port = parseInt(process.env.PORT || "") || 3303;
+export const r = (...args: string[]) => resolve(__dirname, "..", ...args);
+export const isDev = process.env.NODE_ENV !== "production";

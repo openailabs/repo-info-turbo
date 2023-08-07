@@ -1,7 +1,7 @@
 // https://dev.to/bwca/create-a-debounce-function-from-scratch-in-typescript-560m
 export default function debounce<A = unknown, R = void>(
   fn: (args: A) => R,
-  ms: number
+  ms: number,
 ): [(args: A) => Promise<R>, () => void] {
   let timer: NodeJS.Timeout;
 

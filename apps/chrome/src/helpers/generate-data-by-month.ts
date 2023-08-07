@@ -10,7 +10,7 @@ const generateDataByMonth = (originalData: any) => {
   // A normal month is a key like `2020-01`(yyyy-mm). They are the keys we handle later in this function.
   // An unnormal month is a key like `2020`, `2020-Q1`, `all`. They are not used in any feature yet.
   const normalMonths = Object.keys(originalData).filter((key) =>
-    isNormalMonth(key)
+    isNormalMonth(key),
   );
   const orderedMonths = normalMonths.sort((a, b) => {
     const dateA = new Date(a);
@@ -27,14 +27,14 @@ const generateDataByMonth = (originalData: any) => {
   }
   now.setDate(0); // see issue #632
   const newestMonth =
-    now.getFullYear() + '-' + (now.getMonth() + 1).toString().padStart(2, '0');
+    now.getFullYear() + "-" + (now.getMonth() + 1).toString().padStart(2, "0");
   // insert no-event months (assigned to 0) and generate final data
   const arrayData: [string, number][] = [];
   const start = new Date(oldestMonth);
   const end = new Date(newestMonth);
   for (let i = start; i <= end; i.setMonth(i.getMonth() + 1)) {
     const date =
-      i.getFullYear() + '-' + (i.getMonth() + 1).toString().padStart(2, '0');
+      i.getFullYear() + "-" + (i.getMonth() + 1).toString().padStart(2, "0");
     if (!originalData.hasOwnProperty(date)) {
       arrayData.push([date, 0]);
     } else {

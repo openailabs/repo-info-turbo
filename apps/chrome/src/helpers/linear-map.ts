@@ -1,7 +1,7 @@
 export default function linearMap(
   val: number,
   domain: number[],
-  range: number[]
+  range: number[],
 ): number {
   const d0 = domain[0];
   const d1 = domain[1];

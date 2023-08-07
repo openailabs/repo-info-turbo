@@ -81,7 +81,7 @@ You'll find everything you need to get building in `src/scripts/...` so here's a
 
 ## Building, Bundling and Shipping 🚢
 
-**READ THIS NEXT SECTION CAREFULLY BECAUSE THERE ARE SOME TIPS THAT WILL SAVE YOU TIME WHILST DEVELOPING YOUR EXTENSION!
+\*\*READ THIS NEXT SECTION CAREFULLY BECAUSE THERE ARE SOME TIPS THAT WILL SAVE YOU TIME WHILST DEVELOPING YOUR EXTENSION!
 
 To get your extension running on Chrome, you'll need to do a couple (easy) steps. Firstly, run the build command, which uses vite to build and output to the `dist` folder.
 

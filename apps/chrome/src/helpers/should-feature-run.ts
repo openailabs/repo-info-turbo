@@ -5,7 +5,7 @@ export type ShouldRunConditions = {
 };
 
 export default async function shouldFeatureRun(
-  props: ShouldRunConditions
+  props: ShouldRunConditions,
 ): Promise<boolean> {
   const {
     /** Every condition must be true */
@@ -17,13 +17,13 @@ export default async function shouldFeatureRun(
   } = props;
   return (
     (await Promise.all(asLongAs.map((c) => c())).then((flags) =>
-      flags.every((flag) => flag === true)
+      flags.every((flag) => flag === true),
     )) &&
     (await Promise.all(include.map((c) => c())).then((flags) =>
-      flags.some((flag) => flag === true)
+      flags.some((flag) => flag === true),
     )) &&
     (await Promise.all(exclude.map((c) => c())).then((flags) =>
-      flags.every((flag) => flag === false)
+      flags.every((flag) => flag === false),
     ))
   );
 }
