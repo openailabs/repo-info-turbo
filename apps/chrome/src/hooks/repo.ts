@@ -78,13 +78,19 @@ export const useGetRepoDetail = ({ owner, repoName }) => {
         {
             enabled: canRead,
             refetchOnWindowFocus: false,
-            networkMode: 'offlineFirst',
+            refetchOnMount: false,
+            refetchOnReconnect: false,
+
+            networkMode: 'online',
             keepPreviousData: true,
             retry: 3,
-            refetchInterval: LONG_REFETCH_INTERVAL,
+            // refetchInterval: LONG_REFETCH_INTERVAL,
             staleTime: 900000, // 15 mins
             cacheTime: 3600000, // 1hr
-            onSuccess: () => toggleShowDetail(true),
+            onSuccess: () => {
+                setCanRead(false);
+                toggleShowDetail(true);
+            },
         }
     );
 
@@ -121,12 +127,18 @@ export const useGetSummary = ({
         {
             enabled: canRead,
             refetchOnWindowFocus: false,
-            networkMode: 'offlineFirst',
+            refetchOnMount: false,
+            refetchOnReconnect: false,
+
+            networkMode: 'online',
             keepPreviousData: true,
             retry: 3,
+            // refetchInterval: LONG_REFETCH_INTERVAL,
             staleTime: 900000, // 15 mins
             cacheTime: 3600000, // 1hr
-            refetchInterval: LONG_REFETCH_INTERVAL,
+            onSuccess: () => {
+                setCanRead(false);
+            },
         }
     );
     const loaded = status === 'success' && !isFetching;
