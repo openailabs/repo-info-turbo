@@ -10,7 +10,7 @@ export const useSaveOrUpdateNote = async ({ owner, repoName }) => {
         userId: 'user_2TTGbqMLZKHmguECRbXcb8TeuMX',
         note: {
             tags: ['node.js', 'next.js', 'next-auth'],
-            content: '这是个不错的仓库',
+            content: 'This is a good repo',
         },
     });
     return { useSaveOrUpdateNote };

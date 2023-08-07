@@ -1,6 +1,8 @@
 import { trpc } from '@/utils/trpc';
 import { useState } from 'react';
 
+export const LONG_REFETCH_INTERVAL = 1000 * 3; // 3 Seconds
+
 export const useSaveRepo = () => {
     const saveRepoDetail = trpc.repoDetail.saveRepo.useMutation();
 
@@ -76,6 +78,12 @@ export const useGetRepoDetail = ({ owner, repoName }) => {
         {
             enabled: canRead,
             refetchOnWindowFocus: false,
+            networkMode: 'offlineFirst',
+            keepPreviousData: true,
+            retry: 3,
+            refetchInterval: LONG_REFETCH_INTERVAL,
+            staleTime: 900000, // 15 mins
+            cacheTime: 3600000, // 1hr
             onSuccess: () => toggleShowDetail(true),
         }
     );
@@ -113,6 +121,12 @@ export const useGetSummary = ({
         {
             enabled: canRead,
             refetchOnWindowFocus: false,
+            networkMode: 'offlineFirst',
+            keepPreviousData: true,
+            retry: 3,
+            staleTime: 900000, // 15 mins
+            cacheTime: 3600000, // 1hr
+            refetchInterval: LONG_REFETCH_INTERVAL,
         }
     );
     const loaded = status === 'success' && !isFetching;
