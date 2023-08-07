@@ -151,6 +151,12 @@ export const db = new Kysely<DB>({
     dialect: new PlanetScaleDialect({
         url: process.env.DATABASE_URL,
     }),
+    log(event) {
+        if (event.level === 'query') {
+            console.log(event.query.sql);
+            console.log(event.query.parameters);
+        }
+    },
 });
 
 // Use custom alphabet without special chars for less chaotic, copy-able URLs

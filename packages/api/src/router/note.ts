@@ -15,15 +15,26 @@ export const noteRouter = createTRPCRouter({
         .mutation(async (opts) => {
             const { id, owner, name, note, userId } = opts.input;
 
+            // console.log({ id, owner, name, note, userId });
             await opts.ctx.db
-                .updateTable('Note')
-                .set({
+                .replaceInto('Note')
+                .values({
                     owner,
                     name,
                     userId,
                     note,
                 })
-                .where('id', '=', id)
-                .execute();
+                .executeTakeFirst();
+
+            // await opts.ctx.db
+            //     .updateTable('Note')
+            //     .set({
+            //         owner,
+            //         name,
+            //         userId,
+            //         note,
+            //     })
+            //     .where('id', '=', id)
+            //     .execute();
         }),
 });

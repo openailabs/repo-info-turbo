@@ -39,7 +39,7 @@ const RepoDetail = ({ owner, repoName }: Props) => {
             {/* <Summary owner={owner} repoName={repoName} /> */}
             {showDetail && repoDetail && (
                 <>
-                    <Note owner={owner} repoName={repoName} />
+                    {/* <Note owner={owner} repoName={repoName} /> */}
                     <div>
                         {JSON.stringify(repoDetail, null, 2)}
                         {/* {JSON.stringify(repoDetail, null, 2)} */}

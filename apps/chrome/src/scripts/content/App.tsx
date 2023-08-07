@@ -1,3 +1,4 @@
+import Note from '@/components/Note';
 import RepoDetail from '@/components/RepoDetail';
 import { Repo } from '@/types';
 import { TRPCProvider } from '@/utils/trpc';
@@ -7,6 +8,7 @@ const App = ({ owner, name }: Repo) => {
     return (
         <TRPCProvider>
             <div className="h-auto w-full">
+                <Note owner={owner} repoName={name} />
                 <RepoDetail owner={owner} repoName={name} />
             </div>
         </TRPCProvider>
