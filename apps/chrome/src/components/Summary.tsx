@@ -17,7 +17,7 @@ const Summary = ({ owner, repoName }) => {
                     Get Summary
                 </button>
             </div>
-            <div>{loaded && JSON.stringify(summary)}</div>
+            {summary && <div>Summary: {loaded && JSON.stringify(summary)}</div>}
         </div>
     );
 };

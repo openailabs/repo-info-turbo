@@ -8,7 +8,6 @@ const App = ({ owner, name }: Repo) => {
     return (
         <TRPCProvider>
             <div className="h-auto w-full">
-                <Note owner={owner} repoName={name} />
                 <RepoDetail owner={owner} repoName={name} />
             </div>
         </TRPCProvider>

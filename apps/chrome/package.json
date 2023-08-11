@@ -51,11 +51,16 @@
         "@trpc/client": "^10.33.1",
         "@trpc/react-query": "^10.33.1",
         "@trpc/server": "^10.33.1",
+        "@types/react-tag-input": "^6.6.1",
         "delay": "^6.0.0",
         "dom-loaded": "^3.0.0",
         "element-ready": "^6.2.2",
         "github-url-detection": "^8.0.0",
+        "immutability-helper": "^3.1.1",
         "jquery": "^3.7.0",
+        "react-dnd": "^16.0.1",
+        "react-dnd-html5-backend": "^16.0.1",
+        "react-tag-input": "^6.8.1",
         "strip-indent": "^4.0.0",
         "type-fest": "^4.1.0"
     }

@@ -39,9 +39,10 @@ const RepoDetail = ({ owner, repoName }: Props) => {
             {/* <Summary owner={owner} repoName={repoName} /> */}
             {showDetail && repoDetail && (
                 <>
+                    <Note owner={owner} repoName={name} />
                     {/* <Note owner={owner} repoName={repoName} /> */}
                     <div>
-                        {JSON.stringify(repoDetail, null, 2)}
+                        Repo detail: {JSON.stringify(repoDetail, null, 2)}
                         {/* {JSON.stringify(repoDetail, null, 2)} */}
                         {/* <div className="flex justify-between">
               <div className="h-[200px] max-h-[200px] w-1/3 overflow-auto">

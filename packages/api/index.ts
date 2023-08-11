@@ -1,6 +1,8 @@
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 import type { AppRouter } from './src/root';
 
+export * from './src/lib/github';
+
 export { createTRPCContext, createInnerTRPCContext } from './src/trpc';
 
 // TODO: Maybe just export `createAction` instead of the whole `trpc` object?

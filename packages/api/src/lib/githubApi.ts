@@ -1,3 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable turbo/no-undeclared-env-vars */
 // import { Octokit } from "@octokit/rest";
 import NodeCache from 'node-cache';
 import fetch from 'node-fetch';
@@ -8,6 +14,7 @@ const includedFileMatchPattern: any =
 const dmfTtl: any = process.env.DMF_TTL || 24 * 60 * 60; // cache for 24 Hours
 const fileDownloadLimitSize: any =
     new Number(process.env.FILE_DOWNLOAD_LIMIT_SIZE) || 40000;
+
 const dmfCache = new NodeCache({ stdTTL: dmfTtl });
 
 const dmfUrl: string =
@@ -166,7 +173,7 @@ export const getRepoInfoFromGithub = async ({
     const dmfs = await fetchDMFsCached();
 
     //   const tlfData = await fetchTLF(octokit, owner, name);
-    const token = process.env.GITHUB_TOKEN || '';
+    const token = process.env.GITHUB_TOKEN ?? '';
     const tlfData = await fetchTLF({ owner, name, token });
 
     const tlf: string[] = [];
