@@ -22,7 +22,7 @@ export const useSaveRepo = () => {
             },
             detail: {
                 tlf: {
-                    folders: ['prisma', 'public', 'src', 'types'],
+                    folders: ['docs', 'public', 'src', 'types'],
                     files: [
                         '.env.local.demo',
                         '.eslintrc.json',
