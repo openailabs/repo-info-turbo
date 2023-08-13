@@ -11,7 +11,15 @@ export const saveMarkSchema = z.object({
     id: z.string().max(30).optional(),
     owner: z.string(),
     name: z.string(),
-    tags: z.array(z.string()).optional(),
+    tags: z
+        .array(
+            z.object({
+                id: z.string(),
+                text: z.string(),
+            })
+        )
+        .optional(),
+    //tags: z.string().optional(),
     note: z.string().optional(),
 });
 

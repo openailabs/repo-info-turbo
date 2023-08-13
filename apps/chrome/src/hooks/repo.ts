@@ -103,7 +103,13 @@ export const useGetRepoDetail = ({ owner, repoName }) => {
     //   repoDetail && repoDetail.summary && repoDetail.summary !== null;
     const loading = (isFetching && !showDetail && !canRead) || isFetching;
 
-    return { repoDetail, showDetail, handleClick, loading };
+    return {
+        repoDetail,
+        showDetail,
+        handleClick,
+        loading,
+        enableMark: showDetail,
+    };
 };
 
 export const useGetSummary = ({

@@ -39,7 +39,7 @@ export const repoDetailRouter = createTRPCRouter({
                         createdAt: now,
                     },
                 });
-                return repoDetail;
+                return { ...repoDetail, detail: JSON.parse(repoDetail.detail) };
             } catch (error) {
                 throw new TRPCError({
                     code: 'INTERNAL_SERVER_ERROR',
@@ -102,7 +102,7 @@ export const repoDetailRouter = createTRPCRouter({
                             id: repoDetailFound.id,
                         },
                     });
-                    return updated.summary;
+                    return JSON.parse(updated.summary);
                 }
             } catch (error) {
                 throw new TRPCError({

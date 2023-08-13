@@ -1,0 +1,22 @@
+{
+    "owner": "Significant-Gravitas",
+    "name": "Auto-GPT",
+    "summary": {
+        "files": [".env.template"],
+        "stacks": ["beautifulsoup4"],
+        "infrastructures": ["mysql", "test"],
+        "deployments": ["vercel", "text"],
+        "languages": ["english"],
+        "description": "An open-source attempt to make GPT-4 autonomous"
+    },
+    "detail": {
+        "tlf": {
+            "files": [".coveragerc", "run_continuous.sh"],
+            "folders": [".devcontainer"]
+        }
+    },
+    "marks": {
+        "tags": ["next", "tailwind"],
+        "note": "this is a note"
+    }
+}
