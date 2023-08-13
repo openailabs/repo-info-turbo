@@ -1,6 +1,7 @@
 import { useGetRepoDetail } from '@/hooks/repo';
 import React from 'react';
 import Note from './Note';
+// import Note from './Note';
 import Summary from './Summary';
 
 type Props = {

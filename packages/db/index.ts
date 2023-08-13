@@ -84,7 +84,7 @@ export type Mark = {
     name: string;
     userId: string;
     tags: unknown | null;
-    note: unknown | null;
+    note: string | null;
     createdAt: Generated<Timestamp>;
     lastModifiedAt: Timestamp | null;
 };

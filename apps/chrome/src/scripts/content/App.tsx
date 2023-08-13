@@ -1,4 +1,4 @@
-import Note from '@/components/Note';
+// import Note from '@/components/Note';
 import RepoDetail from '@/components/RepoDetail';
 import { Repo } from '@/types';
 import { TRPCProvider } from '@/utils/trpc';

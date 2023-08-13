@@ -1,10 +1,12 @@
 // import { noteRouter } from './router/note';
+import { markRouter } from './router/mark';
 import { repoDetailRouter } from './router/repoDetail';
 import { createTRPCRouter } from './trpc';
 
 // Deployed to /trpc/chrome/**
 export const chromeRouter = createTRPCRouter({
     repoDetail: repoDetailRouter,
+    mark: markRouter,
     // note: noteRouter,
 });
 

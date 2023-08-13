@@ -1,4 +1,5 @@
 import { log } from 'console';
+import { useUpsertMark } from '@/hooks/mark';
 // import { useUpsertNote } from '@/hooks/note';
 import React, { useState } from 'react';
 import NoteInput from './NoteInput';
@@ -9,18 +10,22 @@ const Note = ({ owner, repoName }) => {
     const [text, setText] = useState(defaultText);
 
     const [content, setContent] = useState('');
-    const [tags, setTags] = useState('');
+    // const [tags, setTags] = useState(['abc','def']);
+    const tags = ['abc', 'def'];
 
     const note = JSON.stringify({
         tags: ['node.js', 'next.js', 'next-auth'],
         content: 'This is a good repo',
     });
 
-    // const { handleUpsertNote } = useUpsertNote({
-    //     owner,
-    //     repoName,
-    //     note,
-    // });
+    const { handleUpsertMark } = useUpsertMark({
+        id: 'ID123456',
+        owner: 'facebook',
+        name: 'react',
+        tags,
+        note: 'good repo',
+    });
+
     // 使用 useMutation 钩子更新数据
     return (
         <div className="w-full">
@@ -90,7 +95,7 @@ const Note = ({ owner, repoName }) => {
                 </div>
                 <div>
                     <button
-                        // onClick={handleUpsertNote}
+                        onClick={handleUpsertMark}
                         className="z-50 m-0 inline-block h-10 w-40 rounded-sm bg-blue-600 text-sm text-white transition-colors ease-linear hover:bg-blue-800 disabled:cursor-not-allowed"
                     >
                         Submit

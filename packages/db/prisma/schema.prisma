@@ -152,7 +152,10 @@ model Mark {
     name           String
     userId         String
     tags           Json?
-    note           Json?
+    note           String?
     createdAt      DateTime  @default(now())
     lastModifiedAt DateTime?
+
+    @@unique([owner, name, userId])
+    @@index([owner, name, userId])
 }

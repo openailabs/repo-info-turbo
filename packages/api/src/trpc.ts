@@ -179,7 +179,7 @@ const enforceApiKey = t.middleware(async ({ ctx, next }) => {
     // Check db for API key
     const apiKey = await ctx.db
         .selectFrom('ApiKey')
-        .select(['id', 'key', 'projectId'])
+        .select(['id', 'key', 'projectId', 'clerkUserId'])
         .where('ApiKey.key', '=', ctx.apiKey)
         .where('revokedAt', 'is', null)
         .executeTakeFirst();
