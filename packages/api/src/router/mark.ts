@@ -8,11 +8,18 @@ import { z } from 'zod';
 import { createTRPCRouter, protectedApiProcedure } from '../trpc';
 
 export const saveMarkSchema = z.object({
-    id: z.string().max(30).optional(),
+    id: z.string().max(30).nullable(),
     owner: z.string(),
     name: z.string(),
-    tags: z.array(z.string()).optional(),
-    note: z.string().optional(),
+    tags: z
+        .array(
+            z.object({
+                id: z.string().nullable(),
+                text: z.string().nullable(),
+            })
+        )
+        .nullable(),
+    note: z.string().nullable(),
 });
 
 export const getMarkSchema = z.object({
@@ -20,36 +27,68 @@ export const getMarkSchema = z.object({
     name: z.string(),
 });
 
+const tagsZodSchema = z.object({
+    id: z.string().nullable(),
+    text: z.string().nullable(),
+});
+
+export const selectedMarkSchema = z.object({
+    id: z.string().max(30).nullable(),
+    tags: z
+        .array(
+            z.object({
+                id: z.string().nullable(),
+                text: z.string().nullable(),
+            })
+        )
+        .nullable(),
+    note: z.string().nullable(),
+});
+export type MarkSelectedType = z.infer<typeof selectedMarkSchema>;
+export type TagsType = z.infer<typeof tagsZodSchema>;
+
 export const markRouter = createTRPCRouter({
-    getMark: protectedApiProcedure.input(getMarkSchema).query(async (opts) => {
-        const { owner, name } = opts.input;
-        const userId = opts.ctx.apiKey.clerkUserId;
-        try {
-            const markFound = await prisma.mark.findFirst({
-                select: { id: true, tags: true, note: true },
-                where: { owner, name, userId },
-            });
-            if (!markFound) {
-                return { message: 'NotFound' };
-            } else {
-                return {
-                    ...markFound,
-                    tags: JSON.parse(markFound.tags as string),
-                };
+    getMark: protectedApiProcedure
+        .input(getMarkSchema)
+        .query(async (opts): Promise<MarkSelectedType> => {
+            const { owner, name } = opts.input;
+            const userId = opts.ctx.apiKey.clerkUserId;
+            try {
+                const markFound = await prisma.mark.findFirst({
+                    select: { id: true, tags: true, note: true },
+                    where: { owner, name, userId },
+                });
+                if (!markFound) {
+                    return { id: '', note: '', tags: [] };
+                    // throw new TRPCError({
+                    //     code: 'OK',
+                    //     message: 'Item not found',
+                    //     cause: 'The item you requested was not found',
+                    // });
+
+                    // return {
+                    //     ...repoDetail,
+                    //     detail: JSON.parse(repoDetail.detail as string),
+                    //     summary: JSON.parse(repoDetail.summary as string),
+                    // };
+                } else {
+                    return {
+                        ...markFound,
+                        tags: JSON.parse(markFound.tags as string),
+                    };
+                }
+            } catch (error) {
+                throw new TRPCError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message: 'Get mark failed',
+                    cause: error,
+                });
             }
-        } catch (error) {
-            throw new TRPCError({
-                code: 'INTERNAL_SERVER_ERROR',
-                message: 'Get mark failed',
-                cause: error,
-            });
-        }
-    }),
+        }),
 
     saveMark: protectedApiProcedure
         .input(saveMarkSchema)
         .mutation(async (opts) => {
-            console.log('saveMark with data');
             const { owner, name, tags, note } = opts.input;
 
             const userId = opts.ctx.apiKey.clerkUserId;
@@ -58,8 +97,16 @@ export const markRouter = createTRPCRouter({
             if (!idPosted) {
                 idPosted = '';
             }
+            console.log(
+                'saveMark with data',
+                owner,
+                name,
+                tags,
+                note,
+                idPosted
+            );
             try {
-                await prisma.mark.upsert({
+                const upserted = await prisma.mark.upsert({
                     where: { id: idPosted, owner, name, userId },
                     update: {
                         id: idPosted,
@@ -79,6 +126,7 @@ export const markRouter = createTRPCRouter({
                         note,
                     },
                 });
+                return { id: upserted.id };
             } catch (error) {
                 throw new TRPCError({
                     code: 'INTERNAL_SERVER_ERROR',

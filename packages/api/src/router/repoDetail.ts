@@ -37,14 +37,21 @@ const githubResultSchema = z.object({
         })
     ),
 });
+
 export type GithubResultType = z.infer<typeof githubResultSchema>;
 
 export type GptSummaryType = z.infer<typeof summarySchema>;
 
 export const repoDetailRouter = createTRPCRouter({
-    getRepoDetail: protectedApiProcedure
-        .input(getRepoDetailSchema)
-        .query(async (opts): Promise<RepoDetail | null> => {
+    getRepoDetail: protectedApiProcedure.input(getRepoDetailSchema).query(
+        async (
+            opts
+        ): Promise<
+            RepoDetail & {
+                detail: GithubResultType;
+                summary: GptSummaryType;
+            }
+        > => {
             const { owner, name } = opts.input;
             const createdBy = opts.ctx.apiKey.clerkUserId;
             try {
@@ -56,7 +63,7 @@ export const repoDetailRouter = createTRPCRouter({
                         id: genId(),
                         owner,
                         name,
-                        summary: {},
+                        summary: JSON.stringify({}),
                         detail: JSON.stringify(
                             await getRepoDetailFromGithub({ owner, name })
                         ),
@@ -76,17 +83,18 @@ export const repoDetailRouter = createTRPCRouter({
                     cause: error,
                 });
             }
-        }),
+        }
+    ),
 
     getSummary: protectedApiProcedure
         .input(getRepoDetailSchema)
         .query(async (opts): Promise<GptSummaryType | null> => {
             const { owner, name } = opts.input;
             try {
-                const repoDetailFound =
-                    await prisma.repoDetail.findFirstOrThrow({
-                        where: { owner, name },
-                    });
+                const repoDetailFound = await prisma.repoDetail.findFirst({
+                    where: { owner, name },
+                    select: { summary: true, detail: true, id: true },
+                });
                 if (!repoDetailFound) {
                     throw new TRPCError({
                         code: 'BAD_REQUEST',
@@ -96,10 +104,10 @@ export const repoDetailRouter = createTRPCRouter({
                 //ensure the repo detail found
                 if (
                     repoDetailFound.summary &&
-                    // repoDetailFound.summary !== '' &&
+                    repoDetailFound.summary !== '' &&
                     repoDetailFound.summary !== null &&
-                    // repoDetailFound.summary !== 'null' &&
-                    JSON.stringify(repoDetailFound.summary) !== '{}'
+                    repoDetailFound.summary !== 'null' &&
+                    (repoDetailFound.summary as string) !== '{}'
                 ) {
                     console.log(
                         'Found with summary: ',
@@ -109,13 +117,13 @@ export const repoDetailRouter = createTRPCRouter({
                 } else {
                     const detailToFeed = repoDetailFound?.detail;
                     console.log(
-                        `No summary found, we are going to get summary from GPT ${detailToFeed}`
+                        `No summary found, we are going to get summary from GPT`
                     );
-                    console.log(
-                        `No summary found, we are going to get summary from GPT ${JSON.stringify(
-                            detailToFeed
-                        )}`
-                    );
+                    // console.log(
+                    //     `No summary found, we are going to get summary from GPT ${JSON.stringify(
+                    //         detailToFeed
+                    //     )}`
+                    // );
 
                     //serializeGithubResult(
                     //     await getRepoDetailFromGithub({ owner, name })

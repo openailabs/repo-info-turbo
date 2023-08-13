@@ -28,8 +28,8 @@ export const TRPCProvider: React.FC<{
     children: React.ReactNode;
 }> = ({ children }) => {
     const [queryClient] = React.useState(() => new QueryClient());
-    const [trpcClient] = React.useState(() =>
-        trpc.createClient({
+    const [trpcClient] = React.useState(() => {
+        return trpc.createClient({
             transformer: superjson,
             links: [
                 httpBatchLink({
@@ -37,13 +37,13 @@ export const TRPCProvider: React.FC<{
                     // You can pass any HTTP headers you wish here
                     async headers() {
                         return {
-                            'X-Api-Key': 'sk_live_7vk71ruzp4ljs0i2',
+                            'X-Api-Key': 'sk_live_xkbiparcywf75m95',
                         };
                     },
                 }),
             ],
-        })
-    );
+        });
+    });
 
     return (
         <trpc.Provider client={trpcClient} queryClient={queryClient}>

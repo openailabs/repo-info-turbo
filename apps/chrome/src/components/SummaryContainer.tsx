@@ -22,7 +22,7 @@ const SummaryContainer = ({
         owner,
         repoName,
     });
-    const data = summary && JSON.parse(summary);
+    const data = summary;
 
     return (
         <div>

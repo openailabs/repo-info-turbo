@@ -60,13 +60,14 @@ const Mark = ({
 }) => {
     const { mark } = useGetMark({ owner, repoName, enabled });
 
+    const [savedId, setSavedId] = useState('');
     const [tags, setTags] = useState([]);
     const [note, setNote] = useState('');
     const [newTags, setNewTags] = useState([]);
     const [newNote, setNewNote] = useState('');
     useEffect(() => {
-        enabled && mark && setTags(mark.tags);
-        enabled && mark && setNote(mark.note);
+        enabled && mark && mark.tags && setTags(mark.tags);
+        enabled && mark && mark.note && setNote(mark.note);
     }, [mark, enabled, tags, note]);
     // const tags = enabled && mark && mark.tags;
     // const savedNote = enabled && mark && mark.savedNote;
@@ -74,6 +75,9 @@ const Mark = ({
     const noteMutation = trpc.mark.saveMark.useMutation();
     console.log('mark', mark);
     console.log('newTags', newTags);
+    const testTags = { ...mark?.tags, ...newTags };
+    console.log('Test tags: ', testTags);
+
     return (
         <>
             {enabled && (
@@ -93,16 +97,17 @@ const Mark = ({
                                     {
                                         owner,
                                         name: repoName,
-                                        id: mark.id ?? '',
+                                        id: mark?.id ?? '',
                                         note: note ?? newNote,
-                                        // tags: [...tags, ...newTags],
-                                        tags: [{ id: '1', text: 'test1' }],
+                                        tags: [...tags, ...newTags],
+                                        // tags: [{ id: '1', text: 'test1' }],
                                     },
                                     {
                                         onError: (e) => {
                                             console.log('error', e);
                                         },
-                                        onSuccess: () => {
+                                        onSuccess: (item) => {
+                                            setSavedId(item?.id);
                                             console.log('success');
                                         },
                                     }
