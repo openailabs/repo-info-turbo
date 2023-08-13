@@ -2,24 +2,49 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { genId, prisma } from '@acme/db';
+import type { RepoDetail as PrismaRepoDetail } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
-import { getRepoDetailSchema, saveRepoDetailSchema } from '../../validators';
+import { getRepoDetailSchema } from '../../validators';
+// import type { GptSummaryType } from '../hooks/useGpt';
 import { getGPTSummary, prompt } from '../hooks/useGpt';
 import { getRepoDetailFromGithub } from '../lib/githubApi';
 // import { getRepoInfo } from "../lib/githubApi";
-import {
-    createTRPCRouter,
-    protectedApiProcedure,
-    publicProcedure,
-} from '../trpc';
+import { createTRPCRouter, protectedApiProcedure } from '../trpc';
+
+export type RepoDetail = PrismaRepoDetail;
+
+const summarySchema = z.object({
+    deps: z.array(z.string()).optional(),
+    stacks: z.array(z.string()).optional(),
+    infrastructures: z.array(z.string()).optional(),
+    deployments: z.array(z.string()).optional(),
+    languages: z.array(z.string()).optional(),
+    description: z.string().optional(),
+});
+
+const githubResultSchema = z.object({
+    tlf: z.object({
+        files: z.array(z.string()),
+        folders: z.array(z.string()),
+    }),
+    contents: z.array(
+        z.object({
+            name: z.string(),
+            content: z.string(),
+        })
+    ),
+});
+export type GithubResultType = z.infer<typeof githubResultSchema>;
+
+export type GptSummaryType = z.infer<typeof summarySchema>;
 
 export const repoDetailRouter = createTRPCRouter({
     getRepoDetail: protectedApiProcedure
         .input(getRepoDetailSchema)
-        .query(async (opts) => {
+        .query(async (opts): Promise<RepoDetail | null> => {
             const { owner, name } = opts.input;
             const createdBy = opts.ctx.apiKey.clerkUserId;
             try {
@@ -39,7 +64,11 @@ export const repoDetailRouter = createTRPCRouter({
                         createdAt: now,
                     },
                 });
-                return { ...repoDetail, detail: JSON.parse(repoDetail.detail) };
+                return {
+                    ...repoDetail,
+                    detail: JSON.parse(repoDetail.detail as string),
+                    summary: JSON.parse(repoDetail.summary as string),
+                };
             } catch (error) {
                 throw new TRPCError({
                     code: 'INTERNAL_SERVER_ERROR',
@@ -51,7 +80,7 @@ export const repoDetailRouter = createTRPCRouter({
 
     getSummary: protectedApiProcedure
         .input(getRepoDetailSchema)
-        .query(async (opts) => {
+        .query(async (opts): Promise<GptSummaryType | null> => {
             const { owner, name } = opts.input;
             try {
                 const repoDetailFound =
@@ -67,16 +96,16 @@ export const repoDetailRouter = createTRPCRouter({
                 //ensure the repo detail found
                 if (
                     repoDetailFound.summary &&
-                    repoDetailFound.summary !== '' &&
+                    // repoDetailFound.summary !== '' &&
                     repoDetailFound.summary !== null &&
-                    repoDetailFound.summary !== 'null' &&
+                    // repoDetailFound.summary !== 'null' &&
                     JSON.stringify(repoDetailFound.summary) !== '{}'
                 ) {
                     console.log(
                         'Found with summary: ',
                         repoDetailFound.summary
                     );
-                    return repoDetailFound.summary;
+                    return JSON.parse(repoDetailFound.summary as string);
                 } else {
                     const detailToFeed = repoDetailFound?.detail;
                     console.log(
@@ -87,10 +116,15 @@ export const repoDetailRouter = createTRPCRouter({
                             detailToFeed
                         )}`
                     );
+
+                    //serializeGithubResult(
+                    //     await getRepoDetailFromGithub({ owner, name })
+                    // ) as Prisma.InputJsonValue,
                     const aiSummary = await getGPTSummary({
                         prompt,
                         detail: JSON.stringify(detailToFeed),
                     });
+
                     const updated = await prisma.repoDetail.update({
                         data: {
                             //
@@ -102,7 +136,7 @@ export const repoDetailRouter = createTRPCRouter({
                             id: repoDetailFound.id,
                         },
                     });
-                    return JSON.parse(updated.summary);
+                    return JSON.parse(updated.summary as string);
                 }
             } catch (error) {
                 throw new TRPCError({

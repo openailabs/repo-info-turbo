@@ -11,15 +11,7 @@ export const saveMarkSchema = z.object({
     id: z.string().max(30).optional(),
     owner: z.string(),
     name: z.string(),
-    tags: z
-        .array(
-            z.object({
-                id: z.string(),
-                text: z.string(),
-            })
-        )
-        .optional(),
-    //tags: z.string().optional(),
+    tags: z.array(z.string()).optional(),
     note: z.string().optional(),
 });
 
@@ -40,7 +32,10 @@ export const markRouter = createTRPCRouter({
             if (!markFound) {
                 return { message: 'NotFound' };
             } else {
-                return markFound;
+                return {
+                    ...markFound,
+                    tags: JSON.parse(markFound.tags as string),
+                };
             }
         } catch (error) {
             throw new TRPCError({
@@ -71,7 +66,7 @@ export const markRouter = createTRPCRouter({
                         owner,
                         name,
                         userId,
-                        tags,
+                        tags: JSON.stringify(tags),
                         note,
                         lastModifiedAt: new Date(),
                     },
@@ -80,7 +75,7 @@ export const markRouter = createTRPCRouter({
                         owner,
                         name,
                         userId,
-                        tags,
+                        tags: JSON.stringify(tags),
                         note,
                     },
                 });

@@ -7,6 +7,7 @@
 // import { Octokit } from "@octokit/rest";
 import NodeCache from 'node-cache';
 import fetch from 'node-fetch';
+import type { GithubResultType } from '../router/repoDetail';
 
 // Define configuration parameters
 const includedFileMatchPattern: any =
@@ -39,21 +40,22 @@ export interface TLF {
     name: string;
     download_url: string;
 }
-// Define interface for ContentItem
-export interface ContentItem {
-    name: string;
-    content: string;
-}
-// Define interface for TlfType
-export interface TlfType {
-    files: string[];
-    folders: string[];
-}
-// Define interface for Result
-export interface Result {
-    tlf: TlfType;
-    contents: ContentItem[];
-}
+// // Define interface for ContentItem
+// export interface ContentItem {
+//     name: string;
+//     content: string;
+// }
+// // Define interface for TlfType
+// export interface TlfType {
+//     files: string[];
+//     folders: string[];
+// }
+// // Define interface for Result
+// export interface GithubResultType {
+//     tlf: TlfType;
+//     contents: ContentItem[];
+// }
+
 // Function to fetch DMFs
 export const fetchDMFs = async (): Promise<DMF[]> => {
     let response;
@@ -171,7 +173,7 @@ export const getRepoDetailFromGithub = async ({
 }: {
     owner: string;
     name: string;
-}) => {
+}): Promise<GithubResultType> => {
     // const owner: string = response?.owner || "LTopx";
     // const repo: string = response?.repo || "L-GPT";
 
@@ -187,7 +189,7 @@ export const getRepoDetailFromGithub = async ({
     const tlf: string[] = [];
     const files: string[] = [];
     const folders: string[] = [];
-    const contentPromises: Promise<ContentItem>[] = [];
+    const contentPromises: Promise<{ name: string; content: string }>[] = [];
     tlfData.forEach((file: TLF) => {
         // Check file type and categorize accordingly
         if (file.type === 'file') {
@@ -219,7 +221,7 @@ export const getRepoDetailFromGithub = async ({
     const contents = await Promise.all(contentPromises);
     // Prepare the result
 
-    const result: Result = {
+    const result: GithubResultType = {
         tlf: { folders: folders, files: files },
         contents,
     };

@@ -7,6 +7,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ConfigurationParameters } from 'openai-edge';
 import { Configuration, OpenAIApi } from 'openai-edge';
+import type { GptSummaryType } from '../router/repoDetail';
 
 const configuration: any = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
@@ -45,13 +46,14 @@ languages: [],
 description: "",
 }
 `;
+
 export const getGPTSummary = async ({
     prompt,
     detail,
 }: {
     prompt: string;
     detail: string;
-}) => {
+}): Promise<GptSummaryType> => {
     const messages = [
         { role: 'system', content: prompt },
         {
