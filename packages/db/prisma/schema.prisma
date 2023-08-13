@@ -4,9 +4,9 @@ generator kysely {
     enumFileName = "enums.ts"
 }
 
-// generator client {
-//     provider = "prisma-client-js"
-// }
+generator client {
+    provider = "prisma-client-js"
+}
 
 datasource db {
     provider     = "mysql"
@@ -146,14 +146,13 @@ model Result {
     @@index([owner, name])
 }
 
-model Note {
-    id     Int    @id @default(autoincrement())
-    owner  String
-    name   String
-    userId String
-
-    note Json?
-
-    @@unique([owner, name, userId])
-    @@index([owner, name, userId])
+model Mark {
+    id             String    @id @db.VarChar(30)
+    owner          String
+    name           String
+    userId         String
+    tags           Json?
+    note           Json?
+    createdAt      DateTime  @default(now())
+    lastModifiedAt DateTime?
 }

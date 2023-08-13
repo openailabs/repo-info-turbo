@@ -3,14 +3,6 @@
 // pnpm i crypto net pg postgres tls pg @types/pg
 
 import { Kysely } from 'kysely';
-// import { Kysely,PostgresDialect } from "kysely";
-// import { PostgresJSDialect } from "kysely-postgres-js";
-// import postgres from "postgres";
-// import { Pool } from "pg";
-
-// import { PrismaClient } from "@prisma/client";
-// export * from "@prisma/client";
-
 // const globalForPrisma = globalThis as { prisma?: PrismaClient };
 
 // export const prismaClient =
@@ -29,6 +21,15 @@ import type { ColumnType } from 'kysely';
 import { PlanetScaleDialect } from 'kysely-planetscale';
 import { customAlphabet } from 'nanoid';
 import type { ProjectTier, SubscriptionPlan } from './enums';
+
+// import { Kysely,PostgresDialect } from "kysely";
+// import { PostgresJSDialect } from "kysely-postgres-js";
+// import postgres from "postgres";
+// import { Pool } from "pg";
+
+// import { PrismaClient } from "@prisma/client";
+// export * from "@prisma/client";
+export { prisma } from './lib/prisma';
 
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
     ? ColumnType<S, I | undefined, U>
@@ -77,12 +78,15 @@ export type Ingestion = {
     parent: string | null;
     origin: string;
 };
-export type Note = {
-    id: Generated<number>;
+export type Mark = {
+    id: string;
     owner: string;
     name: string;
     userId: string;
+    tags: unknown | null;
     note: unknown | null;
+    createdAt: Generated<Timestamp>;
+    lastModifiedAt: Timestamp | null;
 };
 export type Project = {
     id: string;
@@ -121,7 +125,7 @@ export type DB = {
     File: File;
     Folder: Folder;
     Ingestion: Ingestion;
-    Note: Note;
+    Mark: Mark;
     Project: Project;
     RepoDetail: RepoDetail;
     RepoFileContent: RepoFileContent;
@@ -151,12 +155,6 @@ export const db = new Kysely<DB>({
     dialect: new PlanetScaleDialect({
         url: process.env.DATABASE_URL,
     }),
-    log(event) {
-        if (event.level === 'query') {
-            console.log(event.query.sql);
-            console.log(event.query.parameters);
-        }
-    },
 });
 
 // Use custom alphabet without special chars for less chaotic, copy-able URLs

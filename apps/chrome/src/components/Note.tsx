@@ -1,5 +1,5 @@
 import { log } from 'console';
-import { useUpsertNote } from '@/hooks/note';
+// import { useUpsertNote } from '@/hooks/note';
 import React, { useState } from 'react';
 import NoteInput from './NoteInput';
 import TagInput from './TagInput';
@@ -16,11 +16,11 @@ const Note = ({ owner, repoName }) => {
         content: 'This is a good repo',
     });
 
-    const { handleUpsertNote } = useUpsertNote({
-        owner,
-        repoName,
-        note,
-    });
+    // const { handleUpsertNote } = useUpsertNote({
+    //     owner,
+    //     repoName,
+    //     note,
+    // });
     // 使用 useMutation 钩子更新数据
     return (
         <div className="w-full">
@@ -90,7 +90,7 @@ const Note = ({ owner, repoName }) => {
                 </div>
                 <div>
                     <button
-                        onClick={handleUpsertNote}
+                        // onClick={handleUpsertNote}
                         className="z-50 m-0 inline-block h-10 w-40 rounded-sm bg-blue-600 text-sm text-white transition-colors ease-linear hover:bg-blue-800 disabled:cursor-not-allowed"
                     >
                         Submit

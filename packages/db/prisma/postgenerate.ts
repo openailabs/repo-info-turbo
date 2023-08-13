@@ -27,7 +27,7 @@ import { customAlphabet } from "nanoid";
 
 // import { PrismaClient } from "@prisma/client";
 // export * from "@prisma/client";
-
+export {prisma} from './lib/prisma'
 // const globalForPrisma = globalThis as { prisma?: PrismaClient };
 
 // export const prismaClient =

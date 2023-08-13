@@ -434,7 +434,7 @@ importers:
         specifier: ^1.10.0
         version: 1.10.0
       '@prisma/client':
-        specifier: ^5.1.0
+        specifier: ^5.1.1
         version: 5.1.1(prisma@5.1.1)
       kysely:
         specifier: ^0.26.1
@@ -450,7 +450,7 @@ importers:
         specifier: ^7.2.1
         version: 7.2.1
       prisma:
-        specifier: ^5.1.0
+        specifier: ^5.1.1
         version: 5.1.1
       prisma-kysely:
         specifier: ^1.5.0
