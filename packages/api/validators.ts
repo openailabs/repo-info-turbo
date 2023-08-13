@@ -58,6 +58,15 @@ export type TransferToOrg = z.infer<typeof transferToOrgSchema>;
 
 export const getRepoDetailSchema = z.object({
     owner: z.string(),
-    repoName: z.string(),
+    name: z.string(),
 });
+
 export type getRepoDetailSchema = z.infer<typeof createProjectSchema>;
+
+export const saveRepoDetailSchema = z.object({
+    id: z.string().optional(),
+    owner: z.string(),
+    name: z.string(),
+    summary: z.any().optional(),
+    detail: z.any().optional(),
+});

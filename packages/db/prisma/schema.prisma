@@ -86,61 +86,18 @@ model Ingestion {
     @@index([projectId])
 }
 
-// Parent
 model RepoDetail {
-    id         Int               @id @default(autoincrement())
-    topLevel   RepoTopLevelFile  @relation(fields: [topLevelId], references: [id])
-    topLevelId Int               @unique
-    contents   RepoFileContent[]
-    owner      String
-    repoName   String
-
-    @@unique([owner, repoName])
-}
-
-// Chilren
-
-model RepoFileContent {
-    id       Int        @id @default(autoincrement())
-    name     String
-    content  String
-    detail   RepoDetail @relation(fields: [detailId], references: [id])
-    detailId Int
-
-    @@index([detailId])
-}
-
-model RepoTopLevelFile {
-    id      Int         @id @default(autoincrement())
-    detail  RepoDetail?
-    folders Folder[]
-    files   File[]
-}
-
-model Folder {
-    id         Int               @id @default(autoincrement())
-    name       String
-    topLevel   RepoTopLevelFile? @relation(fields: [topLevelId], references: [id])
-    topLevelId Int?
-
-    @@index([topLevelId])
-}
-
-model File {
-    id         Int               @id @default(autoincrement())
-    name       String
-    topLevel   RepoTopLevelFile? @relation(fields: [topLevelId], references: [id])
-    topLevelId Int?
-
-    @@index([topLevelId])
-}
-
-model Result {
-    id      Int    @id @default(autoincrement())
+    id      String @id @db.VarChar(30)
     owner   String
     name    String
     summary Json?
     detail  Json?
+
+    createdBy      String?
+    lastModifiedBy String?
+
+    createdAt      DateTime  @default(now())
+    lastModifiedAt DateTime?
 
     @@unique([owner, name])
     @@index([owner, name])

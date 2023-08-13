@@ -18,9 +18,9 @@ const fileDownloadLimitSize: any =
 const dmfCache = new NodeCache({ stdTTL: dmfTtl });
 
 const dmfUrl: string =
-    process.env.DMF_URL ||
+    process.env.DMF_URL ??
     // 'https://raw.githubusercontents.com/dmfos/dmf/main/dmfs.json';
-    'https://raw.gitmirror.com/dmfos/dmf/main/dmfs.json';
+    'https://ghproxy.com/https://raw.githubusercontent.com/dmfos/dmf/main/dmfs.json';
 // Define interface for Framework
 interface Framework {
     name: string;
@@ -56,8 +56,13 @@ export interface Result {
 }
 // Function to fetch DMFs
 export const fetchDMFs = async (): Promise<DMF[]> => {
-    const response = await fetch(dmfUrl);
-    const dmfs: DMF[] = await response.json();
+    let response;
+    try {
+        response = await fetch(dmfUrl);
+    } catch (e) {
+        console.log('Fetch dmf failed: ', e);
+    }
+    const dmfs: DMF[] = await response?.json();
     return dmfs;
 };
 // Function to fetch DMFs with caching
@@ -66,6 +71,7 @@ export const fetchDMFsCached = async (): Promise<DMF[]> => {
     let dmfs = dmfCache.get<DMF[]>(cacheKey);
     if (!dmfs) {
         dmfs = await fetchDMFs();
+
         dmfCache.set(cacheKey, dmfs);
     }
     return dmfs;
@@ -114,7 +120,9 @@ export const fetchTLF = async ({
             }
         );
         if (!response.ok) {
-            throw new Error('GitHub API response not ok');
+            throw new Error(
+                `GitHub API response with error: ${response.status}, is your token expired?`
+            );
         }
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return await response.json();
@@ -157,7 +165,7 @@ function removeCommentLines(content: string): string {
     return newContent;
 }
 
-export const getRepoInfoFromGithub = async ({
+export const getRepoDetailFromGithub = async ({
     owner,
     name,
 }: {
@@ -196,7 +204,10 @@ export const getRepoInfoFromGithub = async ({
             matchFiles(file.name)
         ) {
             let url = file.download_url;
-            url = url.replace('githubusercontent.com', 'gitmirror.com');
+            url = url.replace(
+                'https://raw.githubusercontent.com',
+                'https://ghproxy.com/https://raw.githubusercontent.com'
+            );
             contentPromises.push(
                 fetchFileContent(url).then((content) => ({
                     name: file.name,
@@ -212,5 +223,6 @@ export const getRepoInfoFromGithub = async ({
         tlf: { folders: folders, files: files },
         contents,
     };
+    // console.log('Content get from github: ', contents);
     return result;
 };

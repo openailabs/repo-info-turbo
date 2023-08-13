@@ -58,16 +58,6 @@ export type Customer = {
     paidUntil: Timestamp | null;
     endsAt: Timestamp | null;
 };
-export type File = {
-    id: Generated<number>;
-    name: string;
-    topLevelId: number | null;
-};
-export type Folder = {
-    id: Generated<number>;
-    name: string;
-    topLevelId: number | null;
-};
 export type Ingestion = {
     id: string;
     createdAt: Generated<Timestamp>;
@@ -98,39 +88,23 @@ export type Project = {
     url: string | null;
 };
 export type RepoDetail = {
-    id: Generated<number>;
-    topLevelId: number;
-    owner: string;
-    repoName: string;
-};
-export type RepoFileContent = {
-    id: Generated<number>;
-    name: string;
-    content: string;
-    detailId: number;
-};
-export type RepoTopLevelFile = {
-    id: Generated<number>;
-};
-export type Result = {
-    id: Generated<number>;
+    id: string;
     owner: string;
     name: string;
     summary: unknown | null;
     detail: unknown | null;
+    createdBy: string | null;
+    lastModifiedBy: string | null;
+    createdAt: Generated<Timestamp>;
+    lastModifiedAt: Timestamp | null;
 };
 export type DB = {
     ApiKey: ApiKey;
     Customer: Customer;
-    File: File;
-    Folder: Folder;
     Ingestion: Ingestion;
     Mark: Mark;
     Project: Project;
     RepoDetail: RepoDetail;
-    RepoFileContent: RepoFileContent;
-    RepoTopLevelFile: RepoTopLevelFile;
-    Result: Result;
 };
 
 // export const dbPostgresDialect = new Kysely<DB>({

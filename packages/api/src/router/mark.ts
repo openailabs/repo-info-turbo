@@ -24,7 +24,6 @@ export const markRouter = createTRPCRouter({
     getMark: protectedApiProcedure.input(getMarkSchema).query(async (opts) => {
         const { owner, name } = opts.input;
         const userId = opts.ctx.apiKey.clerkUserId;
-
         try {
             const markFound = await prisma.mark.findFirst({
                 select: { id: true, tags: true, note: true },
